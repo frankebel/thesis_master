@@ -1,0 +1,34 @@
+% font typesetting
+\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+\setmathfont{NewCMMath-Book}
+
+% graphics, colors, captions, tables
+\graphicspath{{./figures/}}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=build] % do not clutter root directory
+\usetikzlibrary{positioning}
+\usetikzlibrary{fit}
+\usetikzlibrary{shapes.symbols}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{colorbrewer}
+\pgfplotsset{
+    cycle list/Set1,
+    cycle multiindex* list={
+            mark list*\nextlist
+            Set1\nextlist%
+        },
+}
+\pgfplotstableset{col sep=comma}
+
+% references, bibliography, and links
+\addbibresource{ref.bib}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue,
+    citecolor=blue,
+    linkcolor=blue,
+    breaklinks=true,
+    pdftitle={\@title},
+    pdfauthor={Frank T. Ebel},
+}

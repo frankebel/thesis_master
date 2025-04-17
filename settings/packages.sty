@@ -1,0 +1,44 @@
+% general formatting
+\usepackage[a4paper,left=30mm,right=30mm,top=35mm,bottom=50mm]{geometry}
+
+% font typesetting
+\usepackage{fontspec}
+\usepackage[main=english,ngerman]{babel}
+
+% math and science typesetting
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{braket}
+% \usepackage{mathtools}
+\usepackage[version=4]{mhchem}
+\usepackage{nicematrix}
+\usepackage{siunitx}
+\usepackage{unicode-math} % load after ams
+\usepackage{upgreek} % upright pi
+
+% graphics, colors, captions, tables
+\usepackage{caption}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage[labelformat=simple]{subcaption}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{xcolor}
+
+% code, programming
+% \usepackage{listings}
+\usepackage[langlinenos=true]{minted} % requires "pygments" with shell escape
+
+% references, bibliography, and links
+\usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
+\usepackage{csquotes} % required by biblatex
+\usepackage{hyperref}
+\usepackage{cleveref} % load after hyperref
+
+% misc
+\usepackage{datetime2} % ISO 8601
+\usepackage[language=english]{lipsum} % placeholder text
+\usepackage{shellesc}
+% \usepackage{todonotes} % not compatible with tikzexternalize
