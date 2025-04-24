@@ -2,9 +2,6 @@
 \author{Frank Takara Ebel}
 \date{\today}
 
-% mathematical operators
-\DeclareMathOperator{\spn}{span}
-
 % programming
 \newcommand{\mintil}[1]{\mintinline{julia}{#1}}
 
@@ -12,9 +9,14 @@
 \newcommand{\todo}[1]{{\color{red}(\textbf{TODO}: #1)}}
 
 % mathematical constants
-\newcommand{\eu}{\text{e}}
-\newcommand{\ii}{\text{i}}
+\newcommand{\me}{\mathrm{e}}
+\newcommand{\mi}{\mathrm{i}}
 
-% shorten arrows
-\newcommand{\up}{\uparrow}
-\newcommand{\dn}{\downarrow}
+% operators
+\newcommand{\md}{\mathrm{d}}
+\DeclareMathOperator{\spn}{span}
+
+% phantom for typesetting
+\newcommand{\pdag}{\vphantom{\dag}}
+\newcommand{\pk}{\vphantom{k}}
+\newcommand{\ps}{\vphantom{*}}

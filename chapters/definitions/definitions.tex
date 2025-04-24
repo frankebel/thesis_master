@@ -4,12 +4,76 @@
 
 \begin{itemize}
     \item Anderson impurity model
+
+          Hamiltonian
+          \begin{equation}
+              H_\mathrm{AIM} = H_0 + H_\mathrm{int}
+              \label{eq:H_AIM}
+          \end{equation}
+          with
+          \begin{align}
+              H_0
+               & =
+              \sum_{\pk\sigma} (\epsilon_{d,\sigma} - \mu) d^\dag_{\pk\sigma} d^{\pdag}_{\pk\sigma}
+              +
+              \sum_{k\sigma} \epsilon_{k\sigma}^{\pdag} c^\dag_{k\sigma} c^{\pdag}_{k\sigma}
+              +
+              \sum_{k\sigma} \left(V^{\ps}_{k\sigma} d^\dag_{\vphantom{k}\sigma} c^{\pdag}_{k\sigma}
+              + V_{k\sigma}^* c^\dag_{k\sigma} d^{\pdag}_{\vphantom{k}\sigma} \right),
+              \\
+              H_\mathrm{int}
+               & =
+              U d^\dag_\uparrow d^\dag_\downarrow d_\downarrow d_\uparrow.
+          \end{align}
+
+    \item Hybridization function
+          \begin{align}
+              \Delta(z) = \sum_{k\sigma} \frac{|V_{k\sigma}|^2}{z - \epsilon_{k\sigma}}
+          \end{align}
     \item Green's function
+
+          Given the ground state $\ket{\psi_0}$,
+          the retarded correlator for two fermionic operators $A$, $B$ is defined as
+          \begin{align}
+              C(t) = -\mi \Theta(t) \braket{\{A(t), B\}},
+          \end{align}
+
+          with the anticommutator $\{\cdot,\cdot\}$
+          and expectation value $\braket{\cdot} = \braket{\psi_0 | \cdot | \psi_0}$.
+
+          Using complex frequency $z = \omega + \mi \delta$ do a Fourier transform
+
+          \begin{equation}
+              C(z) = \int_{-\infty}^\infty \md t\>C(t) \me^{\mi zt} \eqqcolon \lAngle A, B \rAngle_z
+          \end{equation}
+
+          which can be split in
+
+          \begin{subequations}
+              \begin{align}
+                  C^+(z)
+                   & =
+                  \Braket{A \frac{1}{z - H + E_0} B}
+                  =
+                  \sum_n \frac{\braket{\psi_0 | A | n}\braket{n | B | \psi_0}}{z - E_n + E_0}
+                  \\
+                  C^-(z)
+                   & =
+                  \Braket{B \frac{1}{z + H - E_0} A}
+                  =
+                  \sum_n \frac{\braket{\psi_0 | B | n}\braket{n | A | \psi_0}}{z + E_n - E_0}
+              \end{align}
+          \end{subequations}
+
+          using a complete set of states $H\ket{n} = E_n\ket{n}$.
     \item Lanczos
     \item Block Lanczos
     \item Bethe lattice
     \item DMFT
     \item self-energy
-    \item natural orbitals
+    \item impurity natural orbitals
     \item configuration interaction
 \end{itemize}
+
+
+
