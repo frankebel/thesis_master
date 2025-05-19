@@ -1,0 +1,31 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}[
+        node distance=2mm,
+    ]
+    % draw sites
+    \node [impurity={0.5}, label=left:$i$] (impurity) {};
+    \node [bath={0.5}, label=right:$b$] (mirror) [right=of impurity] {};
+    \foreach \i [remember=\i as \lasti] in {1,...,3}
+        {
+            \ifnum\i=1
+                \node [bath={1.0}, label=below:$v_1$] (v\i) [below=of mirror] {};
+                \node [bath={0.0}, label=above:$c_1$] (c\i) [above=of mirror] {};
+            \else
+                \node [bath={1.0}, label=below:$v_\i$] (v\i) [right=of v\lasti] {};
+                \node [bath={0.0}, label=above:$c_\i$] (c\i) [right=of c\lasti] {};
+            \fi
+        }
+
+    % connect sites
+    \draw (impurity.east) to (mirror.west);
+    \draw (impurity.south) to [out=270,in=180] (v1.west);
+    \draw (impurity.north) to [out=90,in=180] (c1.west);
+    \draw (mirror.south) to (v1.north);
+    \draw (mirror.north) to (c1.south);
+    \foreach \i [remember=\i as \lasti (initially 1)] in {2,...,3}
+        {
+            \draw (v\lasti.east) -- (v\i.west);
+            \draw (c\lasti.east) -- (c\i.west);
+        }
+\end{tikzpicture}

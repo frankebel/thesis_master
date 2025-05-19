@@ -1,0 +1,23 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        node distance=2mm,
+    ]
+    % draw sites
+    \foreach \i [remember=\i as \lasti, evaluate=\i as \filling using -0.1*\i+0.9] in {1,...,7}
+        {
+            \ifnum\i=1
+                \node [bath={\filling}, label=right:$l_\i$] (l\i) {};
+            \else
+                \node [bath={\filling}, label=right:$l_\i$] (l\i) [above=of l\lasti] {};
+            \fi
+        }
+    \node [impurity={0.5}, label=left:$i$] (impurity) [left=1.5cm of l4] {};
+
+    % connect sites
+    \foreach \i in {1,...,7}
+        {
+            \draw (impurity.east) to [out=0,in=180] (l\i.west);
+        }
+\end{tikzpicture}

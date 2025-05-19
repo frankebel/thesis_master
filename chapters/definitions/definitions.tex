@@ -4,12 +4,15 @@
 
 \section{Anderson impurity model}
 
-Hamiltonian
-\begin{equation}
-    H_\mathrm{AIM} = H_0 + H_\mathrm{int}
-    \label{eq:H_AIM}
-\end{equation}
-with
+% TODO: reference DMFT
+In DMFT (more in section TODO) a Hubbard model is mapped onto an Anderson impurity model (AIM)
+which then needs to be solved.
+In this work we will only look at the single impurity Anderson model (SIAM).
+Its Hamiltonian can be split into an interacting and non-interacting part
+$H = H_0 + H_\mathrm{int}$.
+Denoting the impurity annihilators by $d_\sigma$ ($n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$)
+and bath annihilators by $c_\sigma$
+it can be written as
 \begin{align}
     H_0
      & =
@@ -22,9 +25,43 @@ with
     \\
     H_\mathrm{int}
      & =
-    U d^\dag_\uparrow d^\dag_\downarrow d_\downarrow d_\uparrow.
+    U n_\uparrow n_\downarrow.
 \end{align}
+Here,
+$\epsilon_{d,\sigma}$ denotes the impurity energy,
+$\mu$ the chemical potential,
+$\epsilon_{k\sigma}$ the energy levels of the bath,
+and $V_{k\sigma}$ the hybridization between the bath and impurity.
+A graphical representation is given in \Cref{subfig:geometry-star}.
 
+\begin{figure}[ht]
+    \centering
+    \savebox{\imagebox}{\input{graphics/tikz/geometry_star.tex}} % save for height alignment
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \usebox{\imagebox}
+        \caption{}
+        \label{subfig:geometry-star}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \raisebox{\dimexpr0.5\ht\imagebox-0.5\height}
+        {
+            \input{graphics/tikz/geometry_natural_impurity_orbitals.tex}
+        }
+        \caption{}
+        \label{subfig:geometry-natural-orbitals}
+    \end{subfigure}
+    \caption{
+        Anderson impurity model in different geometries.
+        Impurity (square) $i$ interacting with bath sites (circle) $l_i$, $b$, $v_i$, $c_i$.
+        Site occupation is indicated by fill level, hopping by lines connecting sites.
+        \Cref{subfig:geometry-star} is the conventional ``star'' geometry;
+        \Cref{subfig:geometry-natural-orbitals} the natural impurity orbitals geometry
+        with a mirror site ($b$), filled ($v_i$), and empty chains ($c_i$).
+        % (adapted from~\cite{Lu2014}, Fig.~1)
+    }
+\end{figure}
 
 \section{Correlators}
 

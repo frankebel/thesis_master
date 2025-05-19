@@ -1,0 +1,34 @@
+%! TeX root = ../../main.tex
+% Global TikZ options for the whole document.
+
+% bath site with given filling
+\tikzset{
+    bath/.style={
+            circle,
+            inner sep=0pt,
+            minimum size=5mm,
+            draw=black,
+            very thick,
+            path picture={
+                    \fill[blue] (path picture bounding box.south east)
+                    rectangle ($(path picture bounding box.south west)!#1!
+                        (path picture bounding box.north west)$);
+                }
+        },
+}
+
+% impurity with given filling
+\tikzset{
+    impurity/.style={
+            rectangle,
+            inner sep=0pt,
+            minimum size=5mm,
+            draw=black,
+            very thick,
+            path picture={
+                    \fill[blue] (path picture bounding box.south east)
+                    rectangle ($(path picture bounding box.south west)!#1!
+                        (path picture bounding box.north west)$);
+                }
+        },
+}
