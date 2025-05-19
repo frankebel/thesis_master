@@ -65,35 +65,40 @@ A graphical representation is given in \Cref{subfig:geometry-star}.
 
 \section{Correlators}
 
-Given the ground state $\ket{\psi_0}$,
-the retarded correlator for two fermionic operators $A$, $B$ is defined as
+The retarded correlator for two fermionic operators $A, B$ is defined as
 \begin{align}
     C(t) = -\mi \Theta(t) \braket{\{A(t), B\}},
 \end{align}
-with the anticommutator $\{\cdot,\cdot\}$
-and expectation value $\braket{\cdot} = \braket{\psi_0 | \cdot | \psi_0}$.
-
-Using complex frequency $z = \omega + \mi \delta$ do a Fourier transform
-\begin{equation}
-    C(z) = \int_{-\infty}^\infty \md t\>C(t) \me^{\mi zt} \eqqcolon \lAngle A, B \rAngle_z
-\end{equation}
-which can be split in
+with the step function $\Theta$ and anticommutator $\{\cdot,\cdot\}$.
+$A(t) = \me^{\mi H t} A \me^{-\mi H t}$ is given in the Heisenberg picture.
+At zero temperature $T=0$, the expectation value is evaluated on the ground state
+$\braket{\cdot} = \braket{\psi_0 | \cdot | \psi_0}$.
+% TODO: cite Bulla
+Using the notation established in (TODO),
+this can be Fourier transformed into the complex frequency $z = \omega + \mi \delta$ ($\delta > 0$)
+\begin{align}
+    C_z = \int_{-\infty}^\infty \md t\>C(t) \me^{\mi zt} \eqqcolon \lAngle A, B \rAngle_z.
+\end{align}
+Furthermore, this expression can be split into two components $C_z = C^+_z + C^-_z$ with
 \begin{subequations}
     \begin{align}
-        C^+(z)
+        C^+_z
          & =
         \Braket{A \frac{1}{z - H + E_0} B}
         =
         \sum_n \frac{\braket{\psi_0 | A | n}\braket{n | B | \psi_0}}{z - E_n + E_0}
         \\
-        C^-(z)
+        C^-_z
          & =
         \Braket{B \frac{1}{z + H - E_0} A}
         =
-        \sum_n \frac{\braket{\psi_0 | B | n}\braket{n | A | \psi_0}}{z + E_n - E_0}
+        \sum_n \frac{\braket{\psi_0 | B | n}\braket{n | A | \psi_0}}{z + E_n - E_0}.
     \end{align}
 \end{subequations}
-using a complete set of states $H\ket{n} = E_n\ket{n}$.
+The sum denotes a complete basis $H\ket{n} = E_n\ket{n}$ with ground state energy $E_0$.
+The problem however is the exponential algorithmic complexity:
+For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
+limiting exact diagonalization (ED) to $N=O(10)$ sites.
 
 \section{Natural impurity orbitals}
 
