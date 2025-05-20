@@ -1,0 +1,56 @@
+%! TeX root = ../../main.tex
+
+\chapter{Fourier transform}
+\label{app:fourier-transform}
+
+Fourier transform of the retarded correlator from time to frequency space.
+\begin{align}
+    C_z
+     & =
+    -\mi \Theta(t) \braket{\{A(t), B\}}                           \\
+     & =
+    -\mi \Theta(t) \braket{A(t) B} -\mi \Theta(t) \braket{B A(t)} \\
+     & =
+    C^+_z + C^-_z
+\end{align}
+Transformation of the first component:
+\begin{align}
+    C^+_z
+     & =
+    \int_{-\infty}^\infty \md t \>
+    \me^{\mi zt}(-\mi \Theta(t) \braket{\me^{\mi Ht} A \me^{-\mi Ht} B}) \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \braket{\me^{\mi Ht} A \me^{-\mi Ht} B}                 \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \braket{\me^{\mi E_0t} A \me^{-\mi Ht} B}               \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \braket{A \me^{\mi(z - H + E_0)t} B}                                 \\
+     & =
+    -\mi \left.\Braket{A \frac{\me^{\mi(z - H + E_0)t}}{\mi(z - H + E_0)} B}
+    \right|_0^\infty                                                     \\
+     & =
+    -\mi \left(0 - \Braket{A \frac{1}{\mi(z - H + E_0)} B}\right)        \\
+     & =
+    \Braket{A \frac{1}{z - H + E_0} B}.
+\end{align}
+Transformation of the second component:
+\begin{align}
+    C^-_z
+     & =
+    \int_{-\infty}^\infty \md t \>
+    \me^{\mi zt}(-\mi \Theta(t) \braket{B \me^{\mi Ht} A \me^{-\mi Ht}}) \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \braket{B \me^{\mi Ht} A \me^{-\mi Ht}}                 \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \braket{B \me^{\mi Ht} A \me^{-\mi E_0t}}               \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \braket{B \me^{\mi(z + H - E_0)t} A}                                 \\
+     & =
+    \Braket{B \frac{1}{z + H - E_0} A}.
+\end{align}

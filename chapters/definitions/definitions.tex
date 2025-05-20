@@ -75,7 +75,7 @@ $\braket{\cdot} = \braket{\psi_0 | \cdot | \psi_0}$.
 Using the notation established in~\cite{Bulla1998},
 this can be Fourier transformed to a complex frequency $z = \omega + \mi \delta$ ($\delta > 0$)
 \begin{align}
-    C_z = \int_{-\infty}^\infty \md t\>C(t) \me^{\mi zt} \eqqcolon \lAngle A, B \rAngle_z.
+    C_z = \int_{-\infty}^\infty \md t\> \me^{\mi zt} C(t) \eqqcolon \lAngle A, B \rAngle_z.
 \end{align}
 Furthermore, this expression can be split into two components $C_z = C^+_z + C^-_z$ with
 \begin{subequations}
@@ -94,6 +94,7 @@ Furthermore, this expression can be split into two components $C_z = C^+_z + C^-
     \end{align}
 \end{subequations}
 The sum denotes a complete basis $H\ket{n} = E_n\ket{n}$ with ground state energy $E_0$.
+A derivation is given in \zcref{app:fourier-transform}.
 The problem however is the exponential algorithmic complexity:
 For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
 limiting exact diagonalization (ED) to $N=O(10)$ sites.
