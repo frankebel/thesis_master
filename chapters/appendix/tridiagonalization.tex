@@ -1,0 +1,110 @@
+%! TeX root = ../../main.tex
+
+\chapter{Tridiagonalization}
+
+Proof that the diagonal entries vanish when a symmetric impurity Green's function
+is represented as a continued fraction.
+
+The impurity solver returns the Green's function as a sum of poles
+\begin{align}
+    \mathcal{G}_{\!\omega} = \sum_{i=1}^N \frac{|b_i|^2}{\omega + \mi0^+ - a_i}.
+    \label{eq:impurity-greens-function}
+\end{align}
+Symmetry enforces that for each location $a_i$ there exists a pole with opposite sign
+$a_j = -a_i$ with same weight $|b_j|^2 = |b_i|^2$.
+This in turn sets all moments for odd $m$ to zero \todo{explain moment}
+% TODO: explain moment
+\begin{align}
+    M^{(m)}_{\mathcal{G}}
+     & =
+    \sum_i a_i^m |b_i|^2                                       \\
+     & =
+    \sum_{a_i>0} a_i^m |b_i|^2 + \sum_{a_j<0} a_j^m |b_j|^2    \\
+     & =
+    \sum_{a_i>0} a_i^m |b_i|^2 + \sum_{a_i>0} (-a_i)^m |b_i|^2 \\
+     & =
+    \sum_{a_i>0} a_i^m |b_i|^2 - \sum_{a_i>0} a_i^m |b_i|^2    \\
+     & =
+    0.
+\end{align}
+% WARN: Overfull \hbox
+In \cite[appendix B]{Lu2014}, \citeauthor{Lu2014} showed how to transform
+\zcref{eq:impurity-greens-function} into a continued fraction representation
+using the lanczos algorithm on the diagonal matrix
+\begin{equation}
+    A
+    =
+    \diag(a_1, a_2, \ldots, a_N)
+\end{equation}
+and starting vector
+\begin{equation}
+    \vec{v}_0 = (b_1, b_2, \ldots, b_N)^\intercal.
+\end{equation}
+
+We can prove this by showing that the $l$-th component ($l \in \{1, \ldots, N\}$)
+of the $i$-th Lanczos vector
+can be written as a weighted sum
+of even/odd powers of the original locations $a_k$
+\begin{equation}
+    v_{i,l}
+    =
+    b_l\!\sum\limits_{j=0}^{\lfloor i/2\rfloor}
+    \begin{cases}
+        c_{2j} a_l^{2j},     & i \text{ even} \\
+        c_{2j+1} a_l^{2j+1}, & i \text{ odd}.
+    \end{cases}
+\end{equation}
+For the base case this can be easily verified by setting $c_0=1$
+\begin{equation}
+    v_{0,l}
+    =
+    b_l\!\sum\limits_{j=0}^{0} c_{2j} a_l^{2j}
+    =
+    b_l c_{0} a_l^0
+    =
+    b_l.
+\end{equation}
+For the induction step we first apply the matrix $A$ to get a new state
+\begin{equation}
+    \tilde{\tilde{\vec{v}}}_{i+1,l}
+    =
+    A \vec{v}_{i,l}
+    =
+    b_l\!\sum\limits_{j=0}^{\lfloor i/2\rfloor}
+    \begin{cases}
+        c_{2j} a_l^{2j+1},   & i \text{ even} \\
+        c_{2j+1} a_l^{2j+2}, & i \text{ odd}.
+    \end{cases}
+\end{equation}
+The coefficient $a_i^t$ is given by the overlap to the previous state
+\begin{align}
+    a_i^t
+     & =
+    \vec{v}_i^\dagger A \vec{v}_i                                                \\
+     & =
+    \vec{v}_i^\dagger \tilde{\tilde{\vec{v}}}_{i+1}                              \\
+     & =
+    \sum\limits_{k,j}
+    \begin{cases}
+        c_{2k}^* c_{2j} \sum\limits_l a_l^{2k+2j+1}|b_l|^2,     & i \text{ even} \\
+        c_{2k+1}^* c_{2j+1} \sum\limits_l a_l^{2k+2j+3}|b_l|^2, & i \text{ odd}
+    \end{cases}     \\
+     & =
+    \sum\limits_{k,j}
+    \begin{cases}
+        c_{2k}^* c_{2j}    M^{(2k+2j+1)}_{\mathcal{G}},  & i \text{ even} \\
+        c_{2k+1}^* c_{2j+1} M^{(2k+2j+3)}_{\mathcal{G}}, & i \text{ odd}
+    \end{cases} \\
+     & =
+    0
+\end{align}
+Here we use the fact that all odd moments vanish.
+Therefore, the new orthogonal state only couples to the second to last Lanczos vector
+keeping even and odd powers separate.
+\begin{equation}
+    b_i^t \vec{v}_{i+1}
+    =
+    \tilde{\vec{v}}_{i+1}
+    =
+    \tilde{\tilde{\vec{v}}}_{i+1} - b_{i-1}^t \vec{v}_{i-1}.
+\end{equation}

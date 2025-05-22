@@ -8,6 +8,10 @@
 % group notes by color
 \newcommand{\todo}[1]{{\color{red}(\textbf{TODO}: #1)}}
 
+% math
+\AtBeginDocument{\renewcommand\vec{\symbf}} % uncode-math waits until document setup
+
+
 % mathematical constants
 \newcommand{\me}{\mathrm{e}}
 \newcommand{\mi}{\mathrm{i}}
@@ -15,6 +19,7 @@
 % operators
 \newcommand{\md}{\mathrm{d}}
 \DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\diag}{diag}
 
 % phantom for typesetting
 \newcommand{\pdag}{\vphantom{\dag}}
