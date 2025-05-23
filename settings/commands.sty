@@ -9,7 +9,10 @@
 \newcommand{\todo}[1]{{\color{red}(\textbf{TODO}: #1)}}
 
 % math
-\AtBeginDocument{\renewcommand\vec{\symbf}} % uncode-math waits until document setup
+% uncode-math waits until document setup
+\AtBeginDocument{\renewcommand\vec{\symbf}}
+\AtBeginDocument{\renewcommand\Re{\mathrm{Re}\>}}
+\AtBeginDocument{\renewcommand\Im{\mathrm{Im}\>}}
 
 
 % mathematical constants

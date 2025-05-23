@@ -120,6 +120,56 @@ the propagation of an electron/hole in the system and is called Green's function
     \end{align}
 \end{subequations}
 
+\subsection{Spectral function}
+
+The spectral part of a correlator is defined as
+\todo{Is it called spectrum for general correlators too?}
+\begin{align}
+    A_z = -\frac{1}{\muppi}\Im C_z.
+\end{align}
+For the Green's function this gives
+\begin{subequations}
+    \begin{align}
+        A^+_z
+         & =
+        \sum_n |\braket{n | d_\sigma^\dag | \psi_0}|^2 \frac{1}{\muppi} \frac{\delta}{(\omega - E_n + E_0)^2 + \delta^2} \\
+        A^-_z
+         & =
+        \sum_n |\braket{n | d_\sigma | \psi_0}|^2 \frac{1}{\muppi} \frac{\delta}{(\omega + E_n - E_0)^2 + \delta^2}
+    \end{align}
+\end{subequations}
+which can be interpreted as a sum of Lorentzians with broadening parameter $\delta$
+and weights $|\braket{n | d_\sigma^{(\dag)} | \psi_0}|^2$.
+Going to the real axis $\delta\rightarrow0^+$ will then give us discrete delta-peaks
+\begin{subequations}
+    \begin{align}
+        A^+_\omega
+         & =
+        \sum_n |\braket{n | d_\sigma^\dag | \psi_0}|^2 \delta(\omega - E_n + E_0) \\
+        A^-_\omega
+         & =
+        \sum_n |\braket{n | d_\sigma | \psi_0}|^2 \delta(\omega + E_n - E_0).
+    \end{align}
+\end{subequations}
+For the total weight we can show that the spectrum is normalized
+\begin{align}
+    \int_{-\infty}^\infty\! \md\omega A_z
+     & =
+    \sum_n |\braket{n | d_\sigma^\dag | \psi_0}|^2
+    + \sum_n |\braket{n | d_\sigma | \psi_0}|^2                                        \\
+     & =
+    \sum_n \braket{\psi_0 | d_\sigma^{\pdag} | n}\braket{n | d_\sigma^\dag | \psi_0}
+    + \sum_n \braket{\psi_0 | d_\sigma^\dag | n}\braket{n | d_\sigma^{\pdag} | \psi_0} \\
+     & =
+    \braket{d_\sigma^{\pdag} d_\sigma^\dag} + \braket{d_\sigma^\dag d_\sigma^{\pdag}}  \\
+     & =
+    \braket{\{d_\sigma^{\pdag}, d_\sigma^\dag\}}                                       \\
+     & =
+    \braket{\mathbb{1}}                                                                \\
+     & =
+    1.
+\end{align}
+
 \section{Natural impurity orbitals}
 
 natural impurity orbitals
