@@ -100,6 +100,26 @@ The problem however is the exponential algorithmic complexity:
 For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
 limiting exact diagonalization (ED) to $N=O(10)$ sites.
 
+\subsection{Green's function}
+
+For the choice $A=d_\sigma, B=d_\sigma^\dag$ the correlator describes
+the propagation of an electron/hole in the system and is called Green's function
+\begin{subequations}
+    \begin{align}
+        G^+_{\sigma z}
+         & =
+        \Braket{d_\sigma \frac{1}{z - H + E_0} d_\sigma^\dag}
+        =
+        \sum_n \frac{|\braket{n | d_\sigma^\dag | \psi_0}|^2}{z - E_n + E_0}
+        \\
+        G^-_{\sigma z}
+         & =
+        \Braket{d_\sigma^\dag \frac{1}{z + H - E_0} d_\sigma}
+        =
+        \sum_n \frac{|\braket{n | d_\sigma | \psi_0}|^2}{z + E_n - E_0}.
+    \end{align}
+\end{subequations}
+
 \section{Natural impurity orbitals}
 
 natural impurity orbitals
