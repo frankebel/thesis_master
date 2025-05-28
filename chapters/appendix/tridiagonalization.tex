@@ -125,3 +125,34 @@ Hence, the inner product only contains a sum of odd powers $\epsilon$ which all 
 ($\alpha_j = 0$)
 and Lanczos vectors never couple to their predecessor
 keeping even and odd powers of $\epsilon$ separated.
+
+\section{Eigenvalues}
+
+The tridiagonal matrix is given by
+\begin{equation}
+    T_N
+    =
+    \begin{pmatrix}
+        0       & \beta_1 &         &             &             \\
+        \beta_1 & 0       & \beta_2 &             &             \\
+                & \beta_2 & 0       & \ddots      &             \\
+                &         & \ddots  & \ddots      & \beta_{N-1} \\
+                &         &         & \beta_{N-1} & 0
+    \end{pmatrix}.
+\end{equation}
+As $\tr(T_N) = 0$, all eigenvalues must sum up to $0$ as well.
+We can define a matrix
+\begin{equation}
+    L = \diag(1, -1, 1, -1, \ldots)
+\end{equation}
+with the properties $L^2 = \mathbb{1}, L^{-1} = L^\intercal = L$ and $L T_N L = -T_N$.
+Applying it to the eigenvalue equation gives
+\begin{align}
+    L(T_N \vec{v}   & = \lambda \vec{v})    \\
+    LT_N LL\vec{v}  & = \lambda L\vec{v}    \\
+    -T_N (L\vec{v}) & = \lambda (L\vec{v})  \\
+    T_N (L\vec{v})  & = -\lambda (L\vec{v})
+\end{align}
+meaning each eigenvalue appears pairwise $\pm\lambda$.
+This is precisely the statement with which we started:
+Each pole location appears pairwise $\pm\epsilon_i$ with same weight $|b_i|^2$.
