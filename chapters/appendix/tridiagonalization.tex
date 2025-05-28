@@ -7,23 +7,23 @@ is represented as a continued fraction.
 
 The impurity solver returns the Green's function as a sum of poles
 \begin{align}
-    \mathcal{G}_{\!\omega} = \sum_{i=1}^N \frac{|b_i|^2}{\omega + \mi0^+ - a_i}.
+    \mathcal{G}_{\!\omega} = \sum_{i=1}^N \frac{|b_i|^2}{\omega - \epsilon_i + \mi0^+}.
     \label{eq:impurity-greens-function}
 \end{align}
-Symmetry enforces that for each location $a_i$ there exists a pole with opposite sign
-$a_j = -a_i$ with same weight $|b_j|^2 = |b_i|^2$.
+Symmetry enforces that each location appears pairwise $\pm\epsilon_i$
+with the same weight $|b_i|^2$.
 This in turn sets all moments for odd $m$ to zero \todo{explain moment}
 % TODO: explain moment
 \begin{align}
     M^{(m)}_{\mathcal{G}}
      & =
-    \sum_i a_i^m |b_i|^2                                       \\
+    \sum_i \epsilon_i^m |b_i|^2                                                            \\
      & =
-    \sum_{a_i>0} a_i^m |b_i|^2 + \sum_{a_j<0} a_j^m |b_j|^2    \\
+    \sum_{\epsilon_i>0} \epsilon_i^m |b_i|^2 + \sum_{\epsilon_i<0} \epsilon_i^m |b_i|^2    \\
      & =
-    \sum_{a_i>0} a_i^m |b_i|^2 + \sum_{a_i>0} (-a_i)^m |b_i|^2 \\
+    \sum_{\epsilon_i>0} \epsilon_i^m |b_i|^2 + \sum_{\epsilon_i>0} (-\epsilon_i)^m |b_i|^2 \\
      & =
-    \sum_{a_i>0} a_i^m |b_i|^2 - \sum_{a_i>0} a_i^m |b_i|^2    \\
+    \sum_{\epsilon_i>0} \epsilon_i^m |b_i|^2 - \sum_{\epsilon_i>0} \epsilon_i^m |b_i|^2    \\
      & =
     0.
 \end{align}
@@ -34,77 +34,94 @@ using the lanczos algorithm on the diagonal matrix
 \begin{equation}
     A
     =
-    \diag(a_1, a_2, \ldots, a_N)
+    \diag(\epsilon_1, \epsilon_2, \ldots, \epsilon_N)
 \end{equation}
 and starting vector
 \begin{equation}
-    \vec{v}_0 = (b_1, b_2, \ldots, b_N)^\intercal.
+    \vec{v}_1 = (b_1, b_2, \ldots, b_N)^\intercal.
 \end{equation}
 
-We can prove this by showing that the $l$-th component ($l \in \{1, \ldots, N\}$)
-of the $i$-th Lanczos vector
+We can prove our statement by showing that the $i$-th component ($i \in \{1, \ldots, N\}$)
+of the $j$-th Lanczos vector
 can be written as a weighted sum
-of even/odd powers of the original locations $a_k$
-\begin{equation}
-    v_{i,l}
-    =
-    b_l\!\sum\limits_{j=0}^{\lfloor i/2\rfloor}
-    \begin{cases}
-        c_{2j} a_l^{2j},     & i \text{ even} \\
-        c_{2j+1} a_l^{2j+1}, & i \text{ odd}.
-    \end{cases}
-\end{equation}
-For the base case this can be easily verified by setting $c_0=1$
-\begin{equation}
-    v_{0,l}
-    =
-    b_l\!\sum\limits_{j=0}^{0} c_{2j} a_l^{2j}
-    =
-    b_l c_{0} a_l^0
-    =
-    b_l.
-\end{equation}
-For the induction step we first apply the matrix $A$ to get a new state
-\begin{equation}
-    \tilde{\tilde{\vec{v}}}_{i+1,l}
-    =
-    A \vec{v}_{i,l}
-    =
-    b_l\!\sum\limits_{j=0}^{\lfloor i/2\rfloor}
-    \begin{cases}
-        c_{2j} a_l^{2j+1},   & i \text{ even} \\
-        c_{2j+1} a_l^{2j+2}, & i \text{ odd}.
-    \end{cases}
-\end{equation}
-The coefficient $a_i^t$ is given by the overlap to the previous state
+of separated even/odd powers of the original locations $\epsilon_i$
 \begin{align}
-    a_i^t
+    (\vec{v}_1)_i
+     & = b_i                                            \\
+    (\vec{v}_2)_i
+     & = b_i c_{2,1} \epsilon_i                         \\
+    (\vec{v}_3)_i
+     & = b_i ( c_{3,2}\epsilon_i^2 + c_{3,0})           \\
+    (\vec{v}_4)_i
+     & = b_i ( c_{4,3}\epsilon_i^3 + c_{4,1}\epsilon_0) \\
+    (\vec{v}_j)_i
      & =
-    \vec{v}_i^\dagger A \vec{v}_i                                                \\
-     & =
-    \vec{v}_i^\dagger \tilde{\tilde{\vec{v}}}_{i+1}                              \\
-     & =
-    \sum\limits_{k,j}
+    b_i\sum\limits_{k=0}^{\lfloor j/2\rfloor}
     \begin{cases}
-        c_{2k}^* c_{2j} \sum\limits_l a_l^{2k+2j+1}|b_l|^2,     & i \text{ even} \\
-        c_{2k+1}^* c_{2j+1} \sum\limits_l a_l^{2k+2j+3}|b_l|^2, & i \text{ odd}
-    \end{cases}     \\
-     & =
-    \sum\limits_{k,j}
-    \begin{cases}
-        c_{2k}^* c_{2j}    M^{(2k+2j+1)}_{\mathcal{G}},  & i \text{ even} \\
-        c_{2k+1}^* c_{2j+1} M^{(2k+2j+3)}_{\mathcal{G}}, & i \text{ odd}
-    \end{cases} \\
-     & =
-    0
+        c_{j,2k+1} \epsilon_i^{2k+1}, & j \text{ even} \\
+        c_{j,2k} \epsilon_i^{2k},     & j \text{ odd}.
+    \end{cases}
+    \label{eq:statement-tridiagonalization}
 \end{align}
-Here we use the fact that all odd moments vanish.
-Therefore, the new orthogonal state only couples to the second to last Lanczos vector
-keeping even and odd powers separate.
+Here, the coefficient $c_{j,l}$ is associated with the $j$-th Lanczos vector
+and $l$-th power in $\epsilon$.
+For the base case ($j=1$) we can verify the statement by setting $c_{1,0}=1$
 \begin{equation}
-    b_i^t \vec{v}_{i+1}
+    (\vec{v}_1)_i
     =
-    \tilde{\vec{v}}_{i+1}
+    b_i\!\sum\limits_{k=0}^{0} c_{1,2k} \epsilon_i^{2k}
     =
-    \tilde{\tilde{\vec{v}}}_{i+1} - b_{i-1}^t \vec{v}_{i-1}.
+    b_i c_{1,0} \epsilon_i^0
+    =
+    b_i.
 \end{equation}
+For the induction step we first calculate the new vector
+\begin{align}
+    (\vec{u}_{j+1})_i
+     & =
+    (A \vec{v}_j - \beta_{j-1}\vec{v}_{j-1})_i \\
+     & =
+    b_i
+    \left(
+    \sum\limits_k
+    \begin{cases}
+        c_{j,2k+1} \epsilon_i^{2k+2} \\
+        c_{j,2k} \epsilon_i^{2k+1}
+    \end{cases}
+    - \beta_{j-1}
+    \sum\limits_l
+    \begin{cases}
+        c_{j-1,2l} \epsilon_i^{2l} \\
+        c_{j-1,2l+1} \epsilon_i^{2l+1}
+    \end{cases}
+    \right)
+\end{align}
+For the second term we can do an index shift $l \rightarrow k+1$
+in order to collect the same powers of $\epsilon_i$
+\begin{equation}
+    (\vec{u}_{j+1})_i
+    =
+    b_i
+    \sum\limits_k
+    \begin{cases}
+        (c_{j,2k+1} - \beta_{j-1} c_{j-1,2k+2}) \epsilon_i^{2k+2}, & j \text{ even} \\
+        (c_{j,2k} - \beta_{j-1} c_{j-1,2l+3}) \epsilon_i^{2k+1},   & j \text{ odd}.
+    \end{cases}.
+\end{equation}
+This means that this new vector $\vec{u}_j$ still has the form of separated even/odd powers
+as in the statement (\zcref{eq:statement-tridiagonalization}).
+The Lanczos coefficient $\alpha_j$ is given by the overlap
+\begin{equation}
+    \alpha_j
+    =
+    \vec{v}_j^\dagger A \vec{v}_i
+    =
+    \vec{v}_j^\dagger \vec{u}_{j+1}.
+\end{equation}
+If the case of even $j$, odd powers of $\epsilon$ (given by $\vec{v}_j$)
+are multiplied by even powers of $\epsilon$ (given by $\vec{u}_j$)
+(for odd $j$ vice versa).
+Hence, the inner product only contains a sum of odd powers $\epsilon$ which all vanish
+($\alpha_j = 0$)
+and Lanczos vectors never couple to their predecessor
+keeping even and odd powers of $\epsilon$ separated.
