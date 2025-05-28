@@ -172,23 +172,31 @@ For the total weight we can show that the spectrum is normalized
 
 \subsection{Kramers-Kronig relations}
 
-The real amd imaginary part of a correlator are not independent
-but related by Kramers-Kronig transformations (sometimes also called Hilbert transform)
+The real and imaginary part of a correlator are not independent
+but related by Kramers-Kronig transformations (Hilbert transform)
 \begin{subequations}
-    \begin{align}
-        \Re C_z
-         & =
-        -\frac{1}{\muppi} \mathcal{P} \int_{-\infty}^\infty\! \md\omega' \frac{\Im C_\omega}{\omega - \omega'} \\
-        \Im C_z
-         & =
-        \frac{1}{\muppi} \mathcal{P} \int_{-\infty}^\infty\! \md\omega' \frac{\Re C_\omega}{\omega - \omega'}.
-    \end{align}
+    \begin{alignat}{2}
+        \Re C_\omega
+          & =
+        - &   & \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
+        \frac{\Im C_{\omega'}}{\omega - \omega'}                                  \\
+        \Im C_\omega
+          & =
+          &   & \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
+        \frac{\Re C_{\omega'}}{\omega - \omega'}.
+    \end{alignat}
 \end{subequations}
-If we use Gaussian broadening instead of Lorentzians for the imaginary part,
+If we use Gaussian broadening instead of Lorentzians for the spectral part,
 the real part can be obtained through the Dawson function
-\begin{equation}
-    D(\omega) = \me^{-\omega^2}\int_0^\omega\! \md a\> \me^{a^2}.
-\end{equation}
+\begin{align}
+    D(\omega)
+     & \coloneqq
+    \me^{-\omega^2}\int_0^\omega\! \md a\> \me^{a^2} \\
+    \frac{2}{\sqrt{\muppi}}D(\omega)
+     & =
+    \frac{1}{\muppi} \mathcal{P} \int_{-\infty}^\infty\! \md\omega'
+    \frac{\me^{-\omega'^2}}{\omega - \omega'}.
+\end{align}
 
 \section{Natural impurity orbitals}
 
