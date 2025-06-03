@@ -198,6 +198,67 @@ the real part can be obtained through the Dawson function
     \frac{\me^{-\omega'^2}}{\omega - \omega'}.
 \end{align}
 
+\section{Lanczos algorithm}
+
+The Lanczos algorithm \cite{Lanczos1950} can be used to approximate the extremal eigenvalues
+(in our case the ground state and states close to it)
+of a hermitian $n\times n$ matrix $A$.
+It is especially useful if $A$ is sparse and too large to decompose fully.
+It is based on a Krylov basis
+\begin{equation}
+    \mathcal{K}_m(A, \vec{v}) = \spn\{\vec{v}, A\vec{v}, A^2\vec{v}, \ldots, A^{m-1}\vec{v}\}
+\end{equation}
+for a given vector $\vec{v}$.
+Instead of a simple power iteration, the Lanczos algorithm is described by the
+following recurrence relation
+\begin{equation}
+    \beta_j\vec{v}_{j+1} = A\vec{v}_j - \alpha_j\vec{v}_j - \beta_{j-1}\vec{v}_{j-1}
+    \label{eq:Lanczos-recurrence}
+\end{equation}
+with a normalized starting vector $\vec{v}_1$ and $\beta_0 = 0$.
+The coefficients are chosen such that each Lanczos vector $\vec{v}_j$ is orthonormal to each other
+\begin{equation}
+    \alpha_j = \vec{v}_j^\dag A \vec{v}_j,
+    \qquad
+    \beta_j = \vec{v}_{j+1}^\dag A\vec{v}_j.
+\end{equation}
+For numerical stability \cite{Paige1972, Paige1976}
+we instead calculate the coefficients as
+\begin{equation}
+    \alpha_j = \vec{v}_j^\dag( A \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
+    \qquad
+    \beta_j = \Vert A\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1} \Vert.
+\end{equation}
+From this relation we can create the tridiagonal matrix
+\begin{equation}
+    T_m
+    =
+    \begin{pmatrix}
+        \alpha_1 & \beta_1  &          &             &             \\
+        \beta_1  & \alpha_2 & \beta_2  &             &             \\
+                 & \beta_2  & \alpha_3 & \ddots      &             \\
+                 &          & \ddots   & \ddots      & \beta_{m-1} \\
+                 &          &          & \beta_{m-1} & \alpha_m
+    \end{pmatrix}
+\end{equation}
+and matrix which collects all Lanczos vectors
+\begin{equation}
+    V_m = (\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_m).
+\end{equation}
+Then, \zcref{eq:Lanczos-recurrence} in matrix form can be rewritten as
+\begin{equation}
+    A V_m = V_m T_m + \beta_{m}\vec{v}_{m+1}\vec{e}_{m}^\intercal,
+\end{equation}
+where $\vec{e}_m$ is the Euclidean basis vector with $m$-th component 1 and all other 0.
+Rearraning gives
+\begin{equation}
+    T_m = V_m^\dag A V_m,
+\end{equation}
+which means that $T_m$ is the orthogonal projection of $A$ onto
+the subspace $\mathcal{K}_m(A, \vec{v}_1)$ \cite{Cullum1985}.
+
+\subsection{Block Lanczos}
+
 \section{Natural impurity orbitals}
 
 natural impurity orbitals
@@ -205,13 +266,6 @@ Hybridization function
 \begin{align}
     \Delta(z) = \sum_{k\sigma} \frac{|V_{k\sigma}|^2}{z - \epsilon_{k\sigma}}
 \end{align}
-
-\section{Lanczos algorithm}
-
-\begin{itemize}
-    \item Lanczos
-    \item Block Lanczos
-\end{itemize}
 
 \section{Self-energy}
 
