@@ -7,9 +7,9 @@ Fourier transform of the retarded correlator from time to frequency space.
 \begin{align}
     C_z
      & =
-    -\mi \Theta(t) \braket{\{A(t), B\}}                           \\
+    -\mi \Theta(t) \langle \{A(t), B\}\rangle                                 \\
      & =
-    -\mi \Theta(t) \braket{A(t) B} -\mi \Theta(t) \braket{B A(t)} \\
+    -\mi \Theta(t) \langle A(t) B\rangle -\mi \Theta(t) \langle B A(t)\rangle \\
      & =
     C^+_z + C^-_z
 \end{align}
@@ -18,39 +18,39 @@ Transformation of the first component:
     C^+_z
      & =
     \int_{-\infty}^\infty \md t \>
-    \me^{\mi zt}(-\mi \Theta(t) \braket{\me^{\mi Ht} A \me^{-\mi Ht} B}) \\
+    \me^{\mi zt}(-\mi \Theta(t) \langle \me^{\mi Ht} A \me^{-\mi Ht} B\rangle)     \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \braket{\me^{\mi Ht} A \me^{-\mi Ht} B}                 \\
+    \me^{\mi zt} \langle \me^{\mi Ht} A \me^{-\mi Ht} B\rangle                     \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \braket{\me^{\mi E_0t} A \me^{-\mi Ht} B}               \\
+    \me^{\mi zt} \langle \me^{\mi E_0t} A \me^{-\mi Ht} B\rangle                   \\
      & =
     -\mi \int_0^\infty \md t \>
-    \braket{A \me^{\mi(z - H + E_0)t} B}                                 \\
+    \langle A \me^{\mi(z - H + E_0)t} B\rangle                                     \\
      & =
-    -\mi \left.\Braket{A \frac{\me^{\mi(z - H + E_0)t}}{\mi(z - H + E_0)} B}
-    \right|_0^\infty                                                     \\
+    -\mi \left.\left\langle A \frac{\me^{\mi(z - H + E_0)t}}{\mi(z - H + E_0)} B\right\rangle
+    \right|_0^\infty                                                               \\
      & =
-    -\mi \left(0 - \Braket{A \frac{1}{\mi(z - H + E_0)} B}\right)        \\
+    -\mi \left(0 - \left\langle A \frac{1}{\mi(z - H + E_0)} B\right\rangle\right) \\
      & =
-    \Braket{A \frac{1}{z - H + E_0} B}.
+    \left\langle A \frac{1}{z - H + E_0} B\right\rangle
 \end{align}
 Transformation of the second component:
 \begin{align}
     C^-_z
      & =
     \int_{-\infty}^\infty \md t \>
-    \me^{\mi zt}(-\mi \Theta(t) \braket{B \me^{\mi Ht} A \me^{-\mi Ht}}) \\
+    \me^{\mi zt}(-\mi \Theta(t) \langle B \me^{\mi Ht} A \me^{-\mi Ht}\rangle) \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \braket{B \me^{\mi Ht} A \me^{-\mi Ht}}                 \\
+    \me^{\mi zt} \langle B \me^{\mi Ht} A \me^{-\mi Ht}\rangle                 \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \braket{B \me^{\mi Ht} A \me^{-\mi E_0t}}               \\
+    \me^{\mi zt} \langle B \me^{\mi Ht} A \me^{-\mi E_0t}\rangle               \\
      & =
     -\mi \int_0^\infty \md t \>
-    \braket{B \me^{\mi(z + H - E_0)t} A}                                 \\
+    \langle B \me^{\mi(z + H - E_0)t} A\rangle                                 \\
      & =
-    \Braket{B \frac{1}{z + H - E_0} A}.
+    \left\langle B \frac{1}{z + H - E_0} A\right\rangle
 \end{align}
