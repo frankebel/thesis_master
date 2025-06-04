@@ -71,7 +71,7 @@ The retarded correlator for two fermionic operators $A, B$ is defined as
 with the step function $\Theta$ and anticommutator $\{\cdot,\cdot\}$.
 $A(t) = \me^{\mi H t} A \me^{-\mi H t}$ is given in the Heisenberg picture.
 At zero temperature $T=0$, the expectation value is evaluated on the ground state
-$\langle\cdot\rangle = \langle\psi_0 | \cdot | \psi_0\rangle$.
+$\langle\cdot\rangle = \langle\psi_0 | \cdot | \psi_0\rangle$ only.
 In the following we will use the notation established by \cite{Bulla1998}.
 The correlator can be Fourier transformed to
 a complex frequency $z = \omega + \mi \delta$ ($\delta > 0$)
@@ -85,8 +85,7 @@ Furthermore, this expression can be split into two components $C_z = C^+_z + C^-
          & =
         \left\langle A \frac{1}{z - H + E_0} B\right\rangle
         =
-        \sum_n \frac{\langle\psi_0 | A | n\rangle\langle n | B | \psi_0\rangle}{z - E_n + E_0}
-        \\
+        \sum_n \frac{\langle\psi_0 | A | n\rangle\langle n | B | \psi_0\rangle}{z - E_n + E_0}, \\
         C^-_z
          & =
         \left\langle B \frac{1}{z + H - E_0} A\right\rangle
@@ -94,7 +93,7 @@ Furthermore, this expression can be split into two components $C_z = C^+_z + C^-
         \sum_n \frac{\langle\psi_0 | B | n\rangle\langle n | A | \psi_0\rangle}{z + E_n - E_0}.
     \end{align}
 \end{subequations}
-The sum denotes a complete basis $H|n\rangle = E_n|n\rangle$ with ground state energy $E_0$.
+The sum is over a complete basis $H|n\rangle = E_n|n\rangle$ with ground state energy $E_0$.
 A derivation is given in \zcref{app:fourier-transform}.
 The problem however is the exponential algorithmic complexity:
 For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
@@ -110,8 +109,7 @@ the propagation of an electron/hole in the system and is called Green's function
          & =
         \left\langle d_\sigma \frac{1}{z - H + E_0} d_\sigma^\dag\right\rangle
         =
-        \sum_n \frac{|\langle n | d_\sigma^\dag | \psi_0\rangle|^2}{z - E_n + E_0}
-        \\
+        \sum_n \frac{|\langle n | d_\sigma^\dag | \psi_0\rangle|^2}{z - E_n + E_0}, \\
         G^-_{\sigma z}
          & =
         \left\langle d_\sigma^\dag \frac{1}{z + H - E_0} d_\sigma\right\rangle
@@ -122,18 +120,17 @@ the propagation of an electron/hole in the system and is called Green's function
 
 \subsection{Spectral function}
 
-The spectral part of a correlator is defined as
-\todo{Is it called spectrum for general correlators too?}
-\begin{align}
-    A_z = -\frac{1}{\muppi}\Im C_z.
-\end{align}
-For the Green's function this gives
+Given a Green's function $G_{\sigma z}$ the corresponding spectral function is defined as
+\begin{equation}
+    A_{\sigma z} = -\frac{1}{\muppi}\Im G_{\sigma z},
+\end{equation}
+giving
 \begin{subequations}
     \begin{align}
-        A^+_z
+        A^+_{\sigma z}
          & =
         \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2 \frac{1}{\muppi} \frac{\delta}{(\omega - E_n + E_0)^2 + \delta^2} \\
-        A^-_z
+        A^-_{\sigma z}
          & =
         \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2 \frac{1}{\muppi} \frac{\delta}{(\omega + E_n - E_0)^2 + \delta^2}
     \end{align}
@@ -143,17 +140,17 @@ and weights $|\langle n | d_\sigma^{(\dag)} | \psi_0\rangle|^2$.
 Going to the real axis $\delta\rightarrow0^+$ will then give us discrete delta-peaks
 \begin{subequations}
     \begin{align}
-        A^+_\omega
+        A^+_{\sigma\omega}
          & =
         \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2 \delta(\omega - E_n + E_0) \\
-        A^-_\omega
+        A^-_{\sigma\omega}
          & =
         \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2 \delta(\omega + E_n - E_0).
     \end{align}
 \end{subequations}
 For the total weight we can show that the spectrum is normalized
 \begin{align}
-    \int_{-\infty}^\infty\! \md\omega A_z
+    \int_{-\infty}^\infty\! \md\omega A_{\sigma z}
      & =
     \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2
     + \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2                                              \\
@@ -170,33 +167,48 @@ For the total weight we can show that the spectrum is normalized
     1.
 \end{align}
 
+
 \subsection{Kramers-Kronig relations}
 
 The real and imaginary part of a correlator are not independent
 but related by Kramers-Kronig transformations (Hilbert transform)
 \begin{subequations}
-    \begin{alignat}{2}
+    \begin{align}
         \Re C_\omega
-          & =
-        - &   & \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
-        \frac{\Im C_{\omega'}}{\omega - \omega'}                                  \\
+         & =
+        - \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
+        \frac{\Im C_{\omega'}}{\omega - \omega'} \\
         \Im C_\omega
-          & =
-          &   & \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
+         & =
+        \phantom{-} \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
         \frac{\Re C_{\omega'}}{\omega - \omega'}.
-    \end{alignat}
+        \label{eq:Kramers-Kronig-relation}
+    \end{align}
 \end{subequations}
-If we use Gaussian broadening instead of Lorentzians for the spectral part,
+
+By analogy we can generalize the ``spectral part'' of any correlator as
+\begin{equation}
+    \tilde A_z = -\frac{1}{\muppi}\Im C_z.
+\end{equation}
+If we use Gaussian broadening ($\Im C_\omega \propto \me^{-\omega^2}$) instead of
+Lorentzians ($\Im C_\omega \propto (\omega^2 + \delta^2)^{-1}$)
+for the spectral part,
 the real part can be obtained through the Dawson function
-\begin{align}
+\begin{equation}
     D(\omega)
-     & \coloneqq
-    \me^{-\omega^2}\int_0^\omega\! \md a\> \me^{a^2} \\
+    \coloneqq
+    \me^{-\omega^2}\int_0^\omega\! \md a\> \me^{a^2},
+\end{equation}
+where after applying the Kramers-Kronig relation
+from \zcref{eq:Kramers-Kronig-relation} yields
+\begin{equation}
     \frac{2}{\sqrt{\muppi}}D(\omega)
-     & =
+    =
     \frac{1}{\muppi} \mathcal{P} \int_{-\infty}^\infty\! \md\omega'
     \frac{\me^{-\omega'^2}}{\omega - \omega'}.
-\end{align}
+\end{equation}
+This allows us to obtain the real part without evaluating the integral explicitly.
+
 
 \section{Lanczos algorithm}
 
