@@ -271,6 +271,62 @@ the subspace $\mathcal{K}_m(A, \vec{v}_1)$ \cite{Cullum1985}.
 
 \subsection{Block Lanczos}
 
+Instead of calculating only one vector $\vec{v}_j$ in each step,
+one can calculate $q$ vectors simultaneously.
+We define
+\begin{equation}
+    Q_1 = (\vec{q}_1^{(1)}, \vec{q}_1^{(2)}, \ldots, \vec{q}_1^{(q)})
+\end{equation}
+to be an
+$n\times q$ orthonormal block of starting vectors
+and zero matrix $B_0 = \mathbb{0}_{q\times q}$.
+Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
+\begin{equation}
+    Q_{j+1} B_j = A Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
+    \label{eq:block-Lanczos-recurrence}
+\end{equation}
+from which we can construct a block tridiagonal matrix
+\begin{equation}
+    T_m
+    =
+    \begin{pmatrix}
+        A_1 & B_1^\dag &          &         &              \\
+        B_1 & A_2      & B_2^\dag &         &              \\
+            & B_2      & A_3      & \ddots  &              \\
+            &          & \ddots   & \ddots  & B_{m-1}^\dag \\
+            &          &          & B_{m-1} & A_m
+    \end{pmatrix}
+\end{equation}
+of size $mq\times mq$.
+The matrices $A_j, B_j$ are again chosen such that each block of Lanczos vectors is orthonormal
+$Q_i^\dag Q_j = \delta_{ij}\mathbb{1}_{q\times q}$ to each other.
+For the calculation for $B_j$ one needs to orthornormalize
+\begin{equation}
+    \tilde Q_{j+1} = A Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag
+\end{equation}
+which is not unique.
+For instance a QR decomposition \cite{Cullum1985, Grimes1994} $Q B = \tilde{Q}$
+results in an upper triangular matrix $B$ which gives $T_m$ a compactly banded structure.
+In our work however, we use symmetric Löwdin orthonormalization \cite{Lowdin1950, Brass2021}
+which is based on the singular value decomposition $\tilde Q = U \Sigma V^\dag$.
+We define the overlap matrix as
+\begin{equation}
+    S \coloneqq \tilde Q^\dag \tilde Q = V \Sigma^{2} V^\dagger
+\end{equation}
+and its roots as
+\begin{equation}
+    S^{1/2}  = V \Sigma V^\dagger, \qquad S^{-1/2} = V \Sigma^{-1} V^\dagger.
+\end{equation}
+The resulting vectors are then
+\begin{align}
+    Q & = \tilde Q S^{-1/2}, \\
+    B & = S^{1/2}.
+\end{align}
+We use this method as it guarantees hermiticity in the off-diagonal blocks $B^\dag = B$
+albeit losing the compactly banded structure for $T_m$.
+In practice, we calculate the overlap matrix and decompose it as $S = V \Lambda V^\dag$
+where $\Lambda$ are the squared singular values.
+
 \section{Natural impurity orbitals}
 
 natural impurity orbitals
