@@ -243,7 +243,7 @@ we instead calculate the coefficients as
 \end{equation}
 From this relation we can create the tridiagonal matrix
 \begin{equation}
-    T_m
+    T
     =
     \begin{pmatrix}
         \alpha_1 & \beta_1  &          &             &             \\
@@ -255,18 +255,18 @@ From this relation we can create the tridiagonal matrix
 \end{equation}
 and matrix which collects all Lanczos vectors
 \begin{equation}
-    V_m = (\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_m).
+    V = (\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_m).
 \end{equation}
 Then, \zcref{eq:Lanczos-recurrence} in matrix form can be rewritten as
 \begin{equation}
-    A V_m = V_m T_m + \beta_{m}\vec{v}_{m+1}\vec{e}_{m}^\intercal,
+    A V = V T + \beta_{m}\vec{v}_{m+1}\vec{e}_{m}^\intercal,
 \end{equation}
 where $\vec{e}_m$ is the Euclidean basis vector with $m$-th component 1 and all other 0.
 Rearraning gives
 \begin{equation}
-    T_m = V_m^\dag A V_m,
+    T = V^\dag A V,
 \end{equation}
-which means that $T_m$ is the orthogonal projection of $A$ onto
+which means that $T$ is the orthogonal projection of $A$ onto
 the subspace $\mathcal{K}_m(A, \vec{v}_1)$ \cite{Cullum1985}.
 
 \subsection{Block Lanczos}
@@ -287,7 +287,7 @@ Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \end{equation}
 from which we can construct a block tridiagonal matrix
 \begin{equation}
-    T_m
+    T
     =
     \begin{pmatrix}
         A_1 & B_1^\dag &          &         &              \\
@@ -305,8 +305,8 @@ For the calculation for $B_j$ one needs to orthornormalize
     \tilde Q_{j+1} = A Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag
 \end{equation}
 which is not unique.
-For instance a QR decomposition \cite{Cullum1985, Grimes1994} $Q B = \tilde{Q}$
-results in an upper triangular matrix $B$ which gives $T_m$ a compactly banded structure.
+For instance, a QR decomposition \cite{Cullum1985, Grimes1994} $Q B = \tilde{Q}$
+results in an upper triangular matrix $B$ which gives $T$ a compactly banded structure.
 In our work however, we use symmetric Löwdin orthonormalization \cite{Lowdin1950, Brass2021}
 which is based on the singular value decomposition $\tilde Q = U \Sigma V^\dag$.
 We define the overlap matrix as
@@ -323,7 +323,7 @@ The resulting vectors are then
     B & = S^{1/2}.
 \end{align}
 We use this method as it guarantees hermiticity in the off-diagonal blocks $B^\dag = B$
-albeit losing the compactly banded structure for $T_m$.
+albeit losing the compactly banded structure for $T$.
 In practice, we calculate the overlap matrix and decompose it as $S = V \Lambda V^\dag$
 where $\Lambda$ are the squared singular values.
 
