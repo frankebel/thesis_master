@@ -2,6 +2,19 @@
 
 \chapter{Model and methods}
 
+\section{Hubbard model}
+
+\begin{equation}
+    H
+    =
+    -t\sum_{\langle i j\rangle\sigma}
+    (c^\dag_{i\sigma} c^{\pdag}_{j\sigma} + c^\dag_{j\sigma} c^{\pdag}_{i\sigma})
+    +
+    U\sum_{i\sigma} n_{i\uparrow} n_{i\downarrow}
+    -
+    \mu\sum_{i\sigma} n_{i\sigma}
+\end{equation}
+
 \section{Anderson impurity model}
 
 % TODO: reference DMFT
@@ -369,11 +382,77 @@ Hybridization function
 
 \section{Self-energy}
 
-\begin{itemize}
-    \item Dyson equation, $\Sigma^\mathrm{D}$
-    \item $\Sigma^\mathrm{FG}$
-    \item $\Sigma^\mathrm{IFG}$
-\end{itemize}
+Dyson equation
+\begin{equation}
+    \Sigma_{\sigma z} = (G_{0, \sigma z})^{-1} - (G_{\sigma z})^{-1}
+\end{equation}
+four correlators
+\begin{subequations}
+    \begin{alignat}{2}
+        G_{\sigma z}
+         & =
+        \lAngle d^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_z,
+         &
+        \qquad
+        I_{\sigma z}
+         & =
+        \lAngle q^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_z \\
+        F_{\sigma z}^\mL
+         & =
+        \lAngle q^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_z,
+         &
+        \qquad
+        F_{\sigma z}^\mR
+         & =
+        \lAngle d^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_z
+    \end{alignat}
+\end{subequations}
+calculate self-energy as
+\begin{equation}
+    \Sigma^\mIFG_{\alpha z}
+    =
+    \Sigma^\mH_\sigma + I_{\sigma z} - F^\mL_{\sigma z} (G_{\sigma z})^{-1} F^\mR_{\sigma z}
+\end{equation}
+calculate block correlator as
+
+\begin{subequations}
+    \begin{align}
+        C^+_{\sigma z}
+         & =
+        \biggl\langle \psi_0 \biggr|
+        \begin{pmatrix}
+            d^{\pdag}_\sigma \\
+            q^{\pdag}_\sigma
+        \end{pmatrix}
+        \frac{1}{z - H + E_0}
+        \begin{pmatrix}
+            d^\dag_\sigma & q^\dag_\sigma
+        \end{pmatrix}
+        \biggl| \psi_0 \biggr\rangle
+        =
+        \begin{pmatrix}
+            G^+_{\sigma z}      & F^{\mR+}_{\sigma z} \\
+            F^{\mL+}_{\sigma z} & I^+_{\sigma z}
+        \end{pmatrix} \\
+        C^-_{\sigma z}
+         & =
+        \biggl\langle \psi_0 \biggr|
+        \begin{pmatrix}
+            d^\dag_\sigma \\
+            q^\dag_\sigma
+        \end{pmatrix}
+        \frac{1}{z + H - E_0}
+        \begin{pmatrix}
+            d^{\pdag}_\sigma & q^{\pdag}_\sigma
+        \end{pmatrix}
+        \biggl| \psi_0 \biggr\rangle
+        =
+        \begin{pmatrix}
+            G^-_{\sigma z}      & F^{\mL-}_{\sigma z} \\
+            F^{\mR-}_{\sigma z} & I^-_{\sigma z}
+        \end{pmatrix}
+    \end{align}
+\end{subequations}
 
 \section{DMFT}
 
