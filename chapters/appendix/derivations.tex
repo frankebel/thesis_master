@@ -9,9 +9,11 @@ Fourier transform of the retarded correlator from time to frequency space.
 \begin{align}
     C_z
      & =
-    -\mi \Theta(t) \langle \{A(t), B\}\rangle                                 \\
+    \mathcal{F}[-\mi \Theta(t) \langle \{A(t), B\}\rangle] \\
      & =
-    -\mi \Theta(t) \langle A(t) B\rangle -\mi \Theta(t) \langle B A(t)\rangle \\
+    \mathcal{F}[-\mi \Theta(t) \langle A(t) B\rangle]
+    +
+    \mathcal{F}[-\mi \Theta(t) \langle B A(t)\rangle]      \\
      & =
     C^+_z + C^-_z
 \end{align}
@@ -57,7 +59,7 @@ Transformation of the second component:
     \left\langle B \frac{1}{z + H - E_0} A\right\rangle
 \end{align}
 
-\chapter{Tridiagonalization}
+\chapter{Tridiagonalization of a symmetric impurity Green's function}
 
 Proof that the diagonal entries vanish when a symmetric impurity Green's function
 is represented as a continued fraction.
@@ -69,11 +71,11 @@ The impurity solver returns the Green's function as a sum of poles
 \end{align}
 Symmetry enforces that each location appears pairwise $\pm\epsilon_i$
 with the same weight $|b_i|^2$.
-This in turn sets all moments for odd $m$ to zero \todo{explain moment}
+This in turn sets all moments for odd $m$ to zero
 % TODO: explain moment
 \begin{align}
     M^{(m)}_{\mathcal{G}}
-     & =
+     & \coloneqq
     \sum_i \epsilon_i^m |b_i|^2                                                            \\
      & =
     \sum_{\epsilon_i>0} \epsilon_i^m |b_i|^2 + \sum_{\epsilon_i<0} \epsilon_i^m |b_i|^2    \\
@@ -84,7 +86,7 @@ This in turn sets all moments for odd $m$ to zero \todo{explain moment}
      & =
     0.
 \end{align}
-% WARN: Overfull \hbox
+\todo{Should I mention that it's inside the appendix?}
 In \cite[appendix B]{Lu2014}, \citeauthor{Lu2014} showed how to transform
 \zcref{eq:impurity-greens-function} into a continued fraction representation
 using the lanczos algorithm on the diagonal matrix
