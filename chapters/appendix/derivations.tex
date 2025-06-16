@@ -1,5 +1,62 @@
 %! TeX root = ../../main.tex
 
+\chapter{Derivations}
+
+\section{Fourier transform of the retarded correlator}
+\label{app:fourier-transform}
+
+Fourier transform of the retarded correlator from time to frequency space.
+\begin{align}
+    C_z
+     & =
+    -\mi \Theta(t) \langle \{A(t), B\}\rangle                                 \\
+     & =
+    -\mi \Theta(t) \langle A(t) B\rangle -\mi \Theta(t) \langle B A(t)\rangle \\
+     & =
+    C^+_z + C^-_z
+\end{align}
+Transformation of the first component:
+\begin{align}
+    C^+_z
+     & =
+    \int_{-\infty}^\infty \md t \>
+    \me^{\mi zt}(-\mi \Theta(t) \langle \me^{\mi Ht} A \me^{-\mi Ht} B\rangle)     \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \langle \me^{\mi Ht} A \me^{-\mi Ht} B\rangle                     \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \langle \me^{\mi E_0t} A \me^{-\mi Ht} B\rangle                   \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \langle A \me^{\mi(z - H + E_0)t} B\rangle                                     \\
+     & =
+    -\mi \left.\left\langle A \frac{\me^{\mi(z - H + E_0)t}}{\mi(z - H + E_0)} B\right\rangle
+    \right|_0^\infty                                                               \\
+     & =
+    -\mi \left(0 - \left\langle A \frac{1}{\mi(z - H + E_0)} B\right\rangle\right) \\
+     & =
+    \left\langle A \frac{1}{z - H + E_0} B\right\rangle
+\end{align}
+Transformation of the second component:
+\begin{align}
+    C^-_z
+     & =
+    \int_{-\infty}^\infty \md t \>
+    \me^{\mi zt}(-\mi \Theta(t) \langle B \me^{\mi Ht} A \me^{-\mi Ht}\rangle) \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \langle B \me^{\mi Ht} A \me^{-\mi Ht}\rangle                 \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \langle B \me^{\mi Ht} A \me^{-\mi E_0t}\rangle               \\
+     & =
+    -\mi \int_0^\infty \md t \>
+    \langle B \me^{\mi(z + H - E_0)t} A\rangle                                 \\
+     & =
+    \left\langle B \frac{1}{z + H - E_0} A\right\rangle
+\end{align}
+
 \chapter{Tridiagonalization}
 
 Proof that the diagonal entries vanish when a symmetric impurity Green's function
