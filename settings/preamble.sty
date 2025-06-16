@@ -20,6 +20,10 @@
         },
 }
 \pgfplotstableset{col sep=comma}
+\subcaptionsetup{
+    labelformat=simple,
+}
+\renewcommand\thesubfigure{(\alph{subfigure})}
 \input{graphics/tikz/global.tex}
 \newsavebox{\imagebox} % store image size for alignment
 
@@ -36,4 +40,8 @@
     breaklinks=true,
     pdftitle={\@title},
     pdfauthor={Frank T.~Ebel},
+}
+\zcsetup{
+    abbrev=true,
+    cap=true,
 }
