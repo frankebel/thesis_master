@@ -91,7 +91,7 @@ In \cite[appendix B]{Lu2014}, \citeauthor{Lu2014} showed how to transform
 \zcref{eq:impurity-greens-function} into a continued fraction representation
 using the Lanczos algorithm on the diagonal matrix
 \begin{equation}
-    A
+    H
     =
     \diag(a_1, a_2, \ldots, a_N)
 \end{equation}
@@ -140,7 +140,7 @@ For the induction step we first calculate the new vector
 \begin{align}
     (\vec{u}_{j+1})_i
      & =
-    (A \vec{v}_j - \beta_{j-1}\vec{v}_{j-1})_i \\
+    (H \vec{v}_j - \beta_{j-1}\vec{v}_{j-1})_i \\
      & =
     b_i
     \left(
@@ -175,7 +175,7 @@ The Lanczos coefficient $\alpha_j$ is given by the overlap
 \begin{equation}
     \alpha_j
     =
-    \vec{v}_j^\dagger A \vec{v}_i
+    \vec{v}_j^\dagger H \vec{v}_i
     =
     \vec{v}_j^\dagger \vec{u}_{j+1}.
 \end{equation}

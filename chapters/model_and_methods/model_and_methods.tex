@@ -228,34 +228,35 @@ This allows us to obtain the real part without evaluating the integral explicitl
 \section{Lanczos algorithm}
 
 The Lanczos algorithm \cite{Lanczos1950} can be used to approximate the extremal eigenvalues
-(in our case the ground state and states close to it)
-of a hermitian $n\times n$ matrix $A$.
-It is especially useful if $A$ is sparse and too large to decompose fully.
+of a hermitian $n\times n$ matrix.
+In our case we are interested in the ground state and low energy excitations of a
+given Hamiltonian $H$.
+The method is especially useful if $H$ is sparse and too large to decompose fully.
 It is based on a Krylov basis
 \begin{equation}
-    \mathcal{K}_m(A, \vec{v}) = \spn\{\vec{v}, A\vec{v}, A^2\vec{v}, \ldots, A^{m-1}\vec{v}\}
+    \mathcal{K}_m(H, \vec{v}) = \spn\{\vec{v}, H\vec{v}, H^2\vec{v}, \ldots, H^{m-1}\vec{v}\}
 \end{equation}
 for a given vector $\vec{v}$.
 Typically, the value $m$ is very small compared to the matrix size: $m \ll n$.
 Instead of a simple power iteration, the Lanczos algorithm is described by the
 following recurrence relation
 \begin{equation}
-    \beta_j\vec{v}_{j+1} = A\vec{v}_j - \alpha_j\vec{v}_j - \beta_{j-1}\vec{v}_{j-1}
+    \beta_j\vec{v}_{j+1} = H\vec{v}_j - \alpha_j\vec{v}_j - \beta_{j-1}\vec{v}_{j-1}
     \label{eq:Lanczos-recurrence}
 \end{equation}
 with a normalized starting vector $\vec{v}_1$ and $\beta_0 = 0$.
 The coefficients are chosen such that each Lanczos vector $\vec{v}_j$ is orthonormal to each other
 \begin{equation}
-    \alpha_j = \vec{v}_j^\dag A \vec{v}_j,
+    \alpha_j = \vec{v}_j^\dag H \vec{v}_j,
     \qquad
-    \beta_j = \vec{v}_{j+1}^\dag A\vec{v}_j.
+    \beta_j = \vec{v}_{j+1}^\dag H \vec{v}_j.
 \end{equation}
 For numerical stability \cite{Paige1972, Paige1976}
 we instead calculate the coefficients as
 \begin{equation}
-    \alpha_j = \vec{v}_j^\dag( A \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
+    \alpha_j = \vec{v}_j^\dag(H \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
     \qquad
-    \beta_j = \Vert A\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1} \Vert.
+    \beta_j = \Vert H\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1} \Vert.
 \end{equation}
 From this relation we can create the tridiagonal matrix
 \begin{equation}
@@ -275,18 +276,18 @@ and matrix which collects all Lanczos vectors
 \end{equation}
 Then, \zcref{eq:Lanczos-recurrence} in matrix form can be rewritten as
 \begin{equation}
-    A V = V T + \beta_{m}\vec{v}_{m+1}\vec{e}_{m}^\intercal,
+    H V = V T + \beta_{m}\vec{v}_{m+1}\vec{e}_{m}^\intercal,
 \end{equation}
 where $\vec{e}_m$ is the Euclidean basis vector with $m$-th component 1 and all other 0.
 Rearraning gives
 \begin{equation}
-    T = V^\dag A V,
+    T = V^\dag H V,
 \end{equation}
-which means that $T$ is the orthogonal projection of $A$ onto
-the subspace $\mathcal{K}_m(A, \vec{v}_1)$ \cite{Cullum1985}.
-Diagonalization gives us then an approximation for our original matrix
+which means that $T$ is the orthogonal projection of $H$ onto
+the subspace $\mathcal{K}_m(H, \vec{v}_1)$ \cite{Cullum1985}.
+Diagonalization gives us then an approximation of our original matrix
 \begin{equation}
-    A \approx V T V^\dag = V U \Lambda U^\dag V^\dag.
+    H \approx V T V^\dag = V U \Lambda U^\dag V^\dag.
     \label{eq:Lanczos-matrix-approximation}
 \end{equation}
 
@@ -327,7 +328,7 @@ $n\times q$ orthonormal block of starting vectors
 and a zero matrix $B_0 = \mathbb{0}_{q\times q}$.
 Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \begin{equation}
-    Q_{j+1} B_j = A Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
+    Q_{j+1} B_j = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
     \label{eq:block-Lanczos-recurrence}
 \end{equation}
 from which we can construct a block tridiagonal matrix
@@ -347,7 +348,7 @@ The matrices $A_j, B_j$ are again chosen such that each block of Lanczos vectors
 $Q_i^\dag Q_j = \delta_{ij}\mathbb{1}_{q\times q}$ to each other.
 For the calculation for $B_j$ one needs to orthornormalize
 \begin{equation}
-    \tilde Q_{j+1} = A Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag
+    \tilde Q_{j+1} = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag
 \end{equation}
 which is not unique.
 For instance, a QR decomposition \cite{Cullum1985, Grimes1994} $Q B = \tilde{Q}$
