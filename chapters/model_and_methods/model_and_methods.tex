@@ -296,20 +296,20 @@ and its norm $s = ||\tilde{\vec{v}}_1||$.
 Using $\vec{v}_1 = \tilde{\vec{v}}_1/s$ as our initial Lanczos vector,
 \zcref{eq:Greens-function-plus} can be reformulated as
 \begin{equation}
-    G^+_{\sigma z} = s \vec{v}_1^\dag \frac{1}{z - H + E_0} \vec{v}_1 s.
+    G^+_{\sigma\omega} = s \vec{v}_1^\dag \frac{1}{\omega - H + E_0} \vec{v}_1 s.
 \end{equation}
 If we denote our eigenvalues as $E_i$ and $U_1$ as the first row of $U$,
 applying \zcref{eq:Lanczos-matrix-approximation} simplifies to
 \begin{align}
     \begin{split}
-        G^+_{\sigma z}
+        G^+_{\sigma\omega}
          & =
-        s \vec{v}_1^\dag V U \frac{1}{z - E + E_0} U^\dag V^\dag \vec{v}_1 s \\
+        s \vec{v}_1^\dag V U \frac{1}{\omega - E + E_0} U^\dag V^\dag \vec{v}_1 s \\
          & =
         \sum_{i=1}^m \frac{|s U_{1,i}|^2}{z - E_i + E_0}.
     \end{split}
 \end{align}
-Analogously, for $G^-_{\sigma z}$ we can start with $\tilde{\vec{v}}_1 = d_\sigma \vec{\psi}_0$.
+Analogously, for $G^-_{\sigma\omega}$ we can start with $\tilde{\vec{v}}_1 = d_\sigma \vec{\psi}_0$.
 Adding both components and simplifying gives us a sum of discrete delta-functions \cite{Lu2014}
 \begin{equation}
     G_{\sigma\omega} = \sum_i \frac{b_i^2}{\omega - a_i}.
