@@ -85,25 +85,27 @@ with the step function $\Theta$ and anticommutator $\{\cdot,\cdot\}$.
 $A(t) = \me^{\mi H t} A \me^{-\mi H t}$ is given in the Heisenberg picture.
 At zero temperature $T=0$, the expectation value is evaluated on the ground state
 $\langle\cdot\rangle = \langle\psi_0 | \cdot | \psi_0\rangle$ only.
-In the following we will use the notation established by \cite{Bulla1998}.
-The correlator can be Fourier transformed to
-a complex frequency $z$
+We will denote the Fourier transform as $C_\omega$ which is defined as
 \begin{equation}
-    C_z = \int_{-\infty}^\infty\! \md t\> \me^{\mi zt} C(t) \eqqcolon \lAngle A, B \rAngle_z.
+    C_\omega
+    =
+    \lim_{\delta\to 0^+}
+    \int_{-\infty}^\infty\! \md t\> \me^{\mi (\omega + \mi\delta) t} C(t).
 \end{equation}
-Furthermore, this expression can be split into two components $C_z = C^+_z + C^-_z$ with
+Furthermore,
+we split this expression into two components $C_\omega = C^+_\omega + C^-_\omega$ with
 \begin{subequations}
     \begin{align}
-        C^+_z
+        C^+_\omega
          & =
-        \left\langle A \frac{1}{z - H + E_0} B\right\rangle
+        \left\langle A \frac{1}{\omega - H + E_0} B\right\rangle
         =
-        \sum_n \frac{\langle\psi_0 | A | n\rangle\langle n | B | \psi_0\rangle}{z - E_n + E_0}, \\
-        C^-_z
+        \sum_n \frac{\langle\psi_0 | A | n\rangle\langle n | B | \psi_0\rangle}{\omega - E_n + E_0}, \\
+        C^-_\omega
          & =
-        \left\langle B \frac{1}{z + H - E_0} A\right\rangle
+        \left\langle B \frac{1}{\omega + H - E_0} A\right\rangle
         =
-        \sum_n \frac{\langle\psi_0 | B | n\rangle\langle n | A | \psi_0\rangle}{z + E_n - E_0}.
+        \sum_n \frac{\langle\psi_0 | B | n\rangle\langle n | A | \psi_0\rangle}{\omega + E_n - E_0}.
     \end{align}
 \end{subequations}
 The sum is over a complete basis $H|n\rangle = E_n|n\rangle$ with ground state energy $E_0$.
@@ -112,75 +114,55 @@ The problem however is the exponential algorithmic complexity:
 For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
 limiting exact diagonalization (ED) to $N=O(10)$ sites.
 
-\subsection{Green's function}
-
 For the choice $A=d_\sigma, B=d_\sigma^\dag$ the correlator describes
 the propagation of an electron/hole in the system and is called Green's function
 \begin{subequations}
     \begin{align}
-        G^+_{\sigma z}
+        G^+_\omega
          & =
-        \left\langle d_\sigma \frac{1}{z - H + E_0} d_\sigma^\dag\right\rangle
-        =
-        \sum_n \frac{|\langle n | d_\sigma^\dag | \psi_0\rangle|^2}{z - E_n + E_0},
+        \left\langle d_\sigma \frac{1}{\omega - H + E_0} d_\sigma^\dag\right\rangle,
         \label{eq:Greens-function-plus} \\
-        G^-_{\sigma z}
+        G^-_\omega
          & =
-        \left\langle d_\sigma^\dag \frac{1}{z + H - E_0} d_\sigma\right\rangle
-        =
-        \sum_n \frac{|\langle n | d_\sigma | \psi_0\rangle|^2}{z + E_n - E_0}.
+        \left\langle d_\sigma^\dag \frac{1}{\omega + H - E_0} d_\sigma\right\rangle.
         \label{eq:Greens-function-minus}
     \end{align}
 \end{subequations}
 
-\subsection{Spectral function}
+\subsection{Spectral part}
 
-Given a Green's function $G_{\sigma z}$ the corresponding spectral function is defined as
+Given a correlator $C_\omega$ the corresponding spectral part is defined as
 \begin{equation}
-    A_{\sigma z} = -\frac{1}{\muppi}\Im G_{\sigma z},
+    A_\omega = -\frac{1}{\muppi}\Im C_\omega,
 \end{equation}
 giving
 \begin{subequations}
     \begin{align}
-        A^+_{\sigma z}
+        A^+_\omega
          & =
-        \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2 \frac{1}{\muppi} \frac{\delta}{(\omega - E_n + E_0)^2 + \delta^2} \\
-        A^-_{\sigma z}
+        \sum_n \langle\psi_0 | A | n\rangle\langle n | B | \psi_0\rangle \delta(\omega - E_n + E_0),
+        \label{eq:spectral-part-plus} \\
+        A^-_\omega
          & =
-        \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2 \frac{1}{\muppi} \frac{\delta}{(\omega + E_n - E_0)^2 + \delta^2}
+        \sum_n \langle\psi_0 | B | n\rangle\langle n | A | \psi_0\rangle \delta(\omega + E_n - E_0).
+        \label{eq:spectral-part-minus}
     \end{align}
 \end{subequations}
-which can be interpreted as a sum of Lorentzians with broadening parameter $\delta$
-and weights $|\langle n | d_\sigma^{(\dag)} | \psi_0\rangle|^2$.
-Going to the real axis $\delta\rightarrow0^+$ will then give us discrete delta-peaks
+For our Green's function we call it the spectral function
 \begin{subequations}
     \begin{align}
-        A^+_{\sigma\omega}
+        A^+_\omega
          & =
-        \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2 \delta(\omega - E_n + E_0) \\
-        A^-_{\sigma\omega}
+        \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2 \delta(\omega - E_n + E_0), \\
+        A^-_\omega
          & =
-        \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2 \delta(\omega + E_n - E_0).
+        \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2 \delta(\omega + E_n - E_0),
     \end{align}
 \end{subequations}
-For the total weight we can show that the spectrum is normalized
-\begin{align}
-    \int_{-\infty}^\infty\! \md\omega A_{\sigma z}
-     & =
-    \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2
-    + \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2                                              \\
-     & =
-    \sum_n \langle \psi_0 | d_\sigma^{\pdag} | n\rangle\langle n | d_\sigma^\dag | \psi_0\rangle
-    + \sum_n \langle \psi_0 | d_\sigma^\dag | n\rangle\langle n | d_\sigma^{\pdag} | \psi_0\rangle \\
-     & =
-    \langle d_\sigma^{\pdag} d_\sigma^\dag\rangle + \langle d_\sigma^\dag d_\sigma^{\pdag}\rangle  \\
-     & =
-    \langle \{d_\sigma^{\pdag}, d_\sigma^\dag\}\rangle                                             \\
-     & =
-    \langle \mathbb{1}\rangle                                                                      \\
-     & =
-    1.
-\end{align}
+with $A^+_\omega$ measurable in inverse photoemission spectroscopy (IPES)
+and $A^-_\omega$ in photoemission spectroscopy (PES) respectively.
+The total weight of the spectral function is normalized
+as shown in \zcref{app:spectral-function-integration}.
 
 
 \subsection{Kramers-Kronig relations}
@@ -192,38 +174,41 @@ but related by Kramers-Kronig transformations (Hilbert transform)
         \Re C_\omega
          & =
         - \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
-        \frac{\Im C_{\omega'}}{\omega - \omega'} \\
+        \frac{\Im C_{\omega'}}{\omega - \omega'}
+        \label{eq:kramers-kroneg-real} \\
         \Im C_\omega
          & =
         \phantom{-} \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
         \frac{\Re C_{\omega'}}{\omega - \omega'}.
-        \label{eq:Kramers-Kronig-relation}
+        \label{eq:kramers-kronig-imag}
     \end{align}
 \end{subequations}
 
-By analogy we can generalize the ``spectral part'' of any correlator as
-\begin{equation}
-    \tilde A_z = -\frac{1}{\muppi}\Im C_z.
-\end{equation}
-If we use Gaussian broadening ($\Im C_\omega \propto \me^{-\omega^2}$) instead of
-Lorentzians ($\Im C_\omega \propto (\omega^2 + \delta^2)^{-1}$)
-for the spectral part,
-the real part can be obtained through the Dawson function
-\begin{equation}
-    D(\omega)
-    \coloneqq
-    \me^{-\omega^2}\int_0^\omega\! \md a\> \me^{a^2},
-\end{equation}
-where after applying the Kramers-Kronig relation
-from \zcref{eq:Kramers-Kronig-relation} yields
-\begin{equation}
-    \frac{2}{\sqrt{\muppi}}D(\omega)
-    =
-    \frac{1}{\muppi} \mathcal{P} \int_{-\infty}^\infty\! \md\omega'
-    \frac{\me^{-\omega'^2}}{\omega - \omega'}.
-\end{equation}
-This allows us to obtain the real part without evaluating the integral explicitly.
-
+Thus, we can broaden our delta-peaks from \zcref{eq:spectral-part-plus, eq:spectral-part-minus}
+for the imaginary part and obtain the real part through \zcref{eq:kramers-kroneg-real}.
+We will denote the broadened correlator as $C_z$
+to contrast it against $C_\omega$ which has no broadening.
+In this work we will use the following schemes:
+\begin{itemize}
+    \item Lorentzian broadening characterized by $\delta$:
+          \begin{equation}
+              \delta(\omega - \omega_0)
+              \to
+              \frac{1}{\muppi}\frac{\delta}{(\omega - \omega_0)^2 + \delta^2}
+          \end{equation}
+    \item Gaussian broadening characterized by $\sigma$:
+          \begin{equation}
+              \delta(\omega - \omega_0)
+              \to
+              \frac{1}{\sqrt{2\muppi \sigma^2}}\exp\left(-\frac{(\omega - \omega_0)^2}{2\sigma^2}\right)
+          \end{equation}
+    \item logarithmic Gaussian characterized by $b$ \cite{Bulla2008}:
+          \begin{equation}
+              \delta(\omega - \omega_0)
+              \to
+              \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right).
+          \end{equation}
+\end{itemize}
 
 \section{Lanczos algorithm}
 
@@ -378,79 +363,79 @@ where $\Lambda$ are the squared singular values.
 natural impurity orbitals
 Hybridization function
 \begin{align}
-    \Delta(z) = \sum_{k\sigma} \frac{|V_{k\sigma}|^2}{z - \epsilon_{k\sigma}}
+    \Delta_\omega = \sum_{k\sigma} \frac{|V_{k\sigma}|^2}{\omega - \epsilon_{k\sigma}}
 \end{align}
 
 \section{Self-energy}
 
 Dyson equation
 \begin{equation}
-    \Sigma_{\sigma z} = (G_{0, \sigma z})^{-1} - (G_{\sigma z})^{-1}
+    \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}
 \end{equation}
 four correlators
 \begin{subequations}
     \begin{alignat}{2}
-        G_{\sigma z}
+        G_\omega
          & =
-        \lAngle d^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_z,
+        \lAngle d^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_\omega,
          &
         \qquad
-        I_{\sigma z}
+        I_\omega
          & =
-        \lAngle q^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_z \\
-        F_{\sigma z}^\mL
+        \lAngle q^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_\omega \\
+        F^\mL_\omega
          & =
-        \lAngle q^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_z,
+        \lAngle q^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_\omega,
          &
         \qquad
-        F_{\sigma z}^\mR
+        F^\mR_\omega
          & =
-        \lAngle d^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_z
+        \lAngle d^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_\omega
     \end{alignat}
 \end{subequations}
 calculate self-energy as
 \begin{equation}
-    \Sigma^\mIFG_{\alpha z}
+    \Sigma^\mIFG_\omega
     =
-    \Sigma^\mH_\sigma + I_{\sigma z} - F^\mL_{\sigma z} (G_{\sigma z})^{-1} F^\mR_{\sigma z}
+    \Sigma^\mH + I_\omega - F^\mL_\omega (G_\omega)^{-1} F^\mR_\omega
 \end{equation}
 calculate block correlator as
 
 \begin{subequations}
     \begin{align}
-        C^+_{\sigma z}
+        C^+_\omega
          & =
         \biggl\langle \psi_0 \biggr|
         \begin{pmatrix}
-            d^{\pdag}_\sigma \\
-            q^{\pdag}_\sigma
+            q^{\pdag}_\sigma \\
+            d^{\pdag}_\sigma
         \end{pmatrix}
-        \frac{1}{z - H + E_0}
+        \frac{1}{\omega - H + E_0}
         \begin{pmatrix}
-            d^\dag_\sigma & q^\dag_\sigma
+            q^\dag_\sigma & d^\dag_\sigma
         \end{pmatrix}
         \biggl| \psi_0 \biggr\rangle
         =
         \begin{pmatrix}
-            G^+_{\sigma z}      & F^{\mR+}_{\sigma z} \\
-            F^{\mL+}_{\sigma z} & I^+_{\sigma z}
+            I^+_\omega      & F^{\mL+}_\omega \\
+            F^{\mR+}_\omega & G^+_\omega
         \end{pmatrix} \\
-        C^-_{\sigma z}
+        C^-_\omega
          & =
         \biggl\langle \psi_0 \biggr|
         \begin{pmatrix}
-            d^\dag_\sigma \\
-            q^\dag_\sigma
+            q^\dag_\sigma \\
+            d^\dag_\sigma
         \end{pmatrix}
-        \frac{1}{z + H - E_0}
+        \frac{1}{\omega + H - E_0}
         \begin{pmatrix}
-            d^{\pdag}_\sigma & q^{\pdag}_\sigma
+            q^{\pdag}_\sigma & d^{\pdag}_\sigma
         \end{pmatrix}
         \biggl| \psi_0 \biggr\rangle
         =
         \begin{pmatrix}
-            G^-_{\sigma z}      & F^{\mL-}_{\sigma z} \\
-            F^{\mR-}_{\sigma z} & I^-_{\sigma z}
+            I^-_\omega      & F^{\mR-}_\omega \\
+            F^{\mL-}_\omega & G^-_\omega
         \end{pmatrix}
     \end{align}
 \end{subequations}

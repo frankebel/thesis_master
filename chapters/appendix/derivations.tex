@@ -7,7 +7,7 @@
 
 Fourier transform of the retarded correlator from time to frequency space.
 \begin{align}
-    C_z
+    C_\omega
      & =
     \mathcal{F}[-\mi \Theta(t) \langle \{A(t), B\}\rangle] \\
      & =
@@ -15,8 +15,9 @@ Fourier transform of the retarded correlator from time to frequency space.
     +
     \mathcal{F}[-\mi \Theta(t) \langle B A(t)\rangle]      \\
      & =
-    C^+_z + C^-_z
+    C^+_\omega + C^-_\omega
 \end{align}
+We define the complex frequency $z=\omega+\mi\delta$ and take the limit $\delta\to 0^+$ at the end.
 Transformation of the first component:
 \begin{align}
     C^+_z
@@ -40,6 +41,14 @@ Transformation of the first component:
      & =
     \left\langle A \frac{1}{z - H + E_0} B\right\rangle
 \end{align}
+Taking the limit gives
+\begin{equation}
+    C^+_\omega
+    =
+    \lim_{\delta\to 0^+} \left\langle A \frac{1}{z - H + E_0} B\right\rangle
+    =
+    \left\langle A \frac{1}{\omega - H + E_0} B\right\rangle.
+\end{equation}
 Transformation of the second component:
 \begin{align}
     C^-_z
@@ -58,8 +67,38 @@ Transformation of the second component:
      & =
     \left\langle B \frac{1}{z + H - E_0} A\right\rangle
 \end{align}
+Taking the limit gives
+\begin{equation}
+    C^-_\omega
+    =
+    \lim_{\delta\to 0^+} \left\langle A \frac{1}{z + H - E_0} B\right\rangle
+    =
+    \left\langle A \frac{1}{\omega + H - E_0} B\right\rangle.
+\end{equation}
 
-\chapter{Tridiagonalization of a symmetric impurity Green's function}
+\section{Integration of the spectral function}
+\label{app:spectral-function-integration}
+
+Proof that the integral of the spectral function is unity.
+\begin{align}
+    \int_{-\infty}^\infty\! \md\omega\> A_\omega
+     & =
+    \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2
+    + \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2                                              \\
+     & =
+    \sum_n \langle \psi_0 | d_\sigma^{\pdag} | n\rangle\langle n | d_\sigma^\dag | \psi_0\rangle
+    + \sum_n \langle \psi_0 | d_\sigma^\dag | n\rangle\langle n | d_\sigma^{\pdag} | \psi_0\rangle \\
+     & =
+    \langle d_\sigma^{\pdag} d_\sigma^\dag\rangle + \langle d_\sigma^\dag d_\sigma^{\pdag}\rangle  \\
+     & =
+    \langle \{d_\sigma^{\pdag}, d_\sigma^\dag\}\rangle                                             \\
+     & =
+    \langle \mathbb{1}\rangle                                                                      \\
+     & =
+    1.
+\end{align}
+
+\section{Tridiagonalization of a symmetric impurity Green's function}
 
 Proof that the diagonal entries vanish when a symmetric impurity Green's function
 is represented as a continued fraction.
