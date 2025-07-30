@@ -217,17 +217,17 @@ The tridiagonal matrix is thus given by
                 &         &         & \beta_{N-1} & 0
     \end{pmatrix}.
 \end{equation}
-We can define the unitary matrix
+We can define the signature matrix
 \begin{equation}
-    L = \diag(1, -1, 1, -1, \ldots)
+    S = \diag(1, -1, 1, -1, \ldots)
 \end{equation}
-with the property $L T L = -T$.
+with the property $S T S = -T$.
 Applying it to the eigenvalue equation gives
 \begin{align}
-    L(T \vec{v}   & = \lambda \vec{v})    \\
-    LT LL\vec{v}  & = \lambda L\vec{v}    \\
-    -T (L\vec{v}) & = \lambda (L\vec{v})  \\
-    T (L\vec{v})  & = -\lambda (L\vec{v})
+    S(T \vec{v}   & = \lambda \vec{v})    \\
+    ST SS\vec{v}  & = \lambda S\vec{v}    \\
+    -T (S\vec{v}) & = \lambda (S\vec{v})  \\
+    T (S\vec{v})  & = -\lambda (S\vec{v})
 \end{align}
 proving that each eigenvalue appears pairwise $\pm\lambda$.
 This is precisely the statement with which we started:
