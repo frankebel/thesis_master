@@ -76,34 +76,12 @@ Taking the limit gives
     \left\langle A \frac{1}{\omega + H - E_0} B\right\rangle.
 \end{equation}
 
-\section{Integration of the spectral function}
-\label{app:spectral-function-integration}
-
-Proof that the integral of the spectral function is unity.
-\begin{align}
-    \int_{-\infty}^\infty\! \md\omega\> A_\omega
-     & =
-    \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2
-    + \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2                                              \\
-     & =
-    \sum_n \langle \psi_0 | d_\sigma^{\pdag} | n\rangle\langle n | d_\sigma^\dag | \psi_0\rangle
-    + \sum_n \langle \psi_0 | d_\sigma^\dag | n\rangle\langle n | d_\sigma^{\pdag} | \psi_0\rangle \\
-     & =
-    \langle d_\sigma^{\pdag} d_\sigma^\dag\rangle + \langle d_\sigma^\dag d_\sigma^{\pdag}\rangle  \\
-     & =
-    \langle \{d_\sigma^{\pdag}, d_\sigma^\dag\}\rangle                                             \\
-     & =
-    \langle \mathbb{1}\rangle                                                                      \\
-     & =
-    1.
-\end{align}
-
 \section{Tridiagonalization of a symmetric impurity Green's function}
 
 Proof that the diagonal entries vanish when a symmetric impurity Green's function
 is represented as a continued fraction.
 
-The impurity solver returns the Green's function as a sum of poles
+The solver returns the impurity Green's function as a sum of poles
 \begin{align}
     \mathcal{G}_{\!\omega} = \sum_{i=1}^N \frac{b_i^2}{\omega - a_i}.
     \label{eq:impurity-greens-function}
@@ -221,7 +199,7 @@ If the case of even $j$, odd powers of $a_i$ (given by $\vec{v}_j$)
 are multiplied by even powers of $a_i$ (given by $\vec{u}_j$)
 (for odd $j$ vice versa).
 Hence, the inner product only contains a sum of odd powers $a_i$ which all vanish
-(diagonal $\alpha_j = 0$)
+(giving diagonal $\alpha_j = 0$ for the tridiagonal matrix $T$)
 and Lanczos vectors never couple to their predecessor
 keeping even and odd powers of $a_i$ separated.
 
@@ -239,7 +217,7 @@ The tridiagonal matrix is thus given by
                 &         &         & \beta_{N-1} & 0
     \end{pmatrix}.
 \end{equation}
-We can define a unitary matrix
+We can define the unitary matrix
 \begin{equation}
     L = \diag(1, -1, 1, -1, \ldots)
 \end{equation}

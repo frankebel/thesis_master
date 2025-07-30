@@ -85,12 +85,17 @@ with the step function $\Theta$ and anticommutator $\{\cdot,\cdot\}$.
 $A(t) = \me^{\mi H t} A \me^{-\mi H t}$ is given in the Heisenberg picture.
 At zero temperature $T=0$, the expectation value is evaluated on the ground state
 $\langle\cdot\rangle = \langle\psi_0 | \cdot | \psi_0\rangle$ only.
-We will denote the Fourier transform as $C_\omega$ which is defined as
+Following the notation of \cite{Bulla1998,Kugler2022},
+we will denote the Fourier transform $\mathcal{F}$ as
 \begin{equation}
     C_\omega
     =
-    \lim_{\delta\to 0^+}
-    \int_{-\infty}^\infty\! \md t\> \me^{\mi (\omega + \mi\delta) t} C(t).
+    \mathcal{F}[C(t)]
+    \coloneq
+    \lim_{\delta\to0^+}
+    \int_{-\infty}^\infty\! \md t\> \me^{\mi (\omega + \mi\delta) t} C(t)
+    \eqcolon
+    \lAngle A, B\rAngle_\omega.
 \end{equation}
 Furthermore,
 we split this expression into two components $C_\omega = C^+_\omega + C^-_\omega$ with
@@ -115,25 +120,12 @@ For $N$ sites (bath and impurity), the number of all possible states scales as $
 limiting exact diagonalization (ED) to $N=O(10)$ sites.
 
 For the choice $A=d_\sigma, B=d_\sigma^\dag$ the correlator describes
-the propagation of an electron/hole in the system and is called Green's function
-\begin{subequations}
-    \begin{align}
-        G^+_\omega
-         & =
-        \left\langle d_\sigma \frac{1}{\omega - H + E_0} d_\sigma^\dag\right\rangle,
-        \label{eq:Greens-function-plus} \\
-        G^-_\omega
-         & =
-        \left\langle d_\sigma^\dag \frac{1}{\omega + H - E_0} d_\sigma\right\rangle.
-        \label{eq:Greens-function-minus}
-    \end{align}
-\end{subequations}
-
-\subsection{Spectral part}
+the propagation of an electron/hole in the system and is called Green's function $G_\omega$.
+\subsection{Broadening}
 
 Given a correlator $C_\omega$ the corresponding spectral part is defined as
 \begin{equation}
-    A_\omega = -\frac{1}{\muppi}\Im C_\omega,
+    A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega,
 \end{equation}
 giving
 \begin{subequations}
@@ -148,24 +140,6 @@ giving
         \label{eq:spectral-part-minus}
     \end{align}
 \end{subequations}
-For our Green's function we call it the spectral function
-\begin{subequations}
-    \begin{align}
-        A^+_\omega
-         & =
-        \sum_n |\langle n | d_\sigma^\dag | \psi_0\rangle|^2 \delta(\omega - E_n + E_0), \\
-        A^-_\omega
-         & =
-        \sum_n |\langle n | d_\sigma | \psi_0\rangle|^2 \delta(\omega + E_n - E_0),
-    \end{align}
-\end{subequations}
-with $A^+_\omega$ measurable in inverse photoemission spectroscopy (IPES)
-and $A^-_\omega$ in photoemission spectroscopy (PES) respectively.
-The total weight of the spectral function is normalized
-as shown in \zcref{app:spectral-function-integration}.
-
-
-\subsection{Kramers-Kronig relations}
 
 The real and imaginary part of a correlator are not independent
 but related by Kramers-Kronig transformations (Hilbert transform)
@@ -187,28 +161,31 @@ but related by Kramers-Kronig transformations (Hilbert transform)
 Thus, we can broaden our delta-peaks from \zcref{eq:spectral-part-plus, eq:spectral-part-minus}
 for the imaginary part and obtain the real part through \zcref{eq:kramers-kroneg-real}.
 We will denote the broadened correlator as $C_z$
-to contrast it against $C_\omega$ which has no broadening.
-In this work we will use the following schemes:
-\begin{itemize}
+to contrast it to $C_\omega$, which has no broadening.
+In this work we will use one of the following three schemes:
+\begin{enumerate}[(i)]
     \item Lorentzian broadening characterized by $\delta$:
+          \label{item:lorentzian}
           \begin{equation}
               \delta(\omega - \omega_0)
-              \to
+              \longrightarrow
               \frac{1}{\muppi}\frac{\delta}{(\omega - \omega_0)^2 + \delta^2}
           \end{equation}
     \item Gaussian broadening characterized by $\sigma$:
+          \label{item:gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
-              \to
+              \longrightarrow
               \frac{1}{\sqrt{2\muppi \sigma^2}}\exp\left(-\frac{(\omega - \omega_0)^2}{2\sigma^2}\right)
           \end{equation}
     \item logarithmic Gaussian characterized by $b$ \cite{Bulla2008}:
+          \label{item:logarithmic-gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
-              \to
-              \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right).
+              \longrightarrow
+              \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right)
           \end{equation}
-\end{itemize}
+\end{enumerate}
 
 \section{Lanczos algorithm}
 
@@ -229,7 +206,7 @@ following recurrence relation
     \beta_j\vec{v}_{j+1} = H\vec{v}_j - \alpha_j\vec{v}_j - \beta_{j-1}\vec{v}_{j-1}
     \label{eq:Lanczos-recurrence}
 \end{equation}
-with a normalized starting vector $\vec{v}_1$ and $\beta_0 = 0$.
+with a normalized starting vector $\vec{v}_1$ and $\vec{v}_0 = \vec{0}$.
 The coefficients are chosen such that each Lanczos vector $\vec{v}_j$ is orthonormal to each other
 \begin{equation}
     \alpha_j = \vec{v}_j^\dag H \vec{v}_j,
@@ -279,7 +256,7 @@ Diagonalization gives us then an approximation of our original matrix
 For our Green's function we define the vector $\tilde{\vec{v}}_1 = d_\sigma^\dag \vec{\psi}_0$
 and its norm $s = ||\tilde{\vec{v}}_1||$.
 Using $\vec{v}_1 = \tilde{\vec{v}}_1/s$ as our initial Lanczos vector,
-\zcref{eq:Greens-function-plus} can be reformulated as
+% ERROR: issue
 \begin{equation}
     G^+_{\sigma\omega} = s \vec{v}_1^\dag \frac{1}{\omega - H + E_0} \vec{v}_1 s.
 \end{equation}
@@ -308,9 +285,8 @@ We define
 \begin{equation}
     Q_1 = (\vec{q}_1^{(1)}, \vec{q}_1^{(2)}, \ldots, \vec{q}_1^{(q)})
 \end{equation}
-to be an
-$n\times q$ orthonormal block of starting vectors
-and a zero matrix $B_0 = \mathbb{0}_{q\times q}$.
+to be an $n\times q$ orthonormal block of starting vectors
+and $Q_0 = \mathbb{0}_{n\times q}$.
 Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \begin{equation}
     Q_{j+1} B_j = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
@@ -438,12 +414,20 @@ calculate block correlator as
             F^{\mL-}_\omega & G^-_\omega
         \end{pmatrix}
     \end{align}
+
+    starting wave function singlet
+    \begin{equation}
+        |\psi_s\rangle
+        =
+        \frac{1}{\sqrt{2}}
+        (d^\dag_\uparrow c^\dag_{b\downarrow} - d^\dag_\downarrow c^\dag_{b\uparrow})
+        \prod_{k\sigma} v^\dag_{k\sigma}
+        |0\rangle
+    \end{equation}
 \end{subequations}
 
 \section{DMFT}
 
-\begin{itemize}
-    \item Bethe lattice
-\end{itemize}
+\section{Bethe lattice}
 
 \section{Configuration interaction}
