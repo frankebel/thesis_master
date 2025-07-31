@@ -187,7 +187,7 @@ In this work we will use one of the following three schemes:
           \end{equation}
 \end{enumerate}
 
-\section{Lanczos algorithm}
+\section{Lanczos algorithm in linear algebra}
 
 The Lanczos algorithm \cite{Lanczos1950} can be used to approximate the extremal eigenvalues
 of a hermitian $n\times n$ matrix.
@@ -196,103 +196,76 @@ given Hamiltonian $H$.
 The method is especially useful if $H$ is sparse and too large to decompose fully.
 It is based on a Krylov basis
 \begin{equation}
-    \mathcal{K}_m(H, \vec{v}) = \spn\{\vec{v}, H\vec{v}, H^2\vec{v}, \ldots, H^{m-1}\vec{v}\}
+    \mathcal{K}_m(H, \vec{q}) = \spn\{\vec{q}, H\vec{q}, H^2\vec{q}, \ldots, H^{m-1}\vec{q}\}
 \end{equation}
-for a given vector $\vec{v}$.
+for a given vector $\vec{q}$.
 Typically, the value $m$ is very small compared to the matrix size: $m \ll n$.
 Instead of a simple power iteration, the Lanczos algorithm is described by the
 following recurrence relation
 \begin{equation}
-    \beta_j\vec{v}_{j+1} = H\vec{v}_j - \alpha_j\vec{v}_j - \beta_{j-1}\vec{v}_{j-1}
+    b_j\vec{q}_{j+1} = H\vec{q}_j - a_j\vec{q}_j - b_{j-1}\vec{q}_{j-1}
     \label{eq:Lanczos-recurrence}
 \end{equation}
-with a normalized starting vector $\vec{v}_1$ and $\vec{v}_0 = \vec{0}$.
-The coefficients are chosen such that each Lanczos vector $\vec{v}_j$ is orthonormal to each other
+with a normalized starting vector $\vec{q}_1$ and $\vec{q}_0 = \vec{0}$.
+The coefficients are chosen such that each Lanczos vector $\vec{q}_j$ is orthonormal to each other
 \begin{equation}
-    \alpha_j = \vec{v}_j^\dag H \vec{v}_j,
+    a_j = \vec{q}_j^\dag H \vec{q}_j,
     \qquad
-    \beta_j = \vec{v}_{j+1}^\dag H \vec{v}_j.
+    b_j = \vec{q}_{j+1}^\dag H \vec{q}_j.
 \end{equation}
 For numerical stability \cite{Paige1972, Paige1976}
 we instead calculate the coefficients as
 \begin{equation}
-    \alpha_j = \vec{v}_j^\dag(H \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
+    a_j = \vec{v}_j^\dag(H \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
     \qquad
-    \beta_j = \Vert H\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1} \Vert.
+    b_j = \Vert H\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1} \Vert.
 \end{equation}
 From this relation we can create the tridiagonal matrix
 \begin{equation}
     T
     =
     \begin{pmatrix}
-        \alpha_1 & \beta_1  &          &             &             \\
-        \beta_1  & \alpha_2 & \beta_2  &             &             \\
-                 & \beta_2  & \alpha_3 & \ddots      &             \\
-                 &          & \ddots   & \ddots      & \beta_{m-1} \\
-                 &          &          & \beta_{m-1} & \alpha_m
+        a_1 & b_1 &        &         &         \\
+        b_1 & a_2 & b_2    &         &         \\
+            & b_2 & a_3    & \ddots  &         \\
+            &     & \ddots & \ddots  & b_{m-1} \\
+            &     &        & b_{m-1} & a_m
     \end{pmatrix}
 \end{equation}
-and matrix which collects all Lanczos vectors
+and matrix collecting all Lanczos vectors
 \begin{equation}
-    V = (\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_m).
+    Q = (\vec{q}_1, \vec{q}_2, \ldots, \vec{q}_m).
 \end{equation}
 Then, \zcref{eq:Lanczos-recurrence} in matrix form can be rewritten as
 \begin{equation}
-    H V = V T + \beta_{m}\vec{v}_{m+1}\vec{e}_{m}^\intercal,
+    H Q = Q T + b_{m}\vec{q}_{m+1}\vec{e}_{m}^\top,
 \end{equation}
 where $\vec{e}_m$ is the Euclidean basis vector with $m$-th component 1 and all other 0.
 Rearraning gives
 \begin{equation}
-    T = V^\dag H V,
+    T = Q^\dag H Q,
 \end{equation}
 which means that $T$ is the orthogonal projection of $H$ onto
-the subspace $\mathcal{K}_m(H, \vec{v}_1)$ \cite{Cullum1985}.
-Diagonalization gives us then an approximation of our original matrix
-\begin{equation}
-    H \approx V T V^\dag = V U \Lambda U^\dag V^\dag.
-    \label{eq:Lanczos-matrix-approximation}
-\end{equation}
-
-For our Green's function we define the vector $\tilde{\vec{v}}_1 = d_\sigma^\dag \vec{\psi}_0$
-and its norm $s = ||\tilde{\vec{v}}_1||$.
-Using $\vec{v}_1 = \tilde{\vec{v}}_1/s$ as our initial Lanczos vector,
-% ERROR: issue
-\begin{equation}
-    G^+_{\sigma\omega} = s \vec{v}_1^\dag \frac{1}{\omega - H + E_0} \vec{v}_1 s.
-\end{equation}
-If we denote our eigenvalues as $E_i$ and $U_1$ as the first row of $U$,
-applying \zcref{eq:Lanczos-matrix-approximation} simplifies to
-\begin{align}
-    \begin{split}
-        G^+_{\sigma\omega}
-         & =
-        s \vec{v}_1^\dag V U \frac{1}{\omega - E + E_0} U^\dag V^\dag \vec{v}_1 s \\
-         & =
-        \sum_{i=1}^m \frac{|s U_{1,i}|^2}{z - E_i + E_0}.
-    \end{split}
-\end{align}
-Analogously, for $G^-_{\sigma\omega}$ we can start with $\tilde{\vec{v}}_1 = d_\sigma \vec{\psi}_0$.
-Adding both components and simplifying gives us a sum of discrete delta-functions \cite{Lu2014}
-\begin{equation}
-    G_{\sigma\omega} = \sum_i \frac{b_i^2}{\omega - a_i}.
-\end{equation}
+the subspace $\mathcal{K}_m(H, \vec{q}_1)$ \cite{Cullum1985}.
 
 \subsection{Block Lanczos}
 
-Instead of calculating only one vector $\vec{v}_j$ in each step,
-one can calculate $q$ vectors simultaneously.
+Instead of calculating only one vector $\vec{q}_j$ in each step,
+one can calculate $p$ vectors simultaneously.
 We define
 \begin{equation}
-    Q_1 = (\vec{q}_1^{(1)}, \vec{q}_1^{(2)}, \ldots, \vec{q}_1^{(q)})
+    Q_1 = (\vec{q}_1^{(1)}, \vec{q}_1^{(2)}, \ldots, \vec{q}_1^{(p)})
 \end{equation}
-to be an $n\times q$ orthonormal block of starting vectors
+to be an $n\times p$ orthonormal block of starting vectors
 and $Q_0 = \mathbb{0}_{n\times q}$.
 Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \begin{equation}
     Q_{j+1} B_j = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
     \label{eq:block-Lanczos-recurrence}
 \end{equation}
-from which we can construct a block tridiagonal matrix
+with $A_j$, $B_j$ matrices of size $p\times p$ chosen such that each block $Q_j$ is orthonormal
+to each other.
+The block tridiagonal matrix of size $mp\times mp$ is written as
 \begin{equation}
     T
     =
@@ -302,37 +275,53 @@ from which we can construct a block tridiagonal matrix
             & B_2      & A_3      & \ddots  &              \\
             &          & \ddots   & \ddots  & B_{m-1}^\dag \\
             &          &          & B_{m-1} & A_m
-    \end{pmatrix}
+    \end{pmatrix}.
 \end{equation}
-of size $mq\times mq$.
-The matrices $A_j, B_j$ are again chosen such that each block of Lanczos vectors is orthonormal
-$Q_i^\dag Q_j = \delta_{ij}\mathbb{1}_{q\times q}$ to each other.
 For the calculation for $B_j$ one needs to orthornormalize
 \begin{equation}
-    \tilde Q_{j+1} = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag
+    \tilde Q_{j+1} = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
 \end{equation}
 which is not unique.
-For instance, a QR decomposition \cite{Cullum1985, Grimes1994} $Q B = \tilde{Q}$
-results in an upper triangular matrix $B$ which gives $T$ a compactly banded structure.
+For instance, a QR decomposition $Q_{j+1} B_j = \tilde Q_{j+1}$
+results in an upper triangular matrix $B_j$ which gives $T$ a compactly banded structure
+\cite{Cullum1985, Golub2013}.
 In our work however, we use symmetric Löwdin orthonormalization \cite{Lowdin1950, Brass2021}
-which is based on the singular value decomposition $\tilde Q = U \Sigma V^\dag$.
+which is based on the singular value decomposition
+$\tilde Q_{j+1} = U_{j+1} \Sigma_{j+1} V_{j+1}^\dag$.
 We define the overlap matrix as
 \begin{equation}
-    S \coloneqq \tilde Q^\dag \tilde Q = V \Sigma^{2} V^\dagger
+    S_{j+1} \coloneqq \tilde Q_{j+1}^\dag \tilde Q_{j+1} = V_{j+1} \Sigma_{j+1}^2 V_{j+1}^\dagger
 \end{equation}
 and its roots as
 \begin{equation}
-    S^{1/2}  = V \Sigma V^\dagger, \qquad S^{-1/2} = V \Sigma^{-1} V^\dagger.
+    S_{j+1}^{1/2}  = V_{j+1} \Sigma_{j+1} V_{j+1}^\dagger,
+    \qquad
+    S_{j+1}^{-1/2} = V_{j+1} \Sigma_{j+1}^{-1} V_{j+1}^\dagger.
 \end{equation}
 The resulting vectors are then
 \begin{align}
-    Q & = \tilde Q S^{-1/2}, \\
-    B & = S^{1/2}.
+    Q_{j+1} & = \tilde Q_{j+1} S_{j+1}^{-1/2} \qquad \text{and} \\
+    B_j     & = S_{j+1}^{1/2}.
 \end{align}
-We use this method as it guarantees hermiticity in the off-diagonal blocks $B^\dag = B$
+We use this method as it guarantees hermiticity in the off-diagonal blocks $B_j^\dag = B_j$
 albeit losing the compactly banded structure for $T$.
-In practice, we calculate the overlap matrix and decompose it as $S = V \Lambda V^\dag$
-where $\Lambda$ are the squared singular values.
+If $\tilde Q_j$ is rank-deficient,
+this method can still be applied \cite{Brass2021} by ignoring the block of vanishing singular values
+\begin{equation}
+    \Sigma =
+    \begin{pmatrix}
+        \Sigma_i \neq 0 & 0 \\
+        0               & 0
+    \end{pmatrix}
+    \qquad
+    \Sigma^{-1} =
+    \begin{pmatrix}
+        \Sigma_i^{-1} & 0 \\
+        0             & 0
+    \end{pmatrix},
+\end{equation}
+still guaranteeing orthonormality against previous states $Q_i^\dag Q_j = \mathbb{0}_{q\times q}$
+for $i \in \{1,\ldots,j-1\}$ \cite{Golub2013}.
 
 \section{Natural impurity orbitals}
 
