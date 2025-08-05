@@ -4,6 +4,8 @@
 
 \section{Hubbard model}
 
+In this work we use the Hubbard model \cite{Hubbard1997} to describe strongly correlated systems.
+Its Hamiltonian reads
 \begin{equation}
     H
     =
@@ -12,38 +14,50 @@
     +
     U\sum_{i\sigma} n_{i\uparrow} n_{i\downarrow}
     -
-    \mu\sum_{i\sigma} n_{i\sigma}
+    \mu\sum_{i\sigma} n_{i\sigma},
 \end{equation}
+with a sketch given in \zcref{fig:hubbard-model}.
+Each site $i$ can be occupied by up to two electrons with spin $\sigma\in\{\uparrow,\downarrow\}$
+respectively.
+The first term describes the kinetics of the system.
+Electrons can hop between nearest-neighbors $\langle i j\rangle$ defining the hopping amplitude $t$.
+If two electrons are on the same site, they are repulsed by the Coulomb interaction $U$
+expressed by the second term (occupation $n_{i\sigma} = c^\dag_{i\sigma} c^{\pdag}_{i\sigma}$).
+The last term with the chemical potential $\mu$ is added as we are in the grand canonical ensemble.
 
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/hubbard_2d.tex}
     \caption{
         Hubbard model on a 2D square lattice.
+        $t$ denotes hopping between nearest-neighbors,
+        while $U$ describes the Coulomb repulsion on a doubly occupied site.
     }
     \label{fig:hubbard-model}
 \end{figure}
 
+Although the model looks simple, no analytical solution in arbitrary dimension exists.
+The problem is that the kinetic part is diagonal in momentum space,
+while the Coulomb interaction is diagonal in real space.
+Thus, in DMFT (details in TODO) we instead solve a simpler model which has only one correlated site.
+% TODO: reference DMFT
+
 \section{Anderson impurity model}
 
-% TODO: reference DMFT
-In DMFT (more in section TODO) a Hubbard model is mapped onto an Anderson impurity model (AIM)
-which then needs to be solved.
-In this work we will only look at the single impurity Anderson model (SIAM).
-Its Hamiltonian can be split into an interacting and non-interacting part
-$H = H_0 + H_\mathrm{int}$.
+The Hamiltonian of the Anderson impurity model \cite{Anderson1961} can be split into
+an interacting and non-interacting part $H = H_0 + H_\mathrm{int}$.
 Denoting the impurity annihilators by $d_\sigma$ ($n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$)
-and bath annihilators by $c_\sigma$
+and bath annihilators by $l_{i\sigma}$
 it can be written as
 \begin{align}
     H_0
      & =
     \sum_{\pk\sigma} (\epsilon_{d,\sigma} - \mu) d^\dag_{\pk\sigma} d^{\pdag}_{\pk\sigma}
     +
-    \sum_{k\sigma} \epsilon_{k\sigma}^{\pdag} c^\dag_{k\sigma} c^{\pdag}_{k\sigma}
+    \sum_{k\sigma} \epsilon_{k\sigma}^{\pdag} l^\dag_{k\sigma} l^{\pdag}_{k\sigma}
     +
-    \sum_{k\sigma} \left(V^{\ps}_{k\sigma} d^\dag_{\vphantom{k}\sigma} c^{\pdag}_{k\sigma}
-    + V_{k\sigma}^* c^\dag_{k\sigma} d^{\pdag}_{\vphantom{k}\sigma} \right),
+    \sum_{k\sigma} \left(V^{\ps}_{k\sigma} d^\dag_{\vphantom{k}\sigma} l^{\pdag}_{k\sigma}
+    + V_{k\sigma}^* l^\dag_{k\sigma} d^{\pdag}_{\vphantom{k}\sigma} \right),
     \\
     H_\mathrm{int}
      & =
