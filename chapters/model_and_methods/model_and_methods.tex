@@ -348,6 +348,63 @@ In this work we will use one of the following three schemes:
           \end{equation}
 \end{enumerate}
 
+\subsection{Representation}
+
+Using the Lanczos algorithm we can represent correlators as the $(1,1)$ component of the inverse
+of our tridiagonal matrix $T$
+
+\begin{subequations}
+    \begin{alignat}{2}
+        C_\omega
+         & =
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \frac{b_1^2}{\omega + \mi0^+ - a_2 - \cdots}}
+        \qquad
+         & \text{(scalar)},                                                                         \\
+        C_\omega
+         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \cdots}B_1}B_0
+        \qquad
+         & \text{(block)}.
+    \end{alignat}
+\end{subequations}
+In the block case $\frac{1}{D} \wedgeq D^{-1}$ is meant as the matrix inverse
+and $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ a shorthand notation
+for a diagonal matrix.
+In contrast to \texttt{QUANTY} \cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
+even if they are rank-deficient.
+We will call this the ``continued fraction'' representation.
+
+Diagonalizing $T$ gives us a sum of poles instead:
+\begin{subequations}
+    \begin{alignat}{2}
+        C_\omega
+         & =
+        \sum_{i=1}^m \frac{w_i}{\omega + \mi0^+ - \epsilon_i}
+        \qquad
+         & \text{(scalar)}, \\
+        C_\omega
+         & =
+        \sum_{i=1}^m \frac{W_i}{\omega + \mi0^+ - \epsilon_i}
+        \qquad
+         & \text{(block)}.  \\
+    \end{alignat}
+\end{subequations}
+
+Only diagonalizing from the second part of $T$ onwards gives us the ``Anderson representation''
+\begin{subequations}
+    \begin{alignat}{2}
+        C_\omega
+         & =
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^m \frac{w_j}{\omega + \mi0^+ - \epsilon_j}}
+        \qquad
+         & \text{(scalar)},                                                                                \\
+        C_\omega
+         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^m \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0
+        \qquad
+         & \text{(block)}.
+    \end{alignat}
+\end{subequations}
+A detailed explanation on how to switch between these representations is given in \cite{Lu2014}.
+
 \section{Natural impurity orbitals}
 
 natural impurity orbitals
