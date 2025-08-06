@@ -5,25 +5,27 @@
 \section{Hubbard model}
 
 In this work we use the Hubbard model \cite{Hubbard1997} to describe strongly correlated systems.
-Its Hamiltonian reads
+Denoting the creator of site $i$ and spin $\sigma\in\{\uparrow,\downarrow\}$
+as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonian reads
 \begin{equation}
     H
     =
     -t\sum_{\langle i j\rangle\sigma}
-    (c^\dag_{i\sigma} c^{\pdag}_{j\sigma} + c^\dag_{j\sigma} c^{\pdag}_{i\sigma})
+    (d^\dag_{i\sigma} d^{\pdag}_{j\sigma} + d^\dag_{j\sigma} d^{\pdag}_{i\sigma})
     +
     U\sum_{i\sigma} n_{i\uparrow} n_{i\downarrow}
-    -
-    \mu\sum_{i\sigma} n_{i\sigma},
+    +
+    (\epsilon - \mu)\sum_{i\sigma} n_{i\sigma},
 \end{equation}
 with a sketch given in \zcref{fig:hubbard-model}.
-Each site $i$ can be occupied by up to two electrons with spin $\sigma\in\{\uparrow,\downarrow\}$
-respectively.
-The first term describes the kinetics of the system.
-Electrons can hop between nearest-neighbors $\langle i j\rangle$ defining the hopping amplitude $t$.
+Each site can be occupied by up to two electrons.
+The first term describes the kinetics of the system:
+Electrons can hop between nearest-neighbors $\langle i j\rangle$
+defining the hopping amplitude $t$.
 If two electrons are on the same site, they are repulsed by the Coulomb interaction $U$
-expressed by the second term (occupation $n_{i\sigma} = c^\dag_{i\sigma} c^{\pdag}_{i\sigma}$).
-The last term with the chemical potential $\mu$ is added as we are in the grand canonical ensemble.
+expressed by the second term (occupation $n_{i\sigma} = d^\dag_{i\sigma} d^{\pdag}_{i\sigma}$).
+The last term describes the on-site energy $\epsilon$ and
+chemical potential $\mu$ as we are in the grand canonical ensemble.
 
 \begin{figure}[ht]
     \centering
@@ -46,7 +48,7 @@ Thus, in DMFT (details in TODO) we instead solve a simpler model which has only 
 
 The Hamiltonian of the Anderson impurity model \cite{Anderson1961} can be split into
 an interacting and non-interacting part $H = H_0 + H_\mathrm{int}$.
-Denoting the impurity annihilators by $d_\sigma$ ($n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$)
+Denoting the impurity annihilators by $d_\sigma$
 and bath annihilators by $l_{i\sigma}$
 it can be written as
 \begin{align}
