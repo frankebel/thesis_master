@@ -144,6 +144,7 @@ From this relation we can create the tridiagonal matrix
             &     & \ddots & \ddots  & b_{m-1} \\
             &     &        & b_{m-1} & a_m
     \end{pmatrix}
+    \label{eq:tridiagonal-scalar}
 \end{equation}
 and matrix collecting all Lanczos vectors
 \begin{equation}
@@ -189,6 +190,7 @@ The block tridiagonal matrix of size $mp\times mp$ is written as
             &          & \ddots   & \ddots  & B_{m-1}^\dag \\
             &          &          & B_{m-1} & A_m
     \end{pmatrix}.
+    \label{eq:tridiagonal-block}
 \end{equation}
 For the calculation for $B_j$ one needs to orthornormalize
 \begin{equation}
@@ -282,6 +284,70 @@ limiting exact diagonalization (ED) to $N=O(10)$ sites.
 
 For the choice $A=d_\sigma, B=d_\sigma^\dag$ the correlator describes
 the propagation of an electron/hole in the system and is called Green's function $G_\omega$.
+
+\subsection{Representation}
+
+Using the Lanczos algorithm we can represent correlators as the $(1,1)$ component of the inverse
+of our tridiagonal matrix $T$ \cite{Lu2014}, see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
+
+\begin{subequations}
+    \begin{align}
+        C_\omega
+         & =
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \frac{b_1^2}{\omega + \mi0^+ - a_2 - \ldots}}
+        \qquad
+         &
+         & \text{(scalar)},                                                                         \\
+        C_\omega
+         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0
+        \qquad
+         &
+         & \text{(block)}.
+    \end{align}
+\end{subequations}
+In the block case $\frac{1}{D} \wedgeq D^{-1}$ is meant as the matrix inverse
+and $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ a shorthand notation
+for a diagonal matrix.
+In contrast to \texttt{QUANTY} \cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
+even if they are rank-deficient.
+We will call this the ``continued fraction'' representation.
+
+Diagonalizing $T$ gives us a sum of poles instead:
+\begin{subequations}
+    \begin{align}
+        C_\omega
+         & =
+        \sum_{i=1}^m \frac{w_i}{\omega + \mi0^+ - \epsilon_i}
+        \qquad
+         &   & \text{(scalar)}, \\
+        C_\omega
+         & =
+        \sum_{i=1}^m \frac{W_i}{\omega + \mi0^+ - \epsilon_i}
+        \qquad
+         &   & \text{(block)}.
+    \end{align}
+\end{subequations}
+
+Only diagonalizing from the second part of $T$ onwards gives us the ``Anderson representation''
+\begin{subequations}
+    \begin{align}
+        C_\omega
+         & =
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^m \frac{w_j}{\omega + \mi0^+ - \epsilon_j}}
+        \qquad
+         &
+         &
+        \text{(scalar)},                                                                                   \\
+        C_\omega
+         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^m \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0
+        \qquad
+         &
+         &
+        \text{(block)}.
+    \end{align}
+\end{subequations}
+A detailed explanation on how to switch between these representations is given in \cite{Lu2014}.
+
 \subsection{Broadening}
 
 Given a correlator $C_\omega$ the corresponding spectral part is defined as
@@ -347,63 +413,6 @@ In this work we will use one of the following three schemes:
               \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right)
           \end{equation}
 \end{enumerate}
-
-\subsection{Representation}
-
-Using the Lanczos algorithm we can represent correlators as the $(1,1)$ component of the inverse
-of our tridiagonal matrix $T$
-
-\begin{subequations}
-    \begin{alignat}{2}
-        C_\omega
-         & =
-        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \frac{b_1^2}{\omega + \mi0^+ - a_2 - \cdots}}
-        \qquad
-         & \text{(scalar)},                                                                         \\
-        C_\omega
-         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \cdots}B_1}B_0
-        \qquad
-         & \text{(block)}.
-    \end{alignat}
-\end{subequations}
-In the block case $\frac{1}{D} \wedgeq D^{-1}$ is meant as the matrix inverse
-and $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ a shorthand notation
-for a diagonal matrix.
-In contrast to \texttt{QUANTY} \cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
-even if they are rank-deficient.
-We will call this the ``continued fraction'' representation.
-
-Diagonalizing $T$ gives us a sum of poles instead:
-\begin{subequations}
-    \begin{alignat}{2}
-        C_\omega
-         & =
-        \sum_{i=1}^m \frac{w_i}{\omega + \mi0^+ - \epsilon_i}
-        \qquad
-         & \text{(scalar)}, \\
-        C_\omega
-         & =
-        \sum_{i=1}^m \frac{W_i}{\omega + \mi0^+ - \epsilon_i}
-        \qquad
-         & \text{(block)}.  \\
-    \end{alignat}
-\end{subequations}
-
-Only diagonalizing from the second part of $T$ onwards gives us the ``Anderson representation''
-\begin{subequations}
-    \begin{alignat}{2}
-        C_\omega
-         & =
-        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^m \frac{w_j}{\omega + \mi0^+ - \epsilon_j}}
-        \qquad
-         & \text{(scalar)},                                                                                \\
-        C_\omega
-         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^m \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0
-        \qquad
-         & \text{(block)}.
-    \end{alignat}
-\end{subequations}
-A detailed explanation on how to switch between these representations is given in \cite{Lu2014}.
 
 \section{Natural impurity orbitals}
 
