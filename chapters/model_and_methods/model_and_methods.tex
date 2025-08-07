@@ -415,22 +415,9 @@ A detailed explanation on how to switch between these representations is given i
 
 Given a correlator $C_\omega$ the corresponding spectral part is defined as
 \begin{equation}
-    A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega,
+    A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega = \sum_{i=1}^m w_i \delta(\omega - \epsilon_i).
+    \label{eq:spectral-part}
 \end{equation}
-giving
-\begin{subequations}
-    \begin{align}
-        A^+_\omega
-         & =
-        \sum_n \langle\psi_0 | A | n\rangle\langle n | B | \psi_0\rangle \delta(\omega - E_n + E_0),
-        \label{eq:spectral-part-plus} \\
-        A^-_\omega
-         & =
-        \sum_n \langle\psi_0 | B | n\rangle\langle n | A | \psi_0\rangle \delta(\omega + E_n - E_0).
-        \label{eq:spectral-part-minus}
-    \end{align}
-\end{subequations}
-
 The real and imaginary part of a correlator are not independent
 but related by Kramers-Kronig transformations (Hilbert transform)
 \begin{subequations}
@@ -448,7 +435,7 @@ but related by Kramers-Kronig transformations (Hilbert transform)
     \end{align}
 \end{subequations}
 
-Thus, we can broaden our delta-peaks from \zcref{eq:spectral-part-plus, eq:spectral-part-minus}
+Thus, we can broaden our delta-peaks from \zcref{eq:spectral-part}
 for the imaginary part and obtain the real part through \zcref{eq:kramers-kroneg-real}.
 We will denote the broadened correlator as $C_z$
 to contrast it to $C_\omega$, which has no broadening.
