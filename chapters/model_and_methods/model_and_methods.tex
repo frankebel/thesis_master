@@ -114,37 +114,28 @@ and electrons from each bath site can hop in and out of the impurity.
 To solve the Anderson impurity model,
 we can use Slater determinants to decompose the wave function
 \begin{equation}
-    | \psi \rangle = \sum_{|\phi\rangle \in \mathcal{S}} \alpha_{|\phi\rangle} | \phi \rangle
+    | \psi \rangle = \sum_{i=1}^M \alpha_i | \phi_i \rangle
 \end{equation}
-using any orthonormal set $\mathcal{S}$ of basis functions.
+using any orthonormal set of basis functions.
 With the occupation number,
-we can express the number of electrons in the system as $n_\uparrow + n_\downarrow$ with
+we can express the number of electrons in each spin sector as
 \begin{equation}
     n_\sigma = n_{i,\sigma} + \sum_{k=1}^N n_{b,k\sigma}.
 \end{equation}
-If the number of electrons is fixed for $N$ bath sites and the impurity,
-the set of Slater determinants can be written as
-\begin{equation}
-    \mathcal{S} =
-    \left\{
-    |n_{i,\uparrow},n_{b,1\uparrow},\ldots,n_{b,N\uparrow}\rangle
-    \otimes
-    |n_{i,\downarrow},n_{b,1\downarrow},\ldots,n_{b,N\downarrow}\rangle:
-    n_{i,\sigma}, n_{b,k\sigma} \in \{0, 1\}
-    \right\}.
-\end{equation}
-To fully describe a state $|\psi\rangle$, a combination of
+For a fixed amount of electrons $n_\uparrow + n_\downarrow$ on $N$ bath sites and the impurity,
+a combination of
 \begin{equation}
     M = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
 \end{equation}
-determinants are necessary, which for a half-filled system ($n_\uparrow = n_\downarrow = (N+1)/2$)
-with $N+1=140$ sites is approximately $\num{9e81}$,
+determinants are necessary to fully describe the wave function.
+For a half-filled system ($n_\uparrow = n_\downarrow = (N+1)/2$)
+with $N+1=140$ sites, this is approximately $\num{9e81}$
 exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
 As this is not treatable numerically,
 we need to truncate a certain number of determinants with the smallest probabilities.
 To save computational resources,
-we want to find a new basis in which the probabilities decay faster than those of the star geometry,
-for details see \cite{Bi2019}.
+we want to find a new basis in which the probabilities decay faster than those of the star geometry
+(further details in \cite{Bi2019}).
 
 A commonly employed basis set in quantum chemistry are the \emph{natural orbitals}
 in which the ground state density is diagonal.
@@ -160,7 +151,7 @@ The unchanged impurity $i$ is connected to a mirror site (labeled $m$) and two c
 Following the convention of \cite{Lu2014,Lu2019},
 we call sites in the almost fully filled chain valence bath sites (labeled $v$),
 and sites in the almost empty chain as conduction bath sites (labeled $c$).
-Potential hopping between sites is again shown by lines.
+Hopping between sites is again shown by lines.
 
 \section{Lanczos algorithm}
 
