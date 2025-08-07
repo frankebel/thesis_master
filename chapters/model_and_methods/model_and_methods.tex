@@ -45,32 +45,37 @@ Thus, in DMFT (details in TODO) we instead solve a simpler model which has only 
 % TODO: reference DMFT
 
 \section{Anderson impurity model}
+\label{sec:anderson-impurity-model}
 
 The Hamiltonian of the Anderson impurity model \cite{Anderson1961} can be split into
 an interacting and non-interacting part $H = H_0 + H_\mathrm{int}$.
-Denoting the impurity annihilators by $d_\sigma$
-and bath annihilators by $l_{i\sigma}$
+Denoting the impurity (labeled $i$) annihilators by $d_\sigma$
+and bath (labeled $b$) annihilators by $b_{j\sigma}$
 it can be written as
 \begin{align}
     H_0
      & =
-    \sum_{\pk\sigma} (\epsilon_{d,\sigma} - \mu) d^\dag_{\pk\sigma} d^{\pdag}_{\pk\sigma}
+    (\epsilon - \mu) \sum_{\pk\sigma} n_\sigma
     +
-    \sum_{k\sigma} \epsilon_{k\sigma}^{\pdag} l^\dag_{k\sigma} l^{\pdag}_{k\sigma}
+    \sum_{k\sigma} \epsilon_{k\sigma}^{\pdag} b^\dag_{k\sigma} b^{\pdag}_{k\sigma}
     +
-    \sum_{k\sigma} \left(V^{\ps}_{k\sigma} d^\dag_{\vphantom{k}\sigma} l^{\pdag}_{k\sigma}
-    + V_{k\sigma}^* l^\dag_{k\sigma} d^{\pdag}_{\vphantom{k}\sigma} \right),
+    \sum_{k\sigma} \left(V^{\ps}_{k\sigma} d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
+    + V_{j\sigma}^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma} \right),
     \\
     H_\mathrm{int}
      & =
     U n_\uparrow n_\downarrow.
+    \label{eq:anderson-interaction}
 \end{align}
 Here,
-$\epsilon_{d,\sigma}$ denotes the impurity energy,
+$\epsilon$ denotes the impurity energy,
 $\mu$ the chemical potential,
+$n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$ the impurity occupation,
 $\epsilon_{k\sigma}$ the energy levels of the bath,
 and $V_{k\sigma}$ the hybridization between the bath and impurity.
-A graphical representation is given in \zcref{subfig:geometry-star}.
+A graphical representation of this \emph{star geometry} is given in \zcref{subfig:geometry-star}:
+each bath site has a given filling
+and electrons from each bath site can hop in and out of the impurity.
 
 \begin{figure}[ht]
     \centering
@@ -92,15 +97,70 @@ A graphical representation is given in \zcref{subfig:geometry-star}.
     \end{subfigure}
     \caption{
         Anderson impurity model in different geometries.
-        Impurity (square) interacting with bath sites (circle).
+        Impurity (square) interacting with bath sites (circles).
         Site occupation is indicated by fill level,
         where a full site corresponds to double occupation.
         Furthermore, hopping between sites is shown by lines.
-        \subref{subfig:geometry-star} is the conventional ``star'' geometry;
-        \subref{subfig:geometry-natural-impurity-orbitals} the natural impurity orbitals geometry
+        \subref{subfig:geometry-star} is the conventional \emph{star geometry};
+        \subref{subfig:geometry-natural-impurity-orbitals} the \emph{natural impurity orbitals}
+        are explained in \zcref{sec:natural-impurity-orbitals}
         (adapted from~\cite{Lu2019}).
     }
 \end{figure}
+
+\subsection{Natural impurity orbitals}
+\label{sec:natural-impurity-orbitals}
+
+To solve the Anderson impurity model,
+we can use Slater determinants to decompose the wave function
+\begin{equation}
+    | \psi \rangle = \sum_{|\phi\rangle \in \mathcal{S}} \alpha_{|\phi\rangle} | \phi \rangle
+\end{equation}
+using any orthonormal set $\mathcal{S}$ of basis functions.
+With the occupation number,
+we can express the number of electrons in the system as $n_\uparrow + n_\downarrow$ with
+\begin{equation}
+    n_\sigma = n_{i,\sigma} + \sum_{k=1}^N n_{b,k\sigma}.
+\end{equation}
+If the number of electrons is fixed for $N$ bath sites and the impurity,
+the set of Slater determinants can be written as
+\begin{equation}
+    \mathcal{S} =
+    \left\{
+    |n_{i,\uparrow},n_{b,1\uparrow},\ldots,n_{b,N\uparrow}\rangle
+    \otimes
+    |n_{i,\downarrow},n_{b,1\downarrow},\ldots,n_{b,N\downarrow}\rangle:
+    n_{i,\sigma}, n_{b,k\sigma} \in \{0, 1\}
+    \right\}.
+\end{equation}
+To fully describe a state $|\psi\rangle$, a combination of
+\begin{equation}
+    M = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
+\end{equation}
+determinants are necessary, which for a half-filled system ($n_\uparrow = n_\downarrow = (N+1)/2$)
+with $N+1=140$ sites is approximately $\num{9e81}$,
+exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
+As this is not treatable numerically,
+we need to truncate a certain number of determinants with the smallest probabilities.
+To save computational resources,
+we want to find a new basis in which the probabilities decay faster than those of the star geometry,
+for details see \cite{Bi2019}.
+
+A commonly employed basis set in quantum chemistry are the \emph{natural orbitals}
+in which the ground state density is diagonal.
+However,
+a naive implementation of the natural orbitals will inevitably mix the original impurity
+and bath sites transforming the local Coulomb interaction (\zcref{eq:anderson-interaction})
+among multiple new sites,
+losing locality \cite{Lu2014,Lu2019}.
+We therefore use the \emph{natural impurity orbitals}
+which only rotates bath orbitals while keeping the impurity untouched.
+This new geometry is shown in \zcref{subfig:geometry-natural-impurity-orbitals}.
+The unchanged impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
+Following the convention of \cite{Lu2014,Lu2019},
+we call sites in the almost fully filled chain valence bath sites (labeled $v$),
+and sites in the almost empty chain as conduction bath sites (labeled $c$).
+Potential hopping between sites is again shown by lines.
 
 \section{Lanczos algorithm}
 
@@ -310,9 +370,10 @@ of our tridiagonal matrix $T$ \cite{Lu2014}, see \zcref{eq:tridiagonal-scalar,eq
 In the block case $\frac{1}{D} \wedgeq D^{-1}$ is meant as the matrix inverse
 and $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ a shorthand notation
 for a diagonal matrix.
+The values $b_0$, $B_0$ normalize the initial state(s) for the (block) Lanczos routine.
 In contrast to \texttt{QUANTY} \cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
-We will call this the ``continued fraction'' representation.
+We will call this the \emph{continued fraction} representation.
 
 Diagonalizing $T$ gives us a sum of poles instead:
 \begin{subequations}
@@ -330,7 +391,7 @@ Diagonalizing $T$ gives us a sum of poles instead:
     \end{align}
 \end{subequations}
 
-Only diagonalizing from the second part of $T$ onwards gives us the ``Anderson representation''
+Only diagonalizing from the second part of $T$ onwards gives us the \emph{Anderson representation}
 \begin{subequations}
     \begin{align}
         C_\omega
@@ -415,14 +476,6 @@ In this work we will use one of the following three schemes:
               \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right)
           \end{equation}
 \end{enumerate}
-
-\section{Natural impurity orbitals}
-
-natural impurity orbitals
-Hybridization function
-\begin{align}
-    \Delta_\omega = \sum_{k\sigma} \frac{|V_{k\sigma}|^2}{\omega - \epsilon_{k\sigma}}
-\end{align}
 
 \section{Self-energy}
 
@@ -509,6 +562,11 @@ calculate block correlator as
 \end{subequations}
 
 \section{DMFT}
+
+Hybridization function
+\begin{align}
+    \Delta_\omega = \sum_{k\sigma} \frac{|V_{k\sigma}|^2}{\omega - \epsilon_{k\sigma}}
+\end{align}
 
 \section{Bethe lattice}
 

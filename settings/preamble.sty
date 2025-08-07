@@ -28,8 +28,9 @@
 \input{graphics/tikz/global.tex}
 \newsavebox{\imagebox} % store image size for alignment
 
-% math
+% math and science typesetting
 \unimathsetup{math-style=ISO}
+\sisetup{exponent-product = \cdot}
 
 % references, bibliography, and links
 \addbibresource{ref.bib}
@@ -45,4 +46,8 @@
 \zcsetup{
     abbrev=true,
     cap=true,
+}
+\zcLanguageSetup{english}{
+    type = section ,
+    Name-sg-ab = Sec. ,
 }

@@ -8,16 +8,16 @@
     \foreach \i [remember=\i as \lasti, evaluate=\i as \filling using -0.1*\i+0.9] in {1,...,7}
         {
             \ifnum\i=1
-                \node [bath={\filling}, label=right:$l_\i$] (l\i) {};
+                \node [bath={\filling}, label=right:$b_\i$] (b\i) {};
             \else
-                \node [bath={\filling}, label=right:$l_\i$] (l\i) [above=of l\lasti] {};
+                \node [bath={\filling}, label=right:$b_\i$] (b\i) [above=of b\lasti] {};
             \fi
         }
-    \node [impurity={0.5}, label=left:$i$] (impurity) [left=5mm of l4] {};
+    \node [impurity={0.5}, label=left:$i$] (impurity) [left=5mm of b4] {};
 
     % connect sites
     \foreach \i in {1,...,7}
         {
-            \draw (impurity.east) to [out=0,in=180,looseness=0.3] (l\i.west);
+            \draw (impurity.east) to [out=0,in=180,looseness=0.3] (b\i.west);
         }
 \end{tikzpicture}
