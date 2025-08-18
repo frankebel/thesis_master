@@ -340,8 +340,8 @@ the propagation of an electron/hole in the system and is called Green's function
 
 \subsection{Representation}
 
-Using the Lanczos algorithm we can represent correlators as the $(1,1)$ component of the inverse
-of our tridiagonal matrix $T$ \cite{Lu2014}, see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
+Using the Lanczos algorithm we can represent correlators as the first component of the inverse
+of our (block) tridiagonal matrix $T$ \cite{Lu2014}, see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
 
 \begin{subequations}
     \begin{align}
@@ -361,7 +361,8 @@ of our tridiagonal matrix $T$ \cite{Lu2014}, see \zcref{eq:tridiagonal-scalar,eq
 In the block case $\frac{1}{D} \wedgeq D^{-1}$ is meant as the matrix inverse
 and $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ a shorthand notation
 for a diagonal matrix.
-The values $b_0$, $B_0$ normalize the initial state(s) for the (block) Lanczos routine.
+The value(s) $b_0$ ($B_0$) normalize the initial state(s) of
+the (block) Lanczos routine respectively.
 In contrast to \texttt{QUANTY} \cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
 We will call this the \emph{continued fraction} representation.
@@ -381,6 +382,9 @@ Diagonalizing $T$ gives us a sum of poles instead:
          &   & \text{(block)}.
     \end{align}
 \end{subequations}
+In order for these correlators to represent physical quantities,
+the weights $w_i$ must be non-negative in the scalar case
+and $W_i$ positive semidefinite in the block case.
 
 Only diagonalizing from the second part of $T$ onwards gives us the \emph{Anderson representation}
 \begin{subequations}
@@ -398,6 +402,7 @@ Only diagonalizing from the second part of $T$ onwards gives us the \emph{Anders
          &
          &
         \text{(block)}.
+        \label{eq:correlator-anderson-block}
     \end{align}
 \end{subequations}
 A detailed explanation on how to switch between these representations is given in \cite{Lu2014}.
@@ -457,11 +462,44 @@ In this work we will use one of the following three schemes:
 
 \section{Self-energy}
 
-Dyson equation
+As mentioned in the previous section,
+the Green's function $G_\omega$ describes the propagation of an electron/hole in our system.
+If our system is non-interacting ($U=0$ in \zcref{eq:anderson-interaction}),
+we call it the non-interacting Green's function $G_{0, \omega}$.
+The quantity that connects these two objects is the self-energy defined by the Dyson equation
 \begin{equation}
-    \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}
+    \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}.
 \end{equation}
-four correlators
+
+In \cite{Lu2014}, it was shown how to calculate the difference using the Anderson representation.
+The resulting self-energy is given by the constant Hartree term $\Sigma^\mH$ and a sum of poles
+\begin{equation}
+    \Sigma_\omega = \Sigma^\mH + \sum_j \frac{w_j}{\omega + \mi0^+ - \epsilon_j}.
+    \label{eq:self-energy-sum-of-poles}
+\end{equation}
+For the self-energy to be physical, all weights must be positive.
+The issue in \cite{Lu2014} was that
+on a system with finite bath sites and floating-point arithmetic this was violated
+and poles with negative weight had to be merged into neighbors
+such that only positive weight remained.
+
+Therefore, we calculate the self-energy using the symmetric improved estimator \cite{Kugler2022}
+which will be summarized in the following.
+We introduce the auxiliary operator
+\begin{equation}
+    q_\sigma = [d_\sigma, H_\mathrm{int}]
+\end{equation}
+for the Anderson impurity model (\zcref{sec:anderson-impurity-model}).
+This allows us to calculate the Hartree term
+\begin{equation}
+    \Sigma^\mH = \langle \{q^\dag_\sigma, d^{\pdag}_\sigma\} \rangle.
+\end{equation}
+We then employ a quadratic shift \cite{Kugler2022}
+\begin{equation}
+    \tilde q_\sigma = q_\sigma - \Sigma^\mH d_\sigma
+    \label{eq:quadratic-shift}
+\end{equation}
+and obtain four correlation functions
 \begin{subequations}
     \begin{alignat}{2}
         G_\omega
@@ -471,37 +509,36 @@ four correlators
         \qquad
         I_\omega
          & =
-        \lAngle q^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_\omega \\
+        \lAngle \tilde q^{\pdag}_\sigma, \tilde q_{\sigma}^\dag\rAngle_\omega \\
         F^\mL_\omega
          & =
-        \lAngle q^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_\omega,
+        \lAngle \tilde q^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_\omega,
          &
         \qquad
         F^\mR_\omega
          & =
-        \lAngle d^{\pdag}_\sigma, q_{\sigma}^\dag\rAngle_\omega
+        \lAngle d^{\pdag}_\sigma, \tilde q_{\sigma}^\dag\rAngle_\omega.
     \end{alignat}
 \end{subequations}
-calculate self-energy as
+The self-energy is computed as
 \begin{equation}
     \Sigma^\mIFG_\omega
     =
-    \Sigma^\mH + I_\omega - F^\mL_\omega (G_\omega)^{-1} F^\mR_\omega
+    \Sigma^\mH + I_\omega - F^\mL_\omega (G_\omega)^{-1} F^\mR_\omega.
 \end{equation}
-calculate block correlator as
-
+Concretely, we first calculate the components of our block correlator as
 \begin{subequations}
     \begin{align}
         C^+_\omega
          & =
         \biggl\langle \psi_0 \biggr|
         \begin{pmatrix}
-            q^{\pdag}_\sigma \\
+            \tilde q^{\pdag}_\sigma \\
             d^{\pdag}_\sigma
         \end{pmatrix}
-        \frac{1}{\omega - H + E_0}
+        \frac{1}{\omega + \mi0^+ - H + E_0}
         \begin{pmatrix}
-            q^\dag_\sigma & d^\dag_\sigma
+            \tilde q^\dag_\sigma & d^\dag_\sigma
         \end{pmatrix}
         \biggl| \psi_0 \biggr\rangle
         =
@@ -513,12 +550,12 @@ calculate block correlator as
          & =
         \biggl\langle \psi_0 \biggr|
         \begin{pmatrix}
-            q^\dag_\sigma \\
+            \tilde q^\dag_\sigma \\
             d^\dag_\sigma
         \end{pmatrix}
-        \frac{1}{\omega + H - E_0}
+        \frac{1}{\omega + \mi0^+ + H - E_0}
         \begin{pmatrix}
-            q^{\pdag}_\sigma & d^{\pdag}_\sigma
+            \tilde q^{\pdag}_\sigma & d^{\pdag}_\sigma
         \end{pmatrix}
         \biggl| \psi_0 \biggr\rangle
         =
@@ -527,17 +564,71 @@ calculate block correlator as
             F^{\mL-}_\omega & G^-_\omega
         \end{pmatrix}
     \end{align}
-
-    starting wave function singlet
-    \begin{equation}
-        |\psi_s\rangle
-        =
-        \frac{1}{\sqrt{2}}
-        (d^\dag_\uparrow c^\dag_{b\downarrow} - d^\dag_\downarrow c^\dag_{b\uparrow})
-        \prod_{k\sigma} v^\dag_{k\sigma}
-        |0\rangle
-    \end{equation}
 \end{subequations}
+and combine them
+\begin{equation}
+    C_\omega
+    =
+    C^+_\omega + (C^-_\omega)^\top
+    =
+    \begin{pmatrix}
+        I_\omega       & F^{\mL}_\omega \\
+        F^{\mR}_\omega & G_\omega
+    \end{pmatrix}.
+\end{equation}
+Due to hermiticity of $C_\omega$, the spectra of $F^{\mL}_\omega$ and $F^{\mR}_\omega$ are
+guaranteed to be complex conjugates.
+
+We then use two methods to calculate the self-energy:
+\begin{enumerate}[(i)]
+    \item Broaden each correlator on a grid of frequencies
+          and calculate the broadened self-energy $\Sigma_z$.
+          This is the same method used in \cite{Kugler2022}.
+
+    \item Calculate the self-energy on the real axis using the Schur complement \cite{Schur1917}
+          \todo{credit Aleksandrs} %TODO: credit Aleksandrs
+          \begin{equation}
+              \Sigma_\omega = \Sigma^\mH + \left([(C_\omega)^{-1}]_{11}\right)^{-1}.
+          \end{equation}
+          To invert our block correlation function, we first bring it to
+          the Anderson representation (\zcref{eq:correlator-anderson-block}):
+          \begin{equation}
+              C_\omega = B_0\frac{1}{\omega + \mi0^+ - A_1 - D_\omega}B_0,
+          \end{equation}
+          with $D_\omega$ a block sum of poles.
+          The scaling matrix $B_0$ contains the square root of the zeroth moments,
+          e.g.\ $b_{11} = U/2$ at half-filling.
+          Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal
+          \begin{equation}
+              B_0
+              =
+              \begin{pmatrix}
+                  b_{11} & 0 \\
+                  0      & 1
+              \end{pmatrix}.
+          \end{equation}
+          The Schur complement is then
+          \begin{equation}
+              \left([(C_\omega)^{-1}]_{11}\right)^{-1}
+              =
+              \frac{b_{11}^2}{\omega + \mi0^+ - (A_1)_{11} - (D_\omega)_{11}}.
+          \end{equation}
+          Diagonalizing this expression gives us the form in \zcref{eq:self-energy-sum-of-poles}.
+          Using this method, all resulting pole weights are positive by construction
+          and no merging of negative weight into neighbors is necessary.
+\end{enumerate}
+
+\section{Ground state}
+
+starting wave function singlet
+\begin{equation}
+    |\psi_s\rangle
+    =
+    \frac{1}{\sqrt{2}}
+    (d^\dag_\uparrow c^\dag_{b\downarrow} - d^\dag_\downarrow c^\dag_{b\uparrow})
+    \prod_{k\sigma} v^\dag_{k\sigma}
+    |0\rangle
+\end{equation}
 
 \section{DMFT}
 
