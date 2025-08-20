@@ -469,21 +469,23 @@ we call it the non-interacting Green's function $G_{0, \omega}$.
 The quantity that connects these two objects is the self-energy defined by the Dyson equation
 \begin{equation}
     \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}.
+    \label{eq:dyson}
 \end{equation}
 
-In \cite{Lu2014}, it was shown how to calculate the difference using the Anderson representation.
-The resulting self-energy is given by the constant Hartree term $\Sigma^\mH$ and a sum of poles
+In \cite{Lu2014},
+this equation was used to represent the self-energy by the constant Hartree term $\Sigma^\mH$
+and a sum of poles
 \begin{equation}
     \Sigma_\omega = \Sigma^\mH + \sum_j \frac{w_j}{\omega + \mi0^+ - \epsilon_j}.
     \label{eq:self-energy-sum-of-poles}
 \end{equation}
 For the self-energy to be physical, all weights must be positive.
-The issue in \cite{Lu2014} was that
-on a system with finite bath sites and floating-point arithmetic this was violated
-and poles with negative weight had to be merged into neighbors
+On a system with finite bath sites and floating-point arithmetic however,
+this was violated and poles with negative weight had to be merged into neighbors
 such that only positive weight remained.
 
-Therefore, we calculate the self-energy using the symmetric improved estimator \cite{Kugler2022}
+Therefore, we calculate the self-energy using the symmetric improved estimator
+$\Sigma^\mIFG_\omega$ \cite{Kugler2022}
 which will be summarized in the following.
 We introduce the auxiliary operator
 \begin{equation}
@@ -576,14 +578,15 @@ and combine them
         F^{\mR}_\omega & G_\omega
     \end{pmatrix}.
 \end{equation}
-Due to hermiticity of $C_\omega$, the spectra of $F^{\mL}_\omega$ and $F^{\mR}_\omega$ are
-guaranteed to be complex conjugates.
+In \cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
+might be violated numerically.
+We do not have this problem as hermiticity is enforced on $C_\omega$.
 
 We then use two methods to calculate the self-energy:
 \begin{enumerate}[(i)]
     \item Broaden each correlator on a grid of frequencies
           and calculate the broadened self-energy $\Sigma_z$.
-          This is the same method used in \cite{Kugler2022}.
+          This is the same method as \cite{Kugler2022}.
 
     \item Calculate the self-energy on the real axis using the Schur complement \cite{Schur1917}
           \todo{credit Aleksandrs} %TODO: credit Aleksandrs
@@ -593,14 +596,14 @@ We then use two methods to calculate the self-energy:
           To invert our block correlation function, we first bring it to
           the Anderson representation (\zcref{eq:correlator-anderson-block}):
           \begin{equation}
-              C_\omega = B_0\frac{1}{\omega + \mi0^+ - A_1 - D_\omega}B_0,
+              C_\omega = B\frac{1}{\omega + \mi0^+ - A - D_\omega}B,
           \end{equation}
           with $D_\omega$ a block sum of poles.
-          The scaling matrix $B_0$ contains the square root of the zeroth moments,
-          e.g.\ $b_{11} = U/2$ at half-filling.
+          The scaling matrix $B$ contains the square root of the zeroth moments,
+          e.g.\ its first element $b_{11} = U/2$ at half-filling.
           Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal
           \begin{equation}
-              B_0
+              B
               =
               \begin{pmatrix}
                   b_{11} & 0 \\
@@ -611,10 +614,12 @@ We then use two methods to calculate the self-energy:
           \begin{equation}
               \left([(C_\omega)^{-1}]_{11}\right)^{-1}
               =
-              \frac{b_{11}^2}{\omega + \mi0^+ - (A_1)_{11} - (D_\omega)_{11}}.
+              \frac{b_{11}^2}{\omega + \mi0^+ - (A)_{11} - (D_\omega)_{11}}.
           \end{equation}
-          Diagonalizing this expression gives us the form in \zcref{eq:self-energy-sum-of-poles}.
-          Using this method, all resulting pole weights are positive by construction
+          Diagonalizing this expression gives us the self-energy in the same form as
+          \zcref{eq:self-energy-sum-of-poles}.
+          In contrast to \zcref{eq:dyson},
+          all resulting pole weights are positive by construction
           and no merging of negative weight into neighbors is necessary.
 \end{enumerate}
 
