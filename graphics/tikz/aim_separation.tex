@@ -1,0 +1,71 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}[
+        inner sep=1mm,
+        node distance=4mm,
+    ]
+    % sites
+    \node [impurity={0.5}] (impurity) {};
+    \node [bath={0.5}] (mirror) [right=of impurity] {};
+    \foreach \i [remember=\i as \lasti] in {1,...,6}
+        {
+            \ifnum\i=1
+                \node [bath={0.85}] (v\i) [below=of mirror] {};
+                \node [bath={0.15}] (c\i) [above=of mirror] {};
+            \else
+                \ifnum\i=2
+                    \node [bath={0.9}] (v\i) [right=of v\lasti] {};
+                    \node [bath={0.1}] (c\i) [right=of c\lasti] {};
+                \else
+                    \ifnum\i=4
+                        \node [bath={1.0}] (v\i) [right=8mm of v\lasti] {};
+                        \node [bath={0.0}] (c\i) [right=8mm of c\lasti] {};
+                    \else
+                        \node [bath={1.0}] (v\i) [right=of v\lasti] {};
+                        \node [bath={0.0}] (c\i) [right=of c\lasti] {};
+                    \fi
+                \fi
+            \fi
+        }
+
+    % labels (separate node for box fit below)
+    \node (impuritylabel)[left=0mm of impurity] {$i$};
+    \node (mirrorlabel)[right=0mm of mirror] {$m$};
+    \node (v1label)[below=0mm of v1] {$v_1$};
+    \node (v3label)[below=0mm of v3] {$v_{L\vphantom{+1}}$}; % phantom for bounding box size
+    \node (v4label)[below=0mm of v4] {$v_{L+1}$};
+    \node (c1label)[above=0mm of c1] {$c_1$};
+    \node (c3label)[above=0mm of c3] {$c_{L\vphantom{+1}}$}; % phantom for bounding box size
+    \node (c4label)[above=0mm of c4] {$c_{L+1}$};
+
+
+    % connect sites
+    \draw (impurity.east) to (mirror.west);
+    \draw (impurity.south) to [out=270,in=180] (v1.west);
+    \draw (impurity.north) to [out=90,in=180] (c1.west);
+    \draw (mirror.south) to (v1.north);
+    \draw (mirror.north) to (c1.south);
+    \foreach \i [remember=\i as \lasti (initially 1)] in {2,...,6}
+        {
+            \draw (v\lasti.east) -- (v\i.west);
+            \draw (c\lasti.east) -- (c\i.west);
+        }
+
+    % bounding box
+    \node [
+        draw,
+        rectangle,
+        rounded corners,
+        line width=0.2pt,
+        fit=(impuritylabel) (v3label) (c3label),
+        label=left:$|\phi_I\rangle$,
+    ] {};
+    \node [
+        draw,
+        rectangle,
+        rounded corners,
+        line width=0.2pt,
+        fit=(v4label) (v6) (c4label) (c6),
+        label=right:$|\phi_{II}\rangle$,
+    ] {};
+\end{tikzpicture}

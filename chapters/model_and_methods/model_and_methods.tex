@@ -153,6 +153,55 @@ we call sites in the almost fully filled chain valence bath sites (labeled $v$),
 and sites in the almost empty chain as conduction bath sites (labeled $c$).
 Hopping between sites is again shown by lines.
 
+\section{Configuration interaction}
+
+\question{Difference configuration interaction vs.\ restricted active space?}
+
+Using the natural impurity orbitals (\zcref{sec:natural-impurity-orbitals}) allows us to
+write the ground state in a basis which has optimal scaling behavior with respect to
+the number of bath sites \cite{Lu2019}.
+However, the computational complexity still grows combinatorial with each added bath site.
+To alleviate the scaling problem we employ the same method as \citeauthor{Lu2019} \cite{Lu2019}
+which is sketched in \zcref{fig:aim-separation}.
+
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/aim_separation.tex}
+    \caption{
+        Separation of the wave function into two components
+        $|\phi_I\rangle$ and $|\phi_{II}\rangle$.
+    }
+    \label{fig:aim-separation}
+\end{figure}
+
+The full Hilbert space is projected onto a subspace that only contains
+empty conduction sites $|\mathbb{0}_c\rangle$
+and full valence sites $|\mathbb{1}_v\rangle$ for $l>L$.
+The ground state can be written as
+\begin{equation}
+    |\psi_0\rangle
+    =
+    |\phi_I\rangle \otimes |\mathbb{0}_c\rangle \otimes |\mathbb{1}_v\rangle
+    =
+    |\phi_I\rangle \otimes |\phi_{II}\rangle,
+\end{equation}
+where $|\phi_I\rangle$ is the exact ground state calculated by ED for some $L\ll N/2$
+($N/2$ chain length at half-filling)
+and $|\phi_{II}\rangle = |\mathbb{0}_c\rangle \otimes |\mathbb{1}_v\rangle$ is a reference state.
+
+In the next step we loosen the restriction of empty conduction and full valence bath sites.
+The $p=1$ projection allows one state to differ from the reference state:
+Either one electron of $|\phi_I\rangle$ enters the empty conduction sites
+or one electron from the full valence sites enters $|\phi_I\rangle$.
+In the $p=2$ projection two states are allowed to differ.
+This allows the following possibilities for $|\phi_{II}\rangle$:
+\begin{itemize}
+    \item two electrons in the conduction bath sites $c_l$ ($l\ge L$)
+    \item two holes in the valence bath sites $v_l$ ($l\ge L$)
+    \item one electron in the conduction bath sites $c_l$
+          and one hole in the valence bath sites $v_l$ ($l\ge L$)
+\end{itemize}
+
 \section{Lanczos algorithm}
 
 The Lanczos algorithm \cite{Lanczos1950} can be used to approximate the extremal eigenvalues
@@ -643,5 +692,3 @@ Hybridization function
 \end{align}
 
 \section{Bethe lattice}
-
-\section{Configuration interaction}
