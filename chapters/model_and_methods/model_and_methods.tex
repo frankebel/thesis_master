@@ -323,7 +323,8 @@ The resulting vectors are then
 We use this method as it guarantees hermiticity in the off-diagonal blocks $B_j^\dag = B_j$
 albeit losing the compactly banded structure for $T$.
 If $\tilde Q_j$ is rank-deficient,
-this method can still be applied \cite{Brass2021} by ignoring the block of vanishing singular values
+this method can still be applied \cite{Brass2021} by only inverting the block of
+non-vanishing singular values
 \begin{equation}
     \Sigma =
     \begin{pmatrix}
@@ -535,17 +536,17 @@ such that only positive weight remained.
 
 Therefore, we calculate the self-energy using the symmetric improved estimator
 $\Sigma^\mIFG_\omega$ \cite{Kugler2022}
-which will be summarized in the following.
+which will be summarized in the following:
 We introduce the auxiliary operator
 \begin{equation}
     q_\sigma = [d_\sigma, H_\mathrm{int}]
 \end{equation}
-for the Anderson impurity model (\zcref{sec:anderson-impurity-model}).
-This allows us to calculate the Hartree term
+for the Anderson impurity model (\zcref{sec:anderson-impurity-model}),
+allowing us to calculate the Hartree term directly
 \begin{equation}
     \Sigma^\mH = \langle \{q^\dag_\sigma, d^{\pdag}_\sigma\} \rangle.
 \end{equation}
-We then employ a quadratic shift \cite{Kugler2022}
+We then employ a quadratic shift
 \begin{equation}
     \tilde q_\sigma = q_\sigma - \Sigma^\mH d_\sigma
     \label{eq:quadratic-shift}
@@ -616,7 +617,7 @@ Concretely, we first calculate the components of our block correlator as
         \end{pmatrix}
     \end{align}
 \end{subequations}
-and combine them
+and add them
 \begin{equation}
     C_\omega
     =
