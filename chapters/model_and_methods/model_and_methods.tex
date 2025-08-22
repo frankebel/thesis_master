@@ -211,10 +211,10 @@ given Hamiltonian $H$.
 The method is especially useful if $H$ is sparse and too large to decompose fully.
 It is based on a Krylov basis
 \begin{equation}
-    \mathcal{K}_m(H, \vec{q}) = \spn\{\vec{q}, H\vec{q}, H^2\vec{q}, \ldots, H^{m-1}\vec{q}\}
+    \mathcal{K}^M(H, \vec{q}) = \spn\{\vec{q}, H\vec{q}, H^2\vec{q}, \ldots, H^{M-1}\vec{q}\}
 \end{equation}
 for a given vector $\vec{q}$.
-Typically, the value $m$ is very small compared to the matrix size: $m \ll n$.
+Typically, the value $M$ is very small compared to the matrix size: $M \ll n$.
 Instead of a simple power iteration, the Lanczos algorithm is described by the
 following recurrence relation
 \begin{equation}
@@ -243,26 +243,26 @@ From this relation we can create the tridiagonal matrix
         a_1 & b_1 &        &         &         \\
         b_1 & a_2 & b_2    &         &         \\
             & b_2 & a_3    & \ddots  &         \\
-            &     & \ddots & \ddots  & b_{m-1} \\
-            &     &        & b_{m-1} & a_m
+            &     & \ddots & \ddots  & b_{M-1} \\
+            &     &        & b_{M-1} & a_M
     \end{pmatrix}
     \label{eq:tridiagonal-scalar}
 \end{equation}
 and matrix collecting all Lanczos vectors
 \begin{equation}
-    Q = (\vec{q}_1, \vec{q}_2, \ldots, \vec{q}_m).
+    Q = (\vec{q}_1, \vec{q}_2, \ldots, \vec{q}_M).
 \end{equation}
 Then, \zcref{eq:Lanczos-recurrence} in matrix form can be rewritten as
 \begin{equation}
-    H Q = Q T + b_{m}\vec{q}_{m+1}\vec{e}_{m}^\top,
+    H Q = Q T + b_{M}\vec{q}_{M+1}\vec{e}_{M}^\top,
 \end{equation}
-where $\vec{e}_m$ is the Euclidean basis vector with $m$-th component 1 and all other 0.
+where $\vec{e}_M$ is the Euclidean basis vector with $M$-th component 1 and all other 0.
 Rearranging gives
 \begin{equation}
     T = Q^\dag H Q,
 \end{equation}
 which means that $T$ is the orthogonal projection of $H$ onto
-the subspace $\mathcal{K}_m(H, \vec{q}_1)$ \cite{Cullum1985}.
+the subspace $\mathcal{K}^M(H, \vec{q}_1)$ \cite{Cullum1985}.
 
 \subsection{Block Lanczos}
 
@@ -281,7 +281,7 @@ Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \end{equation}
 with $A_j$, $B_j$ matrices of size $p\times p$ chosen such that each block $Q_j$ is orthonormal
 to each other.
-The block tridiagonal matrix of size $mp\times mp$ is written as
+The block tridiagonal matrix of size $Mp\times Mp$ is written as
 \begin{equation}
     T
     =
@@ -289,8 +289,8 @@ The block tridiagonal matrix of size $mp\times mp$ is written as
         A_1 & B_1^\dag &          &         &              \\
         B_1 & A_2      & B_2^\dag &         &              \\
             & B_2      & A_3      & \ddots  &              \\
-            &          & \ddots   & \ddots  & B_{m-1}^\dag \\
-            &          &          & B_{m-1} & A_m
+            &          & \ddots   & \ddots  & B_{M-1}^\dag \\
+            &          &          & B_{M-1} & A_M
     \end{pmatrix}.
     \label{eq:tridiagonal-block}
 \end{equation}
@@ -421,12 +421,12 @@ Diagonalizing $T$ gives us a sum of poles instead:
     \begin{align}
         C_\omega
          & =
-        \sum_{i=1}^m \frac{w_i}{\omega + \mi0^+ - \epsilon_i}
+        \sum_{i=1}^M \frac{w_i}{\omega + \mi0^+ - \epsilon_i}
         \qquad
          &   & \text{(scalar)}, \\
         C_\omega
          & =
-        \sum_{i=1}^m \frac{W_i}{\omega + \mi0^+ - \epsilon_i}
+        \sum_{i=1}^M \frac{W_i}{\omega + \mi0^+ - \epsilon_i}
         \qquad
          &   & \text{(block)}.
     \end{align}
@@ -440,13 +440,13 @@ Only diagonalizing from the second part of $T$ onwards gives us the \emph{Anders
     \begin{align}
         C_\omega
          & =
-        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^m \frac{w_j}{\omega + \mi0^+ - \epsilon_j}}
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^M \frac{w_j}{\omega + \mi0^+ - \epsilon_j}}
         \qquad
          &
          &
         \text{(scalar)},                                                                                   \\
         C_\omega
-         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^m \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0
+         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0
         \qquad
          &
          &
