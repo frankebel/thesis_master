@@ -48,7 +48,11 @@ Thus, in DMFT (details in TODO) we instead solve a simpler model which has only 
 \label{sec:anderson-impurity-model}
 
 The Hamiltonian of the Anderson impurity model \cite{Anderson1961} can be split into
-an interacting and non-interacting part $H = H_0 + H_\mathrm{int}$.
+an interacting and non-interacting part
+\begin{equation}
+    H = H_0 + H_\mathrm{int}.
+    \label{eq:impurity-Hamiltonian}
+\end{equation}
 Denoting the impurity (labeled $i$) annihilators by $d_\sigma$
 and bath (labeled $b$) annihilators by $b_{j\sigma}$
 it can be written as
@@ -154,6 +158,7 @@ and sites in the almost empty chain as conduction bath sites (labeled $c$).
 Hopping between sites is again shown by lines.
 
 \section{Configuration interaction}
+\label{sec:configuration-interaction}
 
 \question{Difference configuration interaction vs.\ restricted active space?}
 
@@ -203,6 +208,7 @@ This allows the following possibilities for $|\phi_{II}\rangle$:
 \end{itemize}
 
 \section{Lanczos algorithm}
+\label{sec:lanczos-algorithm}
 
 The Lanczos algorithm \cite{Lanczos1950} can be used to approximate the extremal eigenvalues
 of a hermitian $n\times n$ matrix.
@@ -342,6 +348,7 @@ still guaranteeing orthonormality against previous states $Q_i^\dag Q_j = \mathb
 for $i \in \{1,\ldots,j-1\}$ \cite{Golub2013}.
 
 \section{Correlators}
+\label{sec:correlators}
 
 The retarded correlator for two fermionic operators $A, B$ is defined as
 \begin{align}
@@ -511,6 +518,7 @@ In this work we will use one of the following three schemes:
 \end{enumerate}
 
 \section{Self-energy}
+\label{sec:self-energy}
 
 As mentioned in the previous section,
 the Green's function $G_\omega$ describes the propagation of an electron/hole in our system.
@@ -651,39 +659,63 @@ We then use two methods to calculate the self-energy:
           with $D_\omega$ a block sum of poles.
           The scaling matrix $B$ contains the square root of the zeroth moments,
           e.g.\ its first element $b_{11} = U/2$ at half-filling.
-          Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal
-          \begin{equation}
-              B
-              =
-              \begin{pmatrix}
-                  b_{11} & 0 \\
-                  0      & 1
-              \end{pmatrix}.
-          \end{equation}
+          Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal.
           The Schur complement is then
           \begin{equation}
               \left([(C_\omega)^{-1}]_{11}\right)^{-1}
               =
-              \frac{b_{11}^2}{\omega + \mi0^+ - (A)_{11} - (D_\omega)_{11}}.
+              (B)_{11} \frac{1}{\omega + \mi0^+ - (A)_{11} - (D_\omega)_{11}} (B)_{11}.
           \end{equation}
           Diagonalizing this expression gives us the self-energy in the same form as
           \zcref{eq:self-energy-sum-of-poles}.
-          In contrast to \zcref{eq:dyson},
-          all resulting pole weights are positive by construction
+          Contrasting against \zcref{eq:dyson},
+          all pole weights are positive by construction
           and no merging of negative weight into neighbors is necessary.
 \end{enumerate}
 
 \section{Ground state}
 
-starting wave function singlet
+In order to calculate correlators and expectation values listed in
+\zcref{sec:correlators, sec:self-energy} at $T=0$,
+one first needs to obtain the ground state of a given impurity Hamiltonian $H$
+(\zcref{eq:impurity-Hamiltonian}).
+As an initial guess we take the state with all valence bath sites $v_k$ filled in combination with
+a singlet state in the impurity $i$ and mirror site $m$
+(the filling of each site is sketched in \zcref{subfig:geometry-natural-impurity-orbitals}):
 \begin{equation}
-    |\psi_s\rangle
+    |\psi_0^{(1)}\rangle
     =
     \frac{1}{\sqrt{2}}
-    (d^\dag_\uparrow c^\dag_{b\downarrow} - d^\dag_\downarrow c^\dag_{b\uparrow})
+    (d^\dag_\uparrow m^\dag_\downarrow - d^\dag_\downarrow m^\dag_\uparrow)
     \prod_{k\sigma} v^\dag_{k\sigma}
-    |0\rangle
+    |0\rangle.
 \end{equation}
+Given this state, we can calculate an approximate ground state energy
+\begin{equation}
+    E_0^{(1)} = \langle \psi_0^{(1)} | H | \psi_0^{(1)} \rangle
+\end{equation}
+and variance
+\begin{equation}
+    \mathrm{var}^{(1)} = \langle \psi_0^{(1)} | (H - E_0^{(1)})^2 | \psi_0^{(1)} \rangle.
+\end{equation}
+As this approximation is not sufficient for calculations,
+we employ the Lanczos method (\zcref{sec:lanczos-algorithm}) with restarting
+as described in \cite{Lu2014}:
+Given an approximate ground state $|\psi_0^{(i)}\rangle$,
+we calculate a new Krylov basis $\mathcal{K}^5(H, |\psi_0^{(i)}\rangle)$ in which
+the Hamiltonian is diagonalized.
+From this, we calculate the new state $|\psi_0^{(i+1)}\rangle$
+with a new ground state energy $E_0^{(i+1)}$
+and variance $\mathrm{var}^{(i+1)}$.
+This loop is repeated until the variance falls below a given tolerance
+as it must vanish for a true eigenstate of $H$.
+
+One should note that even if the variance is exactly zero for a state $|\tilde\psi_0\rangle$
+in the CI approximation (\zcref{sec:configuration-interaction}),
+this state is not a true eigenstate of the unrestricted Hamiltonian.
+Applying $H$ on $|\tilde\psi_0\rangle$ without any restriction
+will generate new states \cite{Lu2014}.
+It is just that these state have (hopefully) such small weight allowing us to ignore them.
 
 \section{DMFT}
 
