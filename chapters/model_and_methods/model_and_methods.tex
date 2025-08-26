@@ -13,7 +13,7 @@ as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonia
     -t\sum_{\langle i j\rangle\sigma}
     (d^\dag_{i\sigma} d^{\pdag}_{j\sigma} + d^\dag_{j\sigma} d^{\pdag}_{i\sigma})
     +
-    U\sum_{i\sigma} n_{i\uparrow} n_{i\downarrow}
+    U\sum_i n_{i\uparrow} n_{i\downarrow}
     +
     (\epsilon - \mu)\sum_{i\sigma} n_{i\sigma},
 \end{equation}
@@ -54,7 +54,7 @@ an interacting and non-interacting part
     \label{eq:impurity-Hamiltonian}
 \end{equation}
 Denoting the impurity (labeled $i$) annihilators by $d_\sigma$
-and bath (labeled $b$) annihilators by $b_{j\sigma}$
+and bath (labeled $b$) annihilators by $b_{k\sigma}$
 it can be written as
 \begin{align}
     H_0
@@ -118,7 +118,7 @@ and electrons from each bath site can hop in and out of the impurity.
 To solve the Anderson impurity model,
 we can use Slater determinants to decompose the wave function
 \begin{equation}
-    | \psi \rangle = \sum_{i=1}^M \alpha_i | \phi_i \rangle
+    \ket{\psi} = \sum_{i=1}^M \alpha_i \ket{\phi_i}
 \end{equation}
 using any orthonormal set of basis functions.
 With the occupation number,
@@ -174,32 +174,32 @@ which is sketched in \zcref{fig:aim-separation}.
     \input{graphics/tikz/aim_separation.tex}
     \caption{
         Separation of the wave function into two components
-        $|\phi_I\rangle$ and $|\phi_{II}\rangle$ denoted by two boxes.
+        $\ket{\phi_I}$ and $\ket{\phi_{II}}$ denoted by two boxes.
     }
     \label{fig:aim-separation}
 \end{figure}
 
 The full Hilbert space is projected onto a subspace that only contains
-empty conduction sites $|\mathbb{0}_c\rangle$
-and full valence sites $|\mathbb{1}_v\rangle$ for $l>L$.
+empty conduction sites $\ket{\mathbb{0}_c}$
+and full valence sites $\ket{\mathbb{1}_v}$ for $l>L$.
 The ground state can be written as
 \begin{equation}
-    |\psi_0\rangle
+    \ket{\psi_0}
     =
-    |\phi_I\rangle \otimes |\mathbb{0}_c\rangle \otimes |\mathbb{1}_v\rangle
+    \ket{\phi_I} \otimes \ket{\mathbb{0}_c} \otimes \ket{\mathbb{1}_v}
     =
-    |\phi_I\rangle \otimes |\phi_{II}\rangle,
+    \ket{\phi_I} \otimes \ket{\phi_{II}},
 \end{equation}
-where $|\phi_I\rangle$ is the exact ground state calculated by ED for some $L\ll N/2$
+where $\ket{\phi_I}$ is the exact ground state calculated by ED for some $L\ll N/2$
 ($N/2$ chain length at half-filling)
-and $|\phi_{II}\rangle = |\mathbb{0}_c\rangle \otimes |\mathbb{1}_v\rangle$ is a reference state.
+and $\ket{\phi_{II}} = \ket{\mathbb{0}_c} \otimes \ket{\mathbb{1}_v}$ is a reference state.
 
 In the next step we loosen the restriction of empty conduction and full valence bath sites.
 The $p=1$ projection allows one state to differ from the reference state:
-Either one electron of $|\phi_I\rangle$ enters the empty conduction sites
-or one electron from the full valence sites enters $|\phi_I\rangle$.
+Either one electron of $\ket{\phi_I}$ enters the empty conduction sites
+or one electron from the full valence sites enters $\ket{\phi_I}$.
 In the $p=2$ projection two states are allowed to differ.
-This allows the following possibilities for $|\phi_{II}\rangle$:
+This allows the following possibilities for $\ket{\phi_{II}}$:
 \begin{itemize}
     \item two electrons in the conduction bath sites $c_l$ ($l\ge L$)
     \item two holes in the valence bath sites $v_l$ ($l\ge L$)
@@ -239,7 +239,7 @@ we instead calculate the coefficients as
 \begin{equation}
     a_j = \vec{v}_j^\dag(H \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
     \qquad
-    b_j = \Vert H\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1} \Vert.
+    b_j = \norm{H\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1}}.
 \end{equation}
 From this relation we can create the tridiagonal matrix
 \begin{equation}
@@ -352,12 +352,12 @@ for $i \in \{1,\ldots,j-1\}$ \cite{Golub2013}.
 
 The retarded correlator for two fermionic operators $A, B$ is defined as
 \begin{align}
-    C(t) = -\mi \Theta(t) \langle\{A(t), B\}\rangle,
+    C(t) = -\mi \Theta(t) \expval{\acomm{A(t)}{B}},
 \end{align}
-with the step function $\Theta$ and anticommutator $\{\cdot,\cdot\}$.
+with the step function $\Theta$ and anticommutator $\acomm{\cdot}{\cdot}$.
 $A(t) = \me^{\mi H t} A \me^{-\mi H t}$ is given in the Heisenberg picture.
 At zero temperature $T=0$, the expectation value is evaluated on the ground state
-$\langle\cdot\rangle = \langle\psi_0 | \cdot | \psi_0\rangle$ only.
+$\expval{\,\cdot\,} = \sandwich{\psi_0}{\,\cdot\,}{\psi_0}$ only.
 Following the notation of \cite{Bulla1998,Kugler2022},
 we will denote the Fourier transform $\mathcal{F}$ as
 \begin{equation}
@@ -368,7 +368,7 @@ we will denote the Fourier transform $\mathcal{F}$ as
     \lim_{\delta\to0^+}
     \int_{-\infty}^\infty\! \md t\> \me^{\mi (\omega + \mi\delta) t} C(t)
     \eqcolon
-    \lAngle A, B\rAngle_\omega.
+    \dangle{A}{B}{\omega}.
 \end{equation}
 Furthermore,
 we split this expression into two components $C_\omega = C^+_\omega + C^-_\omega$ with
@@ -376,17 +376,17 @@ we split this expression into two components $C_\omega = C^+_\omega + C^-_\omega
     \begin{align}
         C^+_\omega
          & =
-        \left\langle A \frac{1}{\omega - H + E_0} B\right\rangle
+        \expval*{A \frac{1}{\omega + \mi0^+ - H + E_0} B}
         =
-        \sum_n \frac{\langle\psi_0 | A | n\rangle\langle n | B | \psi_0\rangle}{\omega - E_n + E_0}, \\
+        \sum_n \frac{\sandwich{\psi_0}{A}{n}\sandwich{n}{B}{\psi_0}}{\omega + \mi0^+ - E_n + E_0}, \\
         C^-_\omega
          & =
-        \left\langle B \frac{1}{\omega + H - E_0} A\right\rangle
+        \expval*{B \frac{1}{\omega + \mi0^+ + H - E_0} A}
         =
-        \sum_n \frac{\langle\psi_0 | B | n\rangle\langle n | A | \psi_0\rangle}{\omega + E_n - E_0}.
+        \sum_n \frac{\sandwich{\psi_0}{B}{n}\sandwich{n}{A}{\psi_0}}{\omega + \mi0^+ + E_n - E_0}.
     \end{align}
 \end{subequations}
-The sum is over a complete basis $H|n\rangle = E_n|n\rangle$ with ground state energy $E_0$.
+The sum is over a complete basis $H\ket{n} = E_n\ket{n}$ with ground state energy $E_0$.
 A derivation is given in \zcref{app:fourier-transform}.
 The problem however is the exponential algorithmic complexity:
 For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
@@ -430,6 +430,7 @@ Diagonalizing $T$ gives us a sum of poles instead:
         C_\omega
          & =
         \sum_{i=1}^M \frac{w_i}{\omega + \mi0^+ - \epsilon_i}
+        \label{eq:correlator-sum}
         \qquad
          &   & \text{(scalar)}, \\
         C_\omega
@@ -468,8 +469,12 @@ A detailed explanation on how to switch between these representations is given i
 
 Given a correlator $C_\omega$ the corresponding spectral part is defined as
 \begin{equation}
-    A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega = \sum_{i=1}^m w_i \delta(\omega - \epsilon_i).
-    \label{eq:spectral-part}
+    A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega,
+\end{equation}
+which is easy to calculate if it is given as a sum of poles \zcref{eq:correlator-sum}:
+\begin{equation}
+    A_\omega = \sum_{i=1}^m w_i \delta(\omega - \epsilon_i).
+    \label{eq:spectral-sum}
 \end{equation}
 The real and imaginary part of a correlator are not independent
 but related by Kramers-Kronig transformations (Hilbert transform)
@@ -488,11 +493,11 @@ but related by Kramers-Kronig transformations (Hilbert transform)
     \end{align}
 \end{subequations}
 
-Thus, we can broaden our delta-peaks from \zcref{eq:spectral-part}
+Thus, we can broaden our delta-peaks from \zcref{eq:spectral-sum}
 for the imaginary part and obtain the real part through \zcref{eq:kramers-kroneg-real}.
 We will denote the broadened correlator as $C_z$
 to contrast it to $C_\omega$, which has no broadening.
-In this work we will use one of the following three schemes:
+In this work we will use the following three schemes:
 \begin{enumerate}[(i)]
     \item Lorentzian broadening characterized by $\delta$:
           \label{item:lorentzian}
@@ -547,12 +552,12 @@ $\Sigma^\mIFG_\omega$ \cite{Kugler2022}
 which will be summarized in the following:
 We introduce the auxiliary operator
 \begin{equation}
-    q_\sigma = [d_\sigma, H_\mathrm{int}]
+    q_\sigma = \comm{d_\sigma}{H_\mathrm{int}}
 \end{equation}
 for the Anderson impurity model (\zcref{sec:anderson-impurity-model}),
 allowing us to calculate the Hartree term directly
 \begin{equation}
-    \Sigma^\mH = \langle \{q^\dag_\sigma, d^{\pdag}_\sigma\} \rangle.
+    \Sigma^\mH = \expval{\acomm{q^\dag_\sigma}{d^{\pdag}_\sigma}}.
 \end{equation}
 We then employ a quadratic shift
 \begin{equation}
@@ -564,20 +569,20 @@ and obtain four correlation functions
     \begin{alignat}{2}
         G_\omega
          & =
-        \lAngle d^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_\omega,
+        \dangle{d^{\pdag}_\sigma}{d_{\sigma}^\dag}{\omega},
          &
         \qquad
         I_\omega
          & =
-        \lAngle \tilde q^{\pdag}_\sigma, \tilde q_{\sigma}^\dag\rAngle_\omega \\
+        \dangle{\tilde q^{\pdag}_\sigma}{\tilde q_{\sigma}^\dag}{\omega} \\
         F^\mL_\omega
          & =
-        \lAngle \tilde q^{\pdag}_\sigma, d_{\sigma}^\dag\rAngle_\omega,
+        \dangle{\tilde q^{\pdag}_\sigma}{d_{\sigma}^\dag}{\omega},
          &
         \qquad
         F^\mR_\omega
          & =
-        \lAngle d^{\pdag}_\sigma, \tilde q_{\sigma}^\dag\rAngle_\omega.
+        \dangle{d^{\pdag}_\sigma}{\tilde q_{\sigma}^\dag}{\omega}.
     \end{alignat}
 \end{subequations}
 The self-energy is computed as
@@ -591,16 +596,19 @@ Concretely, we first calculate the components of our block correlator as
     \begin{align}
         C^+_\omega
          & =
-        \biggl\langle \psi_0 \biggr|
-        \begin{pmatrix}
-            \tilde q^{\pdag}_\sigma \\
-            d^{\pdag}_\sigma
-        \end{pmatrix}
-        \frac{1}{\omega + \mi0^+ - H + E_0}
-        \begin{pmatrix}
-            \tilde q^\dag_\sigma & d^\dag_\sigma
-        \end{pmatrix}
-        \biggl| \psi_0 \biggr\rangle
+        \sandwich*
+        {\psi_0}
+        {
+            \begin{pmatrix}
+                \tilde q^{\pdag}_\sigma \\
+                d^{\pdag}_\sigma
+            \end{pmatrix}
+            \frac{1}{\omega + \mi0^+ - H + E_0}
+            \begin{pmatrix}
+                \tilde q^\dag_\sigma & d^\dag_\sigma
+            \end{pmatrix}
+        }
+        {\psi_0}
         =
         \begin{pmatrix}
             I^+_\omega      & F^{\mL+}_\omega \\
@@ -608,16 +616,19 @@ Concretely, we first calculate the components of our block correlator as
         \end{pmatrix} \\
         C^-_\omega
          & =
-        \biggl\langle \psi_0 \biggr|
-        \begin{pmatrix}
-            \tilde q^\dag_\sigma \\
-            d^\dag_\sigma
-        \end{pmatrix}
-        \frac{1}{\omega + \mi0^+ + H - E_0}
-        \begin{pmatrix}
-            \tilde q^{\pdag}_\sigma & d^{\pdag}_\sigma
-        \end{pmatrix}
-        \biggl| \psi_0 \biggr\rangle
+        \sandwich*
+        {\psi_0}
+        {
+            \begin{pmatrix}
+                \tilde q^\dag_\sigma \\
+                d^\dag_\sigma
+            \end{pmatrix}
+            \frac{1}{\omega + \mi0^+ + H - E_0}
+            \begin{pmatrix}
+                \tilde q^{\pdag}_\sigma & d^{\pdag}_\sigma
+            \end{pmatrix}
+        }
+        {\psi_0}
         =
         \begin{pmatrix}
             I^-_\omega      & F^{\mR-}_\omega \\
@@ -683,37 +694,38 @@ As an initial guess we take the state with all valence bath sites $v_k$ filled i
 a singlet state in the impurity $i$ and mirror site $m$
 (the filling of each site is sketched in \zcref{subfig:geometry-natural-impurity-orbitals}):
 \begin{equation}
-    |\psi_0^{(1)}\rangle
+    \ket{\psi_0^{(1)}}
     =
     \frac{1}{\sqrt{2}}
     (d^\dag_\uparrow m^\dag_\downarrow - d^\dag_\downarrow m^\dag_\uparrow)
     \prod_{k\sigma} v^\dag_{k\sigma}
-    |0\rangle.
+    \ket{0}.
 \end{equation}
 Given this state, we can calculate an approximate ground state energy
 \begin{equation}
-    E_0^{(1)} = \langle \psi_0^{(1)} | H | \psi_0^{(1)} \rangle
+    E_0^{(1)} = \sandwich*{\psi_0^{(1)}}{H}{\psi_0^{(1)}}
 \end{equation}
 and variance
 \begin{equation}
-    \mathrm{var}^{(1)} = \langle \psi_0^{(1)} | (H - E_0^{(1)})^2 | \psi_0^{(1)} \rangle.
+    \var^{(1)}
+    =
+    \sandwich*{\psi_0^{(1)}}{\left(H - E_0^{(1)}\right)^2}{\psi_0^{(1)}}.
 \end{equation}
 As this approximation is not sufficient for calculations,
 we employ the Lanczos method (\zcref{sec:lanczos-algorithm}) with restarting
 as described in \cite{Lu2014}:
-Given an approximate ground state $|\psi_0^{(i)}\rangle$,
-we calculate a new Krylov basis $\mathcal{K}^5(H, |\psi_0^{(i)}\rangle)$ in which
-the Hamiltonian is diagonalized.
-From this, we calculate the new state $|\psi_0^{(i+1)}\rangle$
+Given an approximate ground state $\ket{\psi_0^{(i)}}$,
+we calculate a new Krylov basis $\mathcal{K}^5(H, \ket{\psi_0^{(i)}}$ which is diagonalized.
+From this, we calculate a new state $\ket{\psi_0^{(i+1)}}$
 with a new ground state energy $E_0^{(i+1)}$
-and variance $\mathrm{var}^{(i+1)}$.
+and variance $\var^{(i+1)}$.
 This loop is repeated until the variance falls below a given tolerance
 as it must vanish for a true eigenstate of $H$.
 
-One should note that even if the variance is exactly zero for a state $|\tilde\psi_0\rangle$
+One should note that even if the variance is exactly zero for a state $\ket{\tilde\psi_0}$
 in the CI approximation (\zcref{sec:configuration-interaction}),
 this state is not a true eigenstate of the unrestricted Hamiltonian.
-Applying $H$ on $|\tilde\psi_0\rangle$ without any restriction
+Applying $H$ on $\ket{\tilde\psi}$ without any restriction
 will generate new states \cite{Lu2014}.
 It is just that these state have (hopefully) such small weight allowing us to ignore them.
 
@@ -721,7 +733,7 @@ It is just that these state have (hopefully) such small weight allowing us to ig
 
 Hybridization function
 \begin{align}
-    \Delta_\omega = \sum_{k\sigma} \frac{|V_{k\sigma}|^2}{\omega - \epsilon_{k\sigma}}
+    \Delta_\omega = \sum_{k\sigma} \frac{\abs{V_{k\sigma}}^2}{\omega - \epsilon_{k\sigma}}
 \end{align}
 
 \section{Bethe lattice}

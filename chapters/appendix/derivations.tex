@@ -9,11 +9,11 @@ Fourier transform of the retarded correlator from time to frequency space.
 \begin{align}
     C_\omega
      & =
-    \mathcal{F}[-\mi \Theta(t) \langle \{A(t), B\}\rangle] \\
+    \mathcal{F}[-\mi \Theta(t) \expval{\acomm{A(t)}{B}}] \\
      & =
-    \mathcal{F}[-\mi \Theta(t) \langle A(t) B\rangle]
+    \mathcal{F}[-\mi \Theta(t) \expval{A(t) B}]
     +
-    \mathcal{F}[-\mi \Theta(t) \langle B A(t)\rangle]      \\
+    \mathcal{F}[-\mi \Theta(t) \expval{B A(t)}]          \\
      & =
     C^+_\omega + C^-_\omega
 \end{align}
@@ -23,57 +23,57 @@ Transformation of the first component:
     C^+_z
      & =
     \int_{-\infty}^\infty \md t \>
-    \me^{\mi zt}(-\mi \Theta(t) \langle \me^{\mi Ht} A \me^{-\mi Ht} B\rangle)     \\
+    \me^{\mi zt}(-\mi \Theta(t) \expval*{\me^{\mi Ht} A \me^{-\mi Ht} B}) \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \langle \me^{\mi Ht} A \me^{-\mi Ht} B\rangle                     \\
+    \me^{\mi zt} \expval*{\me^{\mi Ht} A \me^{-\mi Ht} B}                 \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \langle \me^{\mi E_0t} A \me^{-\mi Ht} B\rangle                   \\
+    \me^{\mi zt} \expval*{\me^{\mi E_0t} A \me^{-\mi Ht} B}               \\
      & =
     -\mi \int_0^\infty \md t \>
-    \langle A \me^{\mi(z - H + E_0)t} B\rangle                                     \\
+    \expval{A \me^{\mi(z - H + E_0)t} B}                                  \\
      & =
-    -\mi \left.\left\langle A \frac{\me^{\mi(z - H + E_0)t}}{\mi(z - H + E_0)} B\right\rangle
-    \right|_0^\infty                                                               \\
+    -\mi \left.\expval*{A \frac{\me^{\mi(z - H + E_0)t}}{\mi(z - H + E_0)} B}
+    \right|_0^\infty                                                      \\
      & =
-    -\mi \left(0 - \left\langle A \frac{1}{\mi(z - H + E_0)} B\right\rangle\right) \\
+    -\mi \left(0 - \expval*{A \frac{1}{\mi(z - H + E_0)} B}\right)        \\
      & =
-    \left\langle A \frac{1}{z - H + E_0} B\right\rangle
+    \expval*{A \frac{1}{z - H + E_0} B}
 \end{align}
 Taking the limit gives
 \begin{equation}
     C^+_\omega
     =
-    \lim_{\delta\to 0^+} \left\langle A \frac{1}{z - H + E_0} B\right\rangle
+    \lim_{\delta\to 0^+} \expval*{A \frac{1}{z - H + E_0} B}
     =
-    \left\langle A \frac{1}{\omega - H + E_0} B\right\rangle.
+    \expval*{A \frac{1}{\omega + \mi0^+ - H + E_0} B}.
 \end{equation}
 Transformation of the second component:
 \begin{align}
     C^-_z
      & =
     \int_{-\infty}^\infty \md t \>
-    \me^{\mi zt}(-\mi \Theta(t) \langle B \me^{\mi Ht} A \me^{-\mi Ht}\rangle) \\
+    \me^{\mi zt}(-\mi \Theta(t) \expval*{B \me^{\mi Ht} A \me^{-\mi Ht}}) \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \langle B \me^{\mi Ht} A \me^{-\mi Ht}\rangle                 \\
+    \me^{\mi zt} \expval*{B \me^{\mi Ht} A \me^{-\mi Ht}}                 \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \langle B \me^{\mi Ht} A \me^{-\mi E_0t}\rangle               \\
+    \me^{\mi zt} \expval*{B \me^{\mi Ht} A \me^{-\mi E_0t}}               \\
      & =
     -\mi \int_0^\infty \md t \>
-    \langle B \me^{\mi(z + H - E_0)t} A\rangle                                 \\
+    \expval*{B \me^{\mi(z + H - E_0)t} A}                                 \\
      & =
-    \left\langle B \frac{1}{z + H - E_0} A\right\rangle
+    \expval*{B \frac{1}{z + H - E_0} A}
 \end{align}
 Taking the limit gives
 \begin{equation}
     C^-_\omega
     =
-    \lim_{\delta\to 0^+} \left\langle A \frac{1}{z + H - E_0} B\right\rangle
+    \lim_{\delta\to 0^+} \expval*{A \frac{1}{z + H - E_0} B}
     =
-    \left\langle A \frac{1}{\omega + H - E_0} B\right\rangle.
+    \expval*{A \frac{1}{\omega + \mi0^+ + H - E_0} B}.
 \end{equation}
 
 \section{Tridiagonalization of a symmetric impurity Green's function}
