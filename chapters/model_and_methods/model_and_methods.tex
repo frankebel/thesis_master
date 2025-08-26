@@ -655,7 +655,7 @@ Concretely, we first calculate the components of our block correlator as
         \end{pmatrix}
     \end{align}
 \end{subequations}
-and add them
+and add them together
 \begin{equation}
     C_\omega
     =
@@ -670,38 +670,34 @@ In \cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
 might be violated numerically.
 We do not have this problem as hermiticity is enforced on $C_\omega$.
 
-We then use two methods to calculate the self-energy:
-\begin{enumerate}[(i)]
-    \item Broaden each correlator on a grid of frequencies
-          and calculate the broadened self-energy $\Sigma_z$.
-          This is the same method as \cite{Kugler2022}.
-
-    \item Calculate the self-energy on the real axis using the Schur complement \cite{Schur1917}
-          \todo{credit Aleksandrs} %TODO: credit Aleksandrs
-          \begin{equation}
-              \Sigma_\omega = \Sigma^\mH + \left([(C_\omega)^{-1}]_{11}\right)^{-1}.
-          \end{equation}
-          To invert our block correlation function, we first bring it to
-          the Anderson representation (\zcref{eq:correlator-anderson-block}):
-          \begin{equation}
-              C_\omega = B\frac{1}{\omega + \mi0^+ - A - D_\omega}B,
-          \end{equation}
-          with $D_\omega$ a block sum of poles.
-          The scaling matrix $B$ contains the square root of the zeroth moments,
-          e.g.\ its first element $b_{11} = U/2$ at half-filling.
-          Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal.
-          The Schur complement is then
-          \begin{equation}
-              \left([(C_\omega)^{-1}]_{11}\right)^{-1}
-              =
-              (B)_{11} \frac{1}{\omega + \mi0^+ - (A)_{11} - (D_\omega)_{11}} (B)_{11}.
-          \end{equation}
-          Diagonalizing this expression gives us the self-energy in the same form as
-          \zcref{eq:self-energy-sum-of-poles}.
-          Contrasting against \zcref{eq:dyson},
-          all pole weights are positive by construction
-          and no merging of negative weight into neighbors is necessary.
-\end{enumerate}
+Given each correlator as a sum of poles, \citeauthor{Kugler2022} \cite{Kugler2022} broadened
+each correlator and calculated the broadened self-energy $\Sigma_z$.
+In this work we instead calculate the self-energy on the real axis
+using the Schur complement \cite{Schur1917}
+\todo{credit Aleksandrs} %TODO: credit Aleksandrs
+\begin{equation}
+    \Sigma_\omega = \Sigma^\mH + \left([(C_\omega)^{-1}]_{11}\right)^{-1}.
+\end{equation}
+To invert our block correlation function, we first bring it to
+the Anderson representation (\zcref{eq:correlator-anderson-block}):
+\begin{equation}
+    C_\omega = B\frac{1}{\omega + \mi0^+ - A - D_\omega}B,
+\end{equation}
+with matrices $A$, $B$ and a block sum of poles $D_\omega$.
+The scaling matrix $B$ contains the square root of the zeroth moments,
+e.g.\ its first element $B_{11} = U/2$ at half-filling.
+Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal.
+The Schur complement is then
+\begin{equation}
+    \left([(C_\omega)^{-1}]_{11}\right)^{-1}
+    =
+    (B)_{11} \frac{1}{\omega + \mi0^+ - (A)_{11} - (D_\omega)_{11}} (B)_{11}.
+\end{equation}
+Diagonalizing this expression gives us the self-energy in the same form as
+\zcref{eq:self-energy-sum-of-poles}.
+Contrasting against \zcref{eq:dyson},
+all pole weights are positive by construction
+and no merging of negative weight into neighbors is necessary.
 
 \section{Ground state}
 
