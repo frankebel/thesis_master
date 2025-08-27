@@ -397,72 +397,50 @@ the propagation of an electron/hole in the system and is called Green's function
 
 \subsection{Representation}
 
-Using the Lanczos algorithm we can represent correlators as the first component of the inverse
-of our (block) tridiagonal matrix $T$ \cite{Lu2014}, see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
-
-\begin{subequations}
-    \begin{align}
-        C_\omega
-         & =
-        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \frac{b_1^2}{\omega + \mi0^+ - a_2 - \ldots}}
-        \qquad
-         &
-         & \text{(scalar)},                                                                         \\
-        C_\omega
-         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0
-        \qquad
-         &
-         & \text{(block)}.
-    \end{align}
-\end{subequations}
-In the block case $\frac{1}{D} \wedgeq D^{-1}$ is meant as the matrix inverse
-and $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ a shorthand notation
+Using the (block) Lanczos algorithm we can represent (block) correlators as the first component
+of the inverse of our (block) tridiagonal matrix $T$ \cite{Lu2014},
+see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
+\begin{equation}
+    C_\omega
+    \propto
+    [(\omega + \mi0^+ - T)^{-1}]_{11},
+\end{equation}
+where $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ is a shorthand notation
 for a diagonal matrix.
-The value(s) $b_0$ ($B_0$) normalize the initial state(s) of
-the (block) Lanczos routine respectively.
+Using the Schur completment \cite{Schur1917} this can be evaluated as a continued fraction
+\begin{equation}
+    C_\omega
+    =
+    B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0,
+\end{equation}
+with $\frac{1}{D} \wedgeq D^{-1}$ meant as the matrix inverse.
+$B_0$ normalizes the initial state of
+the block Lanczos routine.
 In contrast to \texttt{QUANTY} \cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
+In the scalar case, all matrices $A_j$, $B_j$ are replaced by
+their scalar counterpart $a_j$, $b_j$ respectively.
 We will call this the \emph{continued fraction} representation.
 
-Diagonalizing $T$ gives us a sum of poles instead:
-\begin{subequations}
-    \begin{align}
-        C_\omega
-         & =
-        \sum_{i=1}^M \frac{w_i}{\omega + \mi0^+ - \epsilon_i}
-        \label{eq:correlator-sum}
-        \qquad
-         &   & \text{(scalar)}, \\
-        C_\omega
-         & =
-        \sum_{i=1}^M \frac{W_i}{\omega + \mi0^+ - \epsilon_i}
-        \qquad
-         &   & \text{(block)}.
-    \end{align}
-\end{subequations}
-In order for these correlators to represent physical quantities,
-the weights $w_i$ must be non-negative in the scalar case
-and $W_i$ positive semidefinite in the block case.
+Diagonalizing the matrix $T$ instead gives us a sum of poles:
+\begin{equation}
+    C_\omega
+    =
+    \sum_{i=1}^M \frac{W_i}{\omega + \mi0^+ - \epsilon_i},
+    \label{eq:correlator-sum}
+\end{equation}
+where again the matrix $W_i$ is replaced by the scalar $w_i$ for the non-block version.
+In order for a correlator to represent physical quantities,
+$W_i$ must be positive semidefinite or
+$w_i$ non-negative.
 
-Only diagonalizing from the second part of $T$ onwards gives us the \emph{Anderson representation}
-\begin{subequations}
-    \begin{align}
-        C_\omega
-         & =
-        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^M \frac{w_j}{\omega + \mi0^+ - \epsilon_j}}
-        \qquad
-         &
-         &
-        \text{(scalar)},                                                                                   \\
-        C_\omega
-         & = B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0
-        \qquad
-         &
-         &
-        \text{(block)}.
-        \label{eq:correlator-anderson-block}
-    \end{align}
-\end{subequations}
+Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Anderson representation}
+\begin{equation}
+    C_\omega
+    =
+    B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0.
+    \label{eq:correlator-anderson}
+\end{equation}
 A detailed explanation on how to switch between these representations is given in \cite{Lu2014}.
 
 \subsection{Broadening and spectra}
@@ -679,7 +657,7 @@ using the Schur complement \cite{Schur1917}
     \Sigma_\omega = \Sigma^\mH + \left([(C_\omega)^{-1}]_{11}\right)^{-1}.
 \end{equation}
 To invert our block correlation function, we first bring it to
-the Anderson representation (\zcref{eq:correlator-anderson-block}):
+the Anderson representation (\zcref{eq:correlator-anderson}):
 \begin{equation}
     C_\omega = B\frac{1}{\omega + \mi0^+ - A - D_\omega}B,
 \end{equation}
