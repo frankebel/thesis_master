@@ -1,0 +1,106 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        level distance=10mm,
+        site/.style={
+                circle,
+                inner sep=0pt,
+                minimum size=4pt,
+                draw=black,
+                fill=#1,
+            },
+    ]
+
+    % Bethe lattice with connectivity z=3 using built-in tree functionality
+    % angles for each distance are: 60, 45, 30
+    \node [site=black] (s0) {} % root
+    child [grow=0] % right
+        {
+            node [site=blue] (s1) {}
+            child [grow=45]
+                {
+                    node [site=red] {}
+                    child [grow=15]
+                        {
+                            node [site=teal] {}
+                        }
+                    child [grow=75]
+                        {
+                            node [site=teal] {}
+                        }
+                }
+            child [grow=-45]
+                {
+                    node [site=red] {}
+                    child [grow=-15]
+                        {
+                            node [site=teal] {}
+                        }
+                    child [grow=-75]
+                        {
+                            node [site=teal] {}
+                        }
+                }
+        }
+    child [grow=120] % top left
+        {
+            node [site=blue] {}
+            child [grow=75]
+                {
+                    node [site=red] {}
+                    child [grow=45]
+                        {
+                            node [site=teal] {}
+                        }
+                    child [grow=105]
+                        {
+                            node [site=teal] {}
+                        }
+                }
+            child [grow=165]
+                {
+                    node [site=red] {}
+                    child [grow=135]
+                        {
+                            node [site=teal] {}
+                        }
+                    child [grow=195]
+                        {
+                            node [site=teal] {}
+                        }
+                }
+        }
+    child [grow=240] % bottom right
+        {
+            node [site=blue] {}
+            child [grow=195]
+                {
+                    node [site=red] {}
+                    child [grow=165]
+                        {
+                            node [site=teal] {}
+                        }
+                    child [grow=225]
+                        {
+                            node [site=teal] {}
+                        }
+                }
+            child [grow=285]
+                {
+                    node [site=red] {}
+                    child [grow=255]
+                        {
+                            node [site=teal] {}
+                        }
+                    child [grow=315]
+                        {
+                            node [site=teal] {}
+                        }
+                }
+        };
+
+    % hopping
+    \draw [->,shorten <=2pt, shorten >=2pt] (s0.north east) to [bend left=45] node[midway, above] {$t^*$} (s1.north west);
+    \draw [<-,shorten <=2pt, shorten >=2pt] (s0.south east) to [bend right=45] node[midway, below] {$t^*$} (s1.south west);
+\end{tikzpicture}

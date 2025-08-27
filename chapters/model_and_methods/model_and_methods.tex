@@ -16,6 +16,7 @@ as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonia
     U\sum_i n_{i\uparrow} n_{i\downarrow}
     +
     (\epsilon - \mu)\sum_{i\sigma} n_{i\sigma},
+    \label{eq:hubbard}
 \end{equation}
 with a sketch given in \zcref{fig:hubbard-model}.
 Each site can be occupied by up to two electrons.
@@ -206,6 +207,31 @@ This allows the following possibilities for $\ket{\phi_{II}}$:
     \item one electron in the conduction bath sites $c_l$
           and one hole in the valence bath sites $v_l$ ($l\ge L$)
 \end{itemize}
+
+\section{Bethe lattice}
+
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/bethe_lattice.tex}
+    \caption{
+        Bethe lattice with connectivity $z=3$ and nearest-neighbor hopping $t^*$.
+    }
+    \label{fig:bethe-lattice}
+\end{figure}
+
+In this work we study the Anderson impurity model (\zcref{sec:anderson-impurity-model})
+on the Bethe lattice defined by the coordination number $z$
+as there is ample literature available \cite{Georges1996}.
+\fe{TODO: cite references} % TODO: cite references
+\zcref{fig:bethe-lattice} shows a sketch for $z=3$:
+Each site is connected with three neighbors and hopping between two neighboring sites is possible
+with the rescaled amplitude $t^* = t/\sqrt{z}$ \cite{Held2007}
+($t$: hopping amplitude of \zcref{eq:hubbard}).
+In the limit $z\to\infty$ this gives the well-known semicircular density of states:
+\begin{equation}
+    \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{D^2 - \omega^2},
+\end{equation}
+with half-bandwidth $D=2t$.
 
 \section{Lanczos algorithm}
 \label{sec:lanczos-algorithm}
@@ -723,5 +749,3 @@ Hybridization function
 \begin{align}
     \Delta_\omega = \sum_{k\sigma} \frac{\abs{V_{k\sigma}}^2}{\omega - \epsilon_{k\sigma}}
 \end{align}
-
-\section{Bethe lattice}
