@@ -258,12 +258,7 @@ and matrix collecting all Lanczos vectors
 \begin{equation}
     Q = (\vec{q}_1, \vec{q}_2, \ldots, \vec{q}_M).
 \end{equation}
-Then, \zcref{eq:Lanczos-recurrence} in matrix form can be rewritten as
-\begin{equation}
-    H Q = Q T + b_{M}\vec{q}_{M+1}\vec{e}_{M}^\top,
-\end{equation}
-where $\vec{e}_M$ is the Euclidean basis vector with $M$-th component 1 and all other 0.
-Rearranging gives
+Rewriting \zcref{eq:Lanczos-recurrence} in matrix form and rearranging results in
 \begin{equation}
     T = Q^\dag H Q,
 \end{equation}
@@ -310,21 +305,21 @@ results in an upper triangular matrix $B_j$ which gives $T$ a compactly banded s
 \cite{Cullum1985, Golub2013}.
 In our work however, we use symmetric Löwdin orthonormalization \cite{Lowdin1950, Brass2021}
 which is based on the singular value decomposition
-$\tilde Q_{j+1} = U_{j+1} \Sigma_{j+1} V_{j+1}^\dag$.
+$\tilde Q_{j+1} = U \Sigma V^\dag$.
 We define the overlap matrix as
 \begin{equation}
-    S_{j+1} \coloneqq \tilde Q_{j+1}^\dag \tilde Q_{j+1} = V_{j+1} \Sigma_{j+1}^2 V_{j+1}^\dagger
+    S \coloneqq \tilde Q_{j+1}^\dag \tilde Q_{j+1} = V \Sigma^2 V^\dag
 \end{equation}
 and its roots as
 \begin{equation}
-    S_{j+1}^{1/2}  = V_{j+1} \Sigma_{j+1} V_{j+1}^\dagger,
+    S^{1/2} = V \Sigma V^\dag,
     \qquad
-    S_{j+1}^{-1/2} = V_{j+1} \Sigma_{j+1}^{-1} V_{j+1}^\dagger.
+    S^{-1/2} = V \Sigma^{-1} V^\dag.
 \end{equation}
 The resulting vectors are then
 \begin{align}
-    Q_{j+1} & = \tilde Q_{j+1} S_{j+1}^{-1/2} \qquad \text{and} \\
-    B_j     & = S_{j+1}^{1/2}.
+    Q_{j+1} & = \tilde Q_{j+1} S^{-1/2} \qquad \text{and} \\
+    B_j     & = S^{1/2}.
 \end{align}
 We use this method as it guarantees hermiticity in the off-diagonal blocks $B_j^\dag = B_j$
 albeit losing the compactly banded structure for $T$.
@@ -344,7 +339,7 @@ non-vanishing singular values
         0             & 0
     \end{pmatrix},
 \end{equation}
-still guaranteeing orthonormality against previous states $Q_i^\dag Q_j = \mathbb{0}_{q\times q}$
+still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb{0}_{q\times q}$
 for $i \in \{1,\ldots,j-1\}$ \cite{Golub2013}.
 
 \section{Correlators}
@@ -429,8 +424,8 @@ Diagonalizing the matrix $T$ instead gives us a sum of poles:
     \sum_{i=1}^M \frac{W_i}{\omega + \mi0^+ - \epsilon_i},
     \label{eq:correlator-sum}
 \end{equation}
-where again the matrix $W_i$ is replaced by the scalar $w_i$ for the non-block version.
-In order for a correlator to represent physical quantities,
+where the matrix $W_i$ is again replaced by the scalar $w_i$ for the non-block version.
+In order for a (block) correlator to represent physical quantities,
 $W_i$ must be positive semidefinite or
 $w_i$ non-negative.
 
@@ -474,7 +469,7 @@ but related by Kramers-Kronig transformations (Hilbert transform)
 Thus, we can broaden our delta-peaks from \zcref{eq:spectral-sum}
 for the imaginary part and obtain the real part through \zcref{eq:kramers-kroneg-real}.
 We will denote the broadened correlator as $C_z$
-to contrast it to $C_\omega$, which has no broadening.
+to contrast it against $C_\omega$ which has no broadening.
 In this work we will use the following three schemes:
 \begin{enumerate}[(i)]
     \item Lorentzian broadening characterized by $\delta$:
@@ -504,9 +499,9 @@ In this work we will use the following three schemes:
     \centering
     \input{graphics/tikz/broadening.tex}
     \caption{
-        Plot of the spectral part of a correlator
+        Spectral part of a correlator
         $C_\omega = \frac{1}{\omega + \mi0^+ - 0.25} + \frac{0.5}{\omega + \mi0^+ - 1}$
-        using Lorentzian, Gaussian, and logarithmic Gaussian broadening.
+        using various broadening schemes.
     }
     \label{fig:broadening}
 \end{figure}
@@ -646,7 +641,7 @@ and add them together
 \end{equation}
 In \cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
 might be violated numerically.
-We do not have this problem as hermiticity is enforced on $C_\omega$.
+We do not have this problem as $C_\omega$ is hermitian.
 
 Given each correlator as a sum of poles, \citeauthor{Kugler2022} \cite{Kugler2022} broadened
 each correlator and calculated the broadened self-energy $\Sigma_z$.
@@ -669,7 +664,7 @@ The Schur complement is then
 \begin{equation}
     \left([(C_\omega)^{-1}]_{11}\right)^{-1}
     =
-    (B)_{11} \frac{1}{\omega + \mi0^+ - (A)_{11} - (D_\omega)_{11}} (B)_{11}.
+    B_{11} \frac{1}{\omega + \mi0^+ - A_{11} - (D_\omega)_{11}} B_{11}.
 \end{equation}
 Diagonalizing this expression gives us the self-energy in the same form as
 \zcref{eq:self-energy-sum-of-poles}.
