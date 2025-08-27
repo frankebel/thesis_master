@@ -428,7 +428,7 @@ see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
 \end{equation}
 where $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ is a shorthand notation
 for a diagonal matrix.
-Using the Schur completment \cite{Schur1917} this can be evaluated as a continued fraction
+Using the Schur completment \cite{Schur1917} this can be written as a continued fraction
 \begin{equation}
     C_\omega
     =
@@ -548,6 +548,8 @@ the Green's function $G_\omega$ describes the propagation of an electron/hole in
 If our system is non-interacting ($U=0$ in \zcref{eq:anderson-interaction}),
 we call it the non-interacting Green's function $G_{0, \omega}$.
 The quantity that connects these two objects is the self-energy defined by the Dyson equation
+\fe{NOTE: I do not want to intruduce Feynman diagrams and irreducibility as
+    they will not be used in this work.}
 \begin{equation}
     \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}.
     \label{eq:dyson}
@@ -667,7 +669,7 @@ and add them together
 \end{equation}
 In \cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
 might be violated numerically.
-We do not have this problem as $C_\omega$ is hermitian.
+We do not have this problem as $C_\omega$ is hermitian by construction.
 
 Given each correlator as a sum of poles, \citeauthor{Kugler2022} \cite{Kugler2022} broadened
 each correlator and calculated the broadened self-energy $\Sigma_z$.
