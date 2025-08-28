@@ -132,7 +132,7 @@ we can express the number of electrons in each spin sector as
 For a fixed amount of electrons $n_\uparrow + n_\downarrow$ on $N$ bath sites and the impurity,
 a combination of
 \begin{equation}
-    M = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
+    m = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
 \end{equation}
 determinants are necessary to fully describe the wave function.
 For a half-filled system ($n_\uparrow = n_\downarrow = (N+1)/2$)
@@ -202,13 +202,11 @@ The $p=1$ projection allows one state to differ from the reference state:
 Either one electron of $\ket{\phi_I}$ enters the empty conduction sites
 or one electron from the full valence sites enters $\ket{\phi_I}$.
 In the $p=2$ projection two states are allowed to differ.
-This allows the following possibilities for $\ket{\phi_{II}}$:
-\begin{itemize}
-    \item two electrons in the conduction bath sites $c_l$ ($l\ge L$)
-    \item two holes in the valence bath sites $v_l$ ($l\ge L$)
-    \item one electron in the conduction bath sites $c_l$
-          and one hole in the valence bath sites $v_l$ ($l\ge L$)
-\end{itemize}
+This allows for one of the following possibilities for $\ket{\phi_{II}}$:
+Two electrons in the conduction bath sites $c_l$,
+two holes in the valence bath sites $v_l$,
+or one electron in the conduction bath sites $c_l$
+and one hole in the valence bath sites $v_l$ ($l\ge L$).
 
 \section{Bethe lattice}
 \label{sec:bethe-lattice}
@@ -243,7 +241,7 @@ with half-bandwidth $D=2t$.
 The Lanczos algorithm \cite{Lanczos1950} can be used to approximate the extremal eigenvalues
 of a hermitian $n\times n$ matrix.
 In our case we are interested in the ground state and low energy excitations of a
-given Hamiltonian $H$.
+given Hamiltonian $H$ (\zcref{eq:impurity-Hamiltonian}).
 The method is especially useful if $H$ is sparse and too large to decompose fully.
 It is based on a Krylov basis
 \begin{equation}
@@ -288,10 +286,7 @@ and matrix collecting all Lanczos vectors
 \begin{equation}
     Q = (\vec{q}_1, \vec{q}_2, \ldots, \vec{q}_M).
 \end{equation}
-Rewriting \zcref{eq:Lanczos-recurrence} in matrix form and rearranging results in
-\begin{equation}
-    T = Q^\dag H Q,
-\end{equation}
+Rewriting \zcref{eq:Lanczos-recurrence} in matrix form and rearranging results in $T = Q^\dag H Q$,
 which means that $T$ is the orthogonal projection of $H$ onto
 the subspace $\mathcal{K}^M(H, \vec{q}_1)$ \cite{Cullum1985}.
 
@@ -746,7 +741,7 @@ One should note that even if the variance is exactly zero for a state $\ket{\til
 in the CI approximation (\zcref{sec:configuration-interaction}),
 this state is not a true eigenstate of the unrestricted Hamiltonian.
 Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
-will generate new states \cite{Lu2014}.
+will generate new states \cite{Lu2014} that were not accounted for.
 It is just that these state have (hopefully) such small weight allowing us to ignore them.
 
 \section{DMFT}
@@ -814,5 +809,5 @@ the hybridization function is just a rescaled Green's function
     \Delta_\omega = \frac{D^2}{4} G_\omega.
 \end{equation}
 Notably,
-the spectrum of the non-interacting hybridization function $\Delta_{0,\omega}$
+the spectrum of the non-interacting hybridization function $-1/\muppi \Im \Delta_{0,\omega}$
 is nothing more than a rescaled semicircular DOS \zcref{eq:dos-semicircle}.
