@@ -754,15 +754,15 @@ It is just that these state have (hopefully) such small weight allowing us to ig
 
 As mentioned in \zcref{sec:hubbard-model},
 the Hubbard model has no analytical solution in arbitrary dimensions $d$.
-In the limit $d\to\infty$ it can be solved by
-dynamical mean-field theory (DMFT) \cite{Georges1996}
-which takes one site of the lattice as a representative
-and averages all spacial fluctuations keeping only time correlations
+In the limit $d\to\infty$ it can be solved with
+dynamical mean-field theory (DMFT) \cite{Georges1996},
+which takes a single lattice site as a representative
+and averages all spacial fluctuations around it, only keeping time correlations
 (hence the term \emph{dynamical mean-field}).
 
-A given Hamiltonian is solved by a self-consistency loop which
-maps between the Hubbard model and Anderson impurity model.
-Given a Hubbard model, we can define its local Green's function
+A given Hamiltonian is solved by a self-consistency loop,
+which repeatedly maps between the Hubbard model and Anderson impurity model.
+Given a Hubbard Hamiltonian, we can define its local Green's function
 \begin{equation}
     G_{\mloc,\omega}
     =
@@ -774,7 +774,9 @@ Given a Hubbard model, we can define its local Green's function
 where the approximation assumes that the lattice self-energy is purely local
 ($\Sigma_{\vec{k}\omega} \to \Sigma_\omega$).
 DMFT then enforces that this Green's function coincides with the impurity Green's function
-of the Anderson impurity model: $G_{\mloc,\omega} \equiv G_\omega$.
+of the corresponding Anderson impurity model: $G_{\mloc,\omega} \equiv G_\omega$.
+\fe{``$\equiv$'' or ``$\stackrel{!}{=}$'' better? Latter one raises line height.}
+
 Rearranging the Dyson equation (\zcref{eq:dyson}) then gives us a non-interacting impurity
 Green's function
 \begin{align}
@@ -784,28 +786,33 @@ Green's function
      & =
     \omega + \mi0^+ + \mu - \epsilon - \Delta_\omega,
 \end{align}
-which is then rewritten as a term containing the impurity energy $\epsilon - \mu$
-and hybridization function
+which is then rewritten into terms,
+containing the impurity energy $\epsilon - \mu$ and hybridization function
 \begin{equation}
     \Delta_\omega = \sum_{k\sigma} \frac{\abs{V_{k\sigma}}^2}{\omega - \epsilon_{k\sigma}}.
 \end{equation}
-Given these terms, we can create the non-interacting Hamiltonian \zcref{eq:anderson-non-interacting}.
+Given these terms, we can write down the non-interacting Hamiltonian
+of \zcref{eq:anderson-non-interacting}.
 After adding the interacting term of \zcref{eq:anderson-interaction}, we can solve the impurity
-Hamiltonian using our solver which gives us a new impurity Green's function $G_\omega$
+Hamiltonian using the previously discussed solver,
+yielding us a new impurity Green's function $G_\omega$
 and self-energy $\Sigma_\omega$.
-We can then use this impurity self-energy to
-calculate a new lattice Green's function using \zcref{eq:greens-function-local}
-closing our self-consistency equations.
+Subsequently, we use this impurity self-energy to
+calculate a new lattice Green's function using \zcref{eq:greens-function-local},
+closing our self-consistency loop.
 
-For the Bethe lattice (\zcref{sec:bethe-lattice}) one can skip the lattice Green's function
+For the special case of the Bethe lattice (\zcref{sec:bethe-lattice}),
+one can skip the calculation of the lattice Green's function
 and directly update the hybridization \cite{Lu2014}:
 \begin{equation}
     \Delta_\omega = \Delta_{0}(\omega + \mu - \mu_0 - \Sigma_\omega),
 \end{equation}
-with derivation given in TODO. % TODO: derive DMFT for Bethe lattice
-Due to the self-similarity in the Bethe lattice,
+with a derivation given in TODO. % TODO: derive DMFT for Bethe lattice
+Due to the self-similarity present in the Bethe lattice,
 the hybridization function is just a rescaled Green's function
 \begin{equation}
-    \Delta_\omega = \frac{D^2}{4} G_\omega,
+    \Delta_\omega = \frac{D^2}{4} G_\omega.
 \end{equation}
-notably $\Delta_{0,\omega}$ being a rescaled semicircular DOS \zcref{eq:dos-semicircle}.
+Notably,
+the spectrum of the non-interacting hybridization function $\Delta_{0,\omega}$
+is nothing more than a rescaled semicircular DOS \zcref{eq:dos-semicircle}.
