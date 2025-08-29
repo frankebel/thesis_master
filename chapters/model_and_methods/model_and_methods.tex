@@ -452,7 +452,7 @@ Diagonalizing the matrix $T$ instead gives us a sum of poles:
 where the matrix $W_i$ is again replaced by the scalar $w_i$ for the non-block version.
 In order for a (block) correlator to represent physical quantities,
 $W_i$ must be positive semidefinite or
-$w_i$ non-negative.
+$w_i$ positive.
 
 Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Anderson representation}
 \begin{equation}
@@ -796,13 +796,14 @@ Subsequently, we use this impurity self-energy to
 calculate a new lattice Green's function using \zcref{eq:greens-function-local},
 closing our self-consistency loop.
 
-For the special case of the Bethe lattice (\zcref{sec:bethe-lattice}),
+For the special case of a lattice in infinite dimensions,
 one can skip the calculation of the lattice Green's function
 and directly update the hybridization \cite{Lu2014}:
 \begin{equation}
     \Delta_\omega = \Delta_{0}(\omega + \mu - \mu_0 - \Sigma_\omega),
 \end{equation}
-with a derivation given in \zcref{app:dmft-bethe}.
+with a derivation given in \zcref{app:dmft-simplification}.
+
 Due to the self-similarity present in the Bethe lattice,
 the hybridization function is just a rescaled Green's function
 \begin{equation}
