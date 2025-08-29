@@ -160,8 +160,8 @@ we call sites in the almost fully filled chain valence bath sites (labeled $v$),
 and sites in the almost empty chain as conduction bath sites (labeled $c$).
 Hopping between sites is again shown by lines.
 
-\section{Configuration interaction}
-\label{sec:configuration-interaction}
+\section{Restricted active space}
+\label{sec:ras}
 
 \fe{Question: Difference configuration interaction vs.\ restricted active space?}
 
@@ -169,8 +169,8 @@ Using the natural impurity orbitals (\zcref{sec:natural-impurity-orbitals}) allo
 write the ground state in a basis which has optimal scaling behavior with respect to
 the number of bath sites \cite{Lu2019}.
 However, the computational complexity still grows combinatorial with each added bath site.
-To alleviate the scaling problem we employ the same method as \citeauthor{Lu2019} \cite{Lu2019}
-which is sketched in \zcref{fig:aim-separation}.
+To alleviate the scaling problem we employ the same restricted active space (RAS) method
+as \citeauthor{Lu2019} \cite{Lu2019}, which is sketched in \zcref{fig:aim-separation}.
 
 \begin{figure}[ht]
     \centering
@@ -193,11 +193,11 @@ The ground state can be written as
     =
     \ket{\phi_I} \otimes \ket{\phi_{II}},
 \end{equation}
-where $\ket{\phi_I}$ is the exact ground state calculated by ED for some $L\ll N/2$
-($N/2$ chain length at half-filling)
+where $\ket{\phi_I}$ is the exact ground state calculated by ED for some $L$
 and $\ket{\phi_{II}} = \ket{\mathbb{0}_c} \otimes \ket{\mathbb{1}_v}$ is a reference state.
 
-In the next step we loosen the restriction of empty conduction and full valence bath sites.
+In the next step we loosen the restriction of empty conduction and full valence bath sites
+in $\ket{\phi_{II}}$.
 The $p=1$ projection allows one state to differ from the reference state:
 Either one electron of $\ket{\phi_I}$ enters the empty conduction sites
 or one electron from the full valence sites enters $\ket{\phi_I}$.
@@ -738,7 +738,7 @@ This loop is repeated until the variance falls below a given tolerance
 as it must vanish for a true eigenstate of $H$.
 
 One should note that even if the variance is exactly zero for a state $\ket{\tilde\psi_0}$
-in the CI approximation (\zcref{sec:configuration-interaction}),
+in the RAS truncation (\zcref{sec:ras}),
 this state is not a true eigenstate of the unrestricted Hamiltonian.
 Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
 will generate new states \cite{Lu2014} that were not accounted for.
