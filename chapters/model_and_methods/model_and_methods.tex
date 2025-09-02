@@ -144,8 +144,15 @@ To save computational resources,
 we want to find a new basis in which the probabilities decay faster than those of the star geometry
 (further details in \cite{Bi2019}).
 
-A commonly employed basis set in quantum chemistry are the \emph{natural orbitals}
-in which the ground state density is diagonal.
+Given a spin-orbital basis set $\{\ket{\phi_{i\sigma}}\}$
+with their respective creator $c_{i\sigma}^\dag$ \cite{Bi2019},
+the density matrix on the ground state is defined as
+\begin{equation}
+    n_{ij\sigma} = \sandwich{\psi_0}{c_{i\sigma}^\dag c_{j\sigma}}{\psi_0}.
+\end{equation}
+A commonly employed basis in quantum chemistry are the \emph{natural orbitals},
+where the orbitals are chosen such that
+the aforementioned density matrix is diagonal $n_{ij\sigma} = \delta_{ij}n_{ij\sigma}$.
 However,
 a naive implementation of the natural orbitals will inevitably mix the original impurity
 and bath sites transforming the local Coulomb interaction (\zcref{eq:anderson-interaction})
