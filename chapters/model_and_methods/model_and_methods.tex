@@ -146,12 +146,12 @@ we want to find a new basis in which the probabilities decay faster than those o
 
 Given a spin-orbital basis set $\{\ket{\phi_{i\sigma}}\}$
 with their respective creator $c_{i\sigma}^\dag$ \cite{Bi2019},
-the density matrix on the ground state is defined as
+the density matrix of the ground state is defined as
 \begin{equation}
     n_{ij\sigma} = \sandwich{\psi_0}{c_{i\sigma}^\dag c_{j\sigma}}{\psi_0}.
 \end{equation}
 A commonly employed basis in quantum chemistry are the \emph{natural orbitals},
-where the orbitals are chosen such that
+where the orbitals $\ket{\phi_{i\sigma}}$ are chosen such that
 the aforementioned density matrix is diagonal $n_{ij\sigma} = \delta_{ij}n_{ij\sigma}$.
 However,
 a naive implementation of the natural orbitals will inevitably mix the original impurity
@@ -170,7 +170,7 @@ Hopping between sites is again shown by lines.
 \section{Restricted active space}
 \label{sec:ras}
 
-\fe{Question: Difference configuration interaction vs.\ restricted active space?}
+\fe{NOTE: I think RAS fits better than CI.}
 
 Using the natural impurity orbitals (\zcref{sec:natural-impurity-orbitals}) allows us to
 write the ground state in a basis which has optimal scaling behavior with respect to
