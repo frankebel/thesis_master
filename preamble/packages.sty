@@ -5,6 +5,8 @@
 \usepackage{fontspec}
 \usepackage[main=english,ngerman]{babel}
 \usepackage{microtype}
+% \setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+% \setmathfont{NewCMMath-Book}
 
 % math and science typesetting
 \usepackage{amsmath}
@@ -13,19 +15,37 @@
 \usepackage[version=4]{mhchem}
 \usepackage{nicematrix}
 \usepackage{siunitx}
+\sisetup{exponent-product = \cdot}
 \usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math} % load after ams
+\unimathsetup{math-style=ISO}
 
 % graphics, colors, captions, tables
 \usepackage{caption}
-\usepackage{enumerate}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{pgfplots}
+\usepgfplotslibrary{colorbrewer}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{
+    compat=1.18,
+    cycle list/Set1,
+}
 \usepackage{pgfplotstable}
-\usepackage{subcaption}
+\pgfplotstableset{col sep=comma}
+\usepackage[labelformat=simple]{subcaption}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usetikzlibrary{external}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.symbols}
+\tikzexternalize[prefix=build] % do not clutter root directory
+\input{graphics/tikz/global.tex}
 \usepackage{xcolor}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+
+\newsavebox{\imagebox} % store image size for alignment
 
 % code, programming
 % \usepackage{listings}
@@ -36,9 +56,27 @@
 \usepackage{csquotes} % required by biblatex
 \usepackage{hyperref}
 \usepackage{zref-clever}
+\addbibresource{ref.bib}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue,
+    citecolor=blue,
+    linkcolor=blue,
+    breaklinks=true,
+    pdftitle={\@title},
+    pdfauthor={Frank T.\ Ebel},
+}
+\zcsetup{
+    abbrev=true,
+    cap=true,
+}
+\zcLanguageSetup{english}{
+    type = section ,
+    Name-sg-ab = Sec. ,
+}
 
 % misc
 \usepackage{datetime2} % ISO 8601
+\usepackage{enumerate}
 \usepackage[language=english]{lipsum} % placeholder text
 \usepackage{shellesc}
-% \usepackage{todonotes} % not compatible with tikzexternalize
