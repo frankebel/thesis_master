@@ -1,0 +1,129 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        node distance=0pt,
+    ]
+    \begin{groupplot}
+        [
+            group style=
+                {
+                    group name=plots,
+                    group size=2 by 2,
+                    horizontal sep=2mm,
+                    vertical sep=2mm,
+                    x descriptions at=edge bottom,
+                    ylabels at=edge left,
+                },
+            width=0.45\textwidth,
+            xmode=log,
+            ymode=log,
+            cycle multiindex* list={
+                    Set1\nextlist%
+                    mark list*\nextlist
+                },
+        ]
+
+        \nextgroupplot
+        [
+            xmax=2e2,
+            ymin=1e-3,
+            ymax=3e3,
+            ylabel={runtime (\unit{\second})},
+            legend style={
+                    at={($(0,0)+(1cm,1cm)$)},
+                    legend columns=3,
+                    anchor=center,
+                    align=center,
+                    /tikz/every even column/.append style={column sep=5mm},
+                },
+            legend entries=
+                {
+                    {$L=1$, $p=1$},
+                    {$L=2$, $p=1$},
+                    {$L=3$, $p=1$},
+                    {$L=1$, $p=2$},
+                    {$L=2$, $p=2$},
+                },
+            legend to name=named,
+        ]
+        \addplot+ table [x=krylov, y=time_L1_p1] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=time_L2_p1] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=time_L3_p1] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=time_L1_p2] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=time_L2_p2] {data/benchmark_krylov.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+            inner ysep=-3pt,
+        ]
+        (c1) at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-time-krylov}};
+
+        \nextgroupplot
+        [
+            xmax=1e3,
+            ymin=1e-3,
+            ymax=3e3,
+            yticklabel={\empty},
+        ]
+        \addplot+ table [x=bath, y=time_L1_p1] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=time_L2_p1] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=time_L3_p1] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=time_L1_p2] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=time_L2_p2] {data/benchmark_bath.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+            inner ysep=-3pt,
+        ]
+        at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-time-sites}};
+        \coordinate (c2) at (rel axis cs:1,1); % top right
+
+        \nextgroupplot
+        [
+            xmax=2e2,
+            ymin=1e6,
+            ymax=8e10,
+            xlabel={Krylov steps $M$},
+            ylabel={total allocations (\unit{\byte})},
+        ]
+        \addplot+ table [x=krylov, y=allocations_L1_p1] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=allocations_L2_p1] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=allocations_L3_p1] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=allocations_L1_p2] {data/benchmark_krylov.csv};
+        \addplot+ table [x=krylov, y=allocations_L2_p2] {data/benchmark_krylov.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+            inner ysep=-3pt,
+        ]
+        at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-allocations-krylov}};
+
+        \nextgroupplot[
+            xmax=1e3,
+            ymin=1e6,
+            ymax=8e10,
+            xlabel={bath sites $N$},
+            yticklabel={\empty},
+        ]
+        \addplot+ table [x=bath, y=allocations_L1_p1] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=allocations_L2_p1] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=allocations_L3_p1] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=allocations_L1_p2] {data/benchmark_bath.csv};
+        \addplot+ table [x=bath, y=allocations_L2_p2] {data/benchmark_bath.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+            inner ysep=-3pt,
+        ]
+        at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-allocations-sites}};
+
+    \end{groupplot}
+
+    \coordinate (c3) at ($(c1)!.5!(c2)$); % halfway between c1, c2
+    \node [below] at (c3 |- current bounding box.south) {\pgfplotslegendfromname{named}};
+\end{tikzpicture}
