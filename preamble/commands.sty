@@ -8,21 +8,21 @@
 \newcommand{\mintil}[1]{\mintinline{julia}{#1}}
 
 % color notes
-\newcommand{\fe}[1]{{\color{red}(#1)}}
+\newcommand{\fe}[1]{\textcolor{red}{#1}}
 
 % math
 % unicode-math waits until document setup
 \AtBeginDocument{\renewcommand\vec{\symbf}}
 \AtBeginDocument{\renewcommand\Re{\mathrm{Re}\>}}
 \AtBeginDocument{\renewcommand\Im{\mathrm{Im}\>}}
-\newcommand{\bigO}[1]{\ensuremath O\!\left(#1\right)}
+\newcommand{\bigO}[1]{\ensuremath O\!\left(#1\right)} % chktex 1
 
 % abs, norm
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
 % (anti)commutator
-\DeclarePairedDelimiterX\comm[2]{[}{]}{#1,\mathopen{}#2}%
+\DeclarePairedDelimiterX\comm[2]{[}{]}{#1,\mathopen{}#2} % chktex 9
 \DeclarePairedDelimiterX\acomm[2]{\{}{\}}{#1,\mathopen{}#2}%
 
 % bra-ket

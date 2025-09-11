@@ -2,10 +2,10 @@
 
 \chapter{Model and methods}
 
-\section{Hubbard model}
+\section{Hubbard model}%
 \label{sec:hubbard-model}
 
-In this work we use the Hubbard model \cite{Hubbard1997} to describe strongly correlated systems.
+In this work we use the Hubbard model~\cite{Hubbard1997} to describe strongly correlated systems.
 Denoting the creator of site $i$ and spin $\sigma\in\{\uparrow,\downarrow\}$
 as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonian reads
 \begin{equation}
@@ -36,7 +36,7 @@ chemical potential $\mu$ as we are in the grand canonical ensemble.
         Hubbard model on a 2D square lattice.
         $t$ denotes hopping between nearest-neighbors,
         while $U$ describes the Coulomb repulsion on a doubly occupied site.
-    }
+    }%
     \label{fig:hubbard-model}
 \end{figure}
 
@@ -46,10 +46,10 @@ while the Coulomb interaction is diagonal in real space.
 Thus, in DMFT (details in \zcref{sec:dmft}) we instead solve a simpler model which has only one correlated site.
 % TODO: reference DMFT
 
-\section{Anderson impurity model}
+\section{Anderson impurity model}%
 \label{sec:anderson-impurity-model}
 
-The Hamiltonian of the Anderson impurity model \cite{Anderson1961} can be split into
+The Hamiltonian of the Anderson impurity model~\cite{Anderson1961} can be split into
 an interacting and non-interacting part
 \begin{equation}
     H = H_0 + H_\mathrm{int}.
@@ -90,7 +90,7 @@ and electrons from each bath site can hop in and out of the impurity.
     \begin{subfigure}{0.45\textwidth}
         \centering
         \usebox{\imagebox}
-        \caption{}
+        \caption{}%
         \label{subfig:geometry-star}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
@@ -99,7 +99,7 @@ and electrons from each bath site can hop in and out of the impurity.
         {
             \input{graphics/tikz/geometry_natural_impurity_orbitals.tex}
         }
-        \caption{}
+        \caption{}%
         \label{subfig:geometry-natural-impurity-orbitals}
     \end{subfigure}
     \caption{
@@ -115,7 +115,7 @@ and electrons from each bath site can hop in and out of the impurity.
     }
 \end{figure}
 
-\subsection{Natural impurity orbitals}
+\subsection{Natural impurity orbitals}%
 \label{sec:natural-impurity-orbitals}
 
 To solve the Anderson impurity model,
@@ -142,10 +142,10 @@ As this is not treatable numerically,
 we need to truncate a certain number of determinants with the smallest probabilities.
 To save computational resources,
 we want to find a new basis in which the probabilities decay faster than those of the star geometry
-(further details in \cite{Bi2019}).
+(further details in~\cite{Bi2019}).
 
 Given a spin-orbital basis set $\{\ket{\phi_{i\sigma}}\}$
-with their respective creator $c_{i\sigma}^\dag$ \cite{Bi2019},
+with their respective creator $c_{i\sigma}^\dag$~\cite{Bi2019},
 the density matrix of the ground state is defined as
 \begin{equation}
     n_{ij\sigma} = \sandwich{\psi_0}{c_{i\sigma}^\dag c_{j\sigma}}{\psi_0}.
@@ -157,27 +157,27 @@ However,
 a naive implementation of the natural orbitals will inevitably mix the original impurity
 and bath sites transforming the local Coulomb interaction (\zcref{eq:anderson-interaction})
 among multiple new sites,
-losing locality \cite{Lu2014,Lu2019}.
+losing locality~\cite{Lu2014,Lu2019}.
 We therefore use the \emph{natural impurity orbitals}
 which only rotates bath orbitals while keeping the impurity untouched.
 This new geometry is shown in \zcref{subfig:geometry-natural-impurity-orbitals}.
 The unchanged impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
-Following the convention of \cite{Lu2014,Lu2019},
+Following the convention of~\cite{Lu2014,Lu2019},
 we call sites in the almost fully filled chain valence bath sites (labeled $v$),
 and sites in the almost empty chain as conduction bath sites (labeled $c$).
 Hopping between sites is again shown by lines.
 
-\section{Restricted active space}
+\section{Restricted active space}%
 \label{sec:ras}
 
-\fe{NOTE: I think RAS fits better than CI.}
+\fe{NOTE:\@ I think RAS fits better than CI.}
 
 Using the natural impurity orbitals (\zcref{sec:natural-impurity-orbitals}) allows us to
 write the ground state in a basis which has optimal scaling behavior with respect to
-the number of bath sites \cite{Lu2019}.
+the number of bath sites~\cite{Lu2019}.
 However, the computational complexity still grows combinatorial with each added bath site.
 To alleviate the scaling problem we employ the same restricted active space (RAS) method
-as \citeauthor{Lu2019} \cite{Lu2019}, which is sketched in \zcref{fig:aim-separation}.
+as \citeauthor{Lu2019}~\cite{Lu2019}, which is sketched in \zcref{fig:aim-separation}.
 
 \begin{figure}[ht]
     \centering
@@ -185,7 +185,7 @@ as \citeauthor{Lu2019} \cite{Lu2019}, which is sketched in \zcref{fig:aim-separa
     \caption{
         Separation of the wave function into two components
         $\ket{\phi_I}$ and $\ket{\phi_{II}}$ denoted by two boxes.
-    }
+    }%
     \label{fig:aim-separation}
 \end{figure}
 
@@ -215,7 +215,7 @@ two holes in the valence bath sites $v_l$,
 or one electron in the conduction bath sites $c_l$
 and one hole in the valence bath sites $v_l$ ($l\ge L$).
 
-\section{Bethe lattice}
+\section{Bethe lattice}%
 \label{sec:bethe-lattice}
 
 \begin{figure}[ht]
@@ -223,17 +223,17 @@ and one hole in the valence bath sites $v_l$ ($l\ge L$).
     \input{graphics/tikz/bethe_lattice.tex}
     \caption{
         Bethe lattice with connectivity $z=3$ and nearest-neighbor hopping $t^*$.
-    }
+    }%
     \label{fig:bethe-lattice}
 \end{figure}
 
 In this work we study the Anderson impurity model (\zcref{sec:anderson-impurity-model})
 on the Bethe lattice defined by the coordination number $z$
-as there is ample literature available \cite{Georges1996}.
-\fe{TODO: cite references} % TODO: cite references
+as there is ample literature available~\cite{Georges1996}.
+\fe{TODO:\@ cite references} % TODO: cite references
 \zcref{fig:bethe-lattice} shows a sketch for $z=3$:
 Each site is connected with three neighbors and hopping between two neighboring sites is possible
-with the rescaled amplitude $t^* = t/\sqrt{z}$ \cite{Held2007}
+with the rescaled amplitude $t^* = t/\sqrt{z}$~\cite{Held2007}
 ($t$: hopping amplitude of \zcref{eq:hubbard}).
 In the limit $z\to\infty$ this gives the well-known semicircular density of states (DOS):
 \begin{equation}
@@ -242,10 +242,10 @@ In the limit $z\to\infty$ this gives the well-known semicircular density of stat
 \end{equation}
 with half-bandwidth $D=2t$.
 
-\section{Lanczos algorithm}
+\section{Lanczos algorithm}%
 \label{sec:lanczos-algorithm}
 
-The Lanczos algorithm \cite{Lanczos1950} can be used to approximate the extremal eigenvalues
+The Lanczos algorithm~\cite{Lanczos1950} can be used to approximate the extremal eigenvalues
 of a hermitian $n\times n$ matrix.
 In our case we are interested in the ground state and low energy excitations of a
 given Hamiltonian $H$ (\zcref{eq:impurity-Hamiltonian}).
@@ -269,7 +269,7 @@ The coefficients are chosen such that each Lanczos vector $\vec{q}_j$ is orthono
     \qquad
     b_j = \vec{q}_{j+1}^\dag H \vec{q}_j.
 \end{equation}
-For numerical stability \cite{Paige1972, Paige1976}
+For numerical stability~\cite{Paige1972, Paige1976}
 we instead calculate the coefficients as
 \begin{equation}
     a_j = \vec{v}_j^\dag(H \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
@@ -295,7 +295,7 @@ and matrix collecting all Lanczos vectors
 \end{equation}
 Rewriting \zcref{eq:Lanczos-recurrence} in matrix form and rearranging results in $T = Q^\dag H Q$,
 which means that $T$ is the orthogonal projection of $H$ onto
-the subspace $\mathcal{K}^M(H, \vec{q}_1)$ \cite{Cullum1985}.
+the subspace $\mathcal{K}^M(H, \vec{q}_1)$~\cite{Cullum1985}.
 
 \subsection{Block Lanczos}
 
@@ -333,9 +333,9 @@ For the calculation for $B_j$ one needs to orthornormalize
 \end{equation}
 which is not unique.
 For instance, a QR decomposition $Q_{j+1} B_j = \tilde Q_{j+1}$
-results in an upper triangular matrix $B_j$ which gives $T$ a compactly banded structure
-\cite{Cullum1985, Golub2013}.
-In our work however, we use symmetric Löwdin orthonormalization \cite{Lowdin1950, Brass2021}
+results in an upper triangular matrix $B_j$
+which gives $T$ a compactly banded structure~\cite{Cullum1985, Golub2013}.
+In our work however, we use symmetric Löwdin orthonormalization~\cite{Lowdin1950, Brass2021}
 which is based on the singular value decomposition
 $\tilde Q_{j+1} = U \Sigma V^\dag$.
 We define the overlap matrix as
@@ -356,7 +356,7 @@ The resulting vectors are then
 We use this method as it guarantees hermiticity in the off-diagonal blocks $B_j^\dag = B_j$
 albeit losing the compactly banded structure for $T$.
 If $\tilde Q_j$ is rank-deficient,
-this method can still be applied \cite{Brass2021} by only inverting the block of
+this method can still be applied~\cite{Brass2021} by only inverting the block of
 non-vanishing singular values
 \begin{equation}
     \Sigma =
@@ -372,9 +372,9 @@ non-vanishing singular values
     \end{pmatrix},
 \end{equation}
 still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb{0}_{q\times q}$
-for $i \in \{1,\ldots,j-1\}$ \cite{Golub2013}.
+for $i \in \{1,\ldots,j-1\}$~\cite{Golub2013}.
 
-\section{Correlators}
+\section{Correlators}%
 \label{sec:correlators}
 
 The retarded correlator for two fermionic operators $A, B$ is defined as
@@ -385,7 +385,7 @@ with the step function $\Theta$ and anticommutator $\acomm{\cdot}{\cdot}$.
 $A(t) = \me^{\mi H t} A \me^{-\mi H t}$ is given in the Heisenberg picture.
 At zero temperature $T=0$, the expectation value is evaluated on the ground state
 $\expval{\,\cdot\,} = \sandwich{\psi_0}{\,\cdot\,}{\psi_0}$ only.
-Following the notation of \cite{Bulla1998,Kugler2022},
+Following the notation of~\cite{Bulla1998,Kugler2022},
 we will denote the Fourier transform $\mathcal{F}$ as
 \begin{equation}
     C_\omega
@@ -425,7 +425,7 @@ the propagation of an electron/hole in the system and is called Green's function
 \subsection{Representation}
 
 Using the (block) Lanczos algorithm we can represent (block) correlators as the first component
-of the inverse of our (block) tridiagonal matrix $T$ \cite{Lu2014},
+of the inverse of our (block) tridiagonal matrix $T$~\cite{Lu2014},
 see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
 \begin{equation}
     C_\omega
@@ -434,7 +434,7 @@ see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
 \end{equation}
 where $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ is a shorthand notation
 for a diagonal matrix.
-Using the Schur completment \cite{Schur1917} this can be written as a continued fraction
+Using the Schur completment~\cite{Schur1917} this can be written as a continued fraction
 \begin{equation}
     C_\omega
     =
@@ -443,7 +443,7 @@ Using the Schur completment \cite{Schur1917} this can be written as a continued 
 with $\frac{1}{D} \wedgeq D^{-1}$ meant as the matrix inverse.
 $B_0$ normalizes the initial state of
 the block Lanczos routine.
-In contrast to \texttt{QUANTY} \cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
+In contrast to \texttt{QUANTY}~\cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
 In the scalar case, all matrices $A_j$, $B_j$ are replaced by
 their scalar counterpart $a_j$, $b_j$ respectively.
@@ -468,7 +468,7 @@ Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Ander
     B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0.
     \label{eq:correlator-anderson}
 \end{equation}
-A detailed explanation on how to switch between these representations is given in \cite{Lu2014}.
+A detailed explanation on how to switch between these representations is given in~\cite{Lu2014}.
 
 \subsection{Broadening and spectra}
 
@@ -504,21 +504,21 @@ We will denote the broadened correlator as $C_z$
 to contrast it against $C_\omega$ which has no broadening.
 In this work we will use the following three schemes:
 \begin{enumerate}[(i)]
-    \item Lorentzian broadening characterized by $\delta$:
+    \item Lorentzian broadening characterized by $\delta$:%
           \label{item:lorentzian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
               \frac{1}{\muppi}\frac{\delta}{(\omega - \omega_0)^2 + \delta^2}
           \end{equation}
-    \item Gaussian broadening characterized by $\sigma$:
+    \item Gaussian broadening characterized by $\sigma$:%
           \label{item:gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
               \frac{1}{\sqrt{2\muppi \sigma^2}}\exp\left(-\frac{(\omega - \omega_0)^2}{2\sigma^2}\right)
           \end{equation}
-    \item logarithmic Gaussian characterized by $b$ \cite{Bulla2008}:
+    \item logarithmic Gaussian characterized by $b$~\cite{Bulla2008}:%
           \label{item:logarithmic-gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
@@ -534,7 +534,7 @@ In this work we will use the following three schemes:
         Spectral part of a correlator
         $C_\omega = \frac{1}{\omega + \mi0^+ - 0.25} + \frac{0.5}{\omega + \mi0^+ - 1}$
         using various broadening schemes.
-    }
+    }%
     \label{fig:broadening}
 \end{figure}
 
@@ -546,7 +546,7 @@ and sharper if the pole is closer to $\omega=0$.
 As all poles are at located at $\omega>0$,
 the spectrum of the log Gaussian vanishes for $\omega\le0$.
 
-\section{Self-energy}
+\section{Self-energy}%
 \label{sec:self-energy}
 
 As mentioned in the previous section,
@@ -554,14 +554,14 @@ the Green's function $G_\omega$ describes the propagation of an electron/hole in
 If our system is non-interacting ($U=0$ in \zcref{eq:anderson-interaction}),
 we call it the non-interacting Green's function $G_{0, \omega}$.
 The quantity that connects these two objects is the self-energy defined by the Dyson equation
-\fe{NOTE: I do not want to intruduce Feynman diagrams and irreducibility as
+\fe{NOTE:\@ I do not want to intruduce Feynman diagrams and irreducibility as
     they will not be used in this work.}
 \begin{equation}
     \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}.
     \label{eq:dyson}
 \end{equation}
 
-In \cite{Lu2014},
+In~\cite{Lu2014},
 this equation was used to represent the self-energy by the constant Hartree term $\Sigma^\mH$
 and a sum of poles
 \begin{equation}
@@ -574,7 +574,7 @@ this was violated and poles with negative weight had to be merged into neighbors
 such that only positive weight remained.
 
 Therefore, we calculate the self-energy using the symmetric improved estimator
-$\Sigma^\mIFG_\omega$ \cite{Kugler2022}
+$\Sigma^\mIFG_\omega$~\cite{Kugler2022}
 which will be summarized in the following:
 We introduce the auxiliary operator
 \begin{equation}
@@ -673,15 +673,15 @@ and add them together
         F^{\mR}_\omega & G_\omega
     \end{pmatrix}.
 \end{equation}
-In \cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
+In~\cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
 might be violated numerically.
 We do not have this problem as $C_\omega$ is hermitian by construction.
 
-Given each correlator as a sum of poles, \citeauthor{Kugler2022} \cite{Kugler2022} broadened
+Given each correlator as a sum of poles,~\citeauthor{Kugler2022}~\cite{Kugler2022} broadened
 each correlator and calculated the broadened self-energy $\Sigma_z$.
 In this work we instead calculate the self-energy on the real axis
-using the Schur complement \cite{Schur1917}
-\fe{TODO: credit Aleksandrs} %TODO: credit Aleksandrs
+using the Schur complement~\cite{Schur1917}
+\fe{TODO:\@ credit Aleksandrs} %TODO: credit Aleksandrs
 \begin{equation}
     \Sigma_\omega = \Sigma^\mH + \left([(C_\omega)^{-1}]_{11}\right)^{-1}.
 \end{equation}
@@ -735,7 +735,7 @@ and variance
 \end{equation}
 As this approximation is not sufficient for calculations,
 we employ the Lanczos method (\zcref{sec:lanczos-algorithm}) with restarting
-as described in \cite{Lu2014}:
+as described in~\cite{Lu2014}:
 Given an approximate ground state $\ket{\psi_0^{(i)}}$,
 we calculate a new Krylov basis $\mathcal{K}^5(H, \ket{\psi_0^{(i)}})$ which is diagonalized.
 From this, we calculate a new state $\ket{\psi_0^{(i+1)}}$
@@ -748,16 +748,16 @@ One should note that even if the variance is exactly zero for a state $\ket{\til
 in the RAS truncation (\zcref{sec:ras}),
 this state is not a true eigenstate of the unrestricted Hamiltonian.
 Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
-will generate new states \cite{Lu2014} that were not accounted for.
+will generate new states~\cite{Lu2014} that were not accounted for.
 It is just that these state have (hopefully) such small weight allowing us to ignore them.
 
-\section{DMFT}
+\section{DMFT}%
 \label{sec:dmft}
 
 As mentioned in \zcref{sec:hubbard-model},
 the Hubbard model has no analytical solution in arbitrary dimensions $d$.
 In the limit $d\to\infty$ it can be solved with
-dynamical mean-field theory (DMFT) \cite{Georges1996},
+dynamical mean-field theory (DMFT)~\cite{Georges1996},
 which takes a single lattice site as a representative
 and averages all spacial fluctuations around it, only keeping time correlations
 (hence the term \emph{dynamical mean-field}).
@@ -805,7 +805,7 @@ closing our self-consistency loop.
 
 For the special case of a lattice in infinite dimensions,
 one can skip the calculation of the lattice Green's function
-and directly update the hybridization \cite{Lu2014}:
+and directly update the hybridization~\cite{Lu2014}:
 \begin{equation}
     \Delta_\omega = \Delta_{0}(\omega + \mu - \mu_0 - \Sigma_\omega),
 \end{equation}
