@@ -37,12 +37,14 @@
 \usepackage[labelformat=simple]{subcaption}
 \usepackage{tabularx}
 \usepackage{tikz}
-\usetikzlibrary{external}
-\usetikzlibrary{arrows.meta}
-\usetikzlibrary{fit}
-\usetikzlibrary{positioning}
-\usetikzlibrary{shapes.symbols}
-\tikzexternalize[prefix=build] % do not clutter root directory
+\usetikzlibrary{
+    arrows.meta,
+    external,
+    fit,
+    positioning,
+    shapes.symbols,
+}
+\tikzexternalize
 \input{graphics/tikz/global.tex}
 \usepackage{xcolor}
 \renewcommand\thesubfigure{(\alph{subfigure})}
