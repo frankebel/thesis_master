@@ -66,7 +66,7 @@ it can be written as
     \sum_{k\sigma} \epsilon_{k\sigma}^{\pdag} b^\dag_{k\sigma} b^{\pdag}_{k\sigma}
     +
     \sum_{k\sigma} \left(V^{\ps}_{k\sigma} d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
-    + V_{j\sigma}^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma} \right),
+    + V_{k\sigma}^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma} \right),
     \label{eq:anderson-non-interacting}
     \\
     H_\mathrm{int}
@@ -121,27 +121,31 @@ and electrons from each bath site can hop in and out of the impurity.
 To solve the Anderson impurity model,
 we can use Slater determinants to decompose the wave function
 \begin{equation}
-    \ket{\psi} = \sum_{i=1}^M \alpha_i \ket{\phi_i}
+    \ket{\psi} = \sum_{i=1}^M \alpha_i \ket{\alpha_i}
+    \label{eq:slater-decomposition}
 \end{equation}
 using any orthonormal set of basis functions.
 With the occupation number,
 we can express the number of electrons in each spin sector as
+the sum of impurity and bath electrons
 \begin{equation}
-    n_\sigma = n_{i,\sigma} + \sum_{k=1}^N n_{b,k\sigma}.
+    N_\sigma = n_{i,\sigma} + \sum_{k=1}^N n_{b,k\sigma}.
 \end{equation}
-For a fixed amount of electrons $n_\uparrow + n_\downarrow$ on $N$ bath sites and the impurity,
+For a fixed amount of electrons $N_\mathrm{tot} = N_\uparrow + N_\downarrow$,
 a combination of
 \begin{equation}
-    m = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
+    M = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
 \end{equation}
 determinants are necessary to fully describe the wave function.
-For a half-filled system ($n_\uparrow = n_\downarrow = (N+1)/2$)
+For a half-filled system ($N_\uparrow = N_\downarrow = (N+1)/2$)
 with $N+1=140$ sites, this is approximately $\num{9e81}$
 exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
 As this is not treatable numerically,
 we need to truncate a certain number of determinants with the smallest probabilities.
 To save computational resources,
-we want to find a new basis in which the probabilities decay faster than those of the star geometry
+we want to find a new basis in which the probabilities
+$|\alpha_i^2|$ in \zcref{eq:slater-decomposition}
+decay faster than those of the star geometry
 (further details in~\cite{Bi2019}).
 
 Given a spin-orbital basis set $\{\ket{\phi_{i\sigma}}\}$
@@ -272,9 +276,9 @@ The coefficients are chosen such that each Lanczos vector $\vec{q}_j$ is orthono
 For numerical stability~\cite{Paige1972, Paige1976}
 we instead calculate the coefficients as
 \begin{equation}
-    a_j = \vec{v}_j^\dag(H \vec{v}_j - \beta_{j-1}\vec{v}_{j-1}),
+    a_j = \vec{q}_j^\dag(H \vec{q}_j - \beta_{j-1}\vec{q}_{j-1}),
     \qquad
-    b_j = \norm{H\vec{v}_j - \alpha\vec{v}_j -  \beta_{j-1}\vec{v}_{j-1}}.
+    b_j = \norm{H\vec{q}_j - \alpha\vec{q}_j -  \beta_{j-1}\vec{q}_{j-1}}.
 \end{equation}
 From this relation we can create the tridiagonal matrix
 \begin{equation}
@@ -327,7 +331,7 @@ The block tridiagonal matrix of size $Mp\times Mp$ is written as
     \end{pmatrix}.
     \label{eq:tridiagonal-block}
 \end{equation}
-For the calculation for $B_j$ one needs to orthornormalize
+For the calculation for $B_j$ one needs to orthonormalize
 \begin{equation}
     \tilde Q_{j+1} = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
 \end{equation}
@@ -426,7 +430,7 @@ the propagation of an electron/hole in the system and is called Green's function
 
 Using the (block) Lanczos algorithm we can represent (block) correlators as the first component
 of the inverse of our (block) tridiagonal matrix $T$~\cite{Lu2014},
-see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
+see \zcref{eq:tridiagonal-scalar, eq:tridiagonal-block}
 \begin{equation}
     C_\omega
     \propto
@@ -434,7 +438,7 @@ see \zcref{eq:tridiagonal-scalar,eq:tridiagonal-block}
 \end{equation}
 where $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ is a shorthand notation
 for a diagonal matrix.
-Using the Schur completment~\cite{Schur1917} this can be written as a continued fraction
+Using the Schur complement~\cite{Schur1917} this can be written as a continued fraction
 \begin{equation}
     C_\omega
     =
@@ -489,7 +493,7 @@ but related by Kramers-Kronig transformations (Hilbert transform)
          & =
         - \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
         \frac{\Im C_{\omega'}}{\omega - \omega'}
-        \label{eq:kramers-kroneg-real} \\
+        \label{eq:kramers-kronig-real} \\
         \Im C_\omega
          & =
         \phantom{-} \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
@@ -499,7 +503,7 @@ but related by Kramers-Kronig transformations (Hilbert transform)
 \end{subequations}
 
 Thus, we can broaden our delta-peaks from \zcref{eq:spectral-sum}
-for the imaginary part and obtain the real part through \zcref{eq:kramers-kroneg-real}.
+for the imaginary part and obtain the real part through \zcref{eq:kramers-kronig-real}.
 We will denote the broadened correlator as $C_z$
 to contrast it against $C_\omega$ which has no broadening.
 In this work we will use the following three schemes:
@@ -554,7 +558,7 @@ the Green's function $G_\omega$ describes the propagation of an electron/hole in
 If our system is non-interacting ($U=0$ in \zcref{eq:anderson-interaction}),
 we call it the non-interacting Green's function $G_{0, \omega}$.
 The quantity that connects these two objects is the self-energy defined by the Dyson equation
-\fe{NOTE:\@ I do not want to intruduce Feynman diagrams and irreducibility as
+\fe{NOTE:\@ I do not want to introduce Feynman diagrams and irreducibility as
     they will not be used in this work.}
 \begin{equation}
     \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}.
@@ -756,7 +760,7 @@ It is just that these state have (hopefully) such small weight allowing us to ig
 
 As mentioned in \zcref{sec:hubbard-model},
 the Hubbard model has no analytical solution in arbitrary dimensions $d$.
-In the limit $d\to\infty$ it can be solved with
+In the limit $d\to\infty$ however, it can be solved with
 dynamical mean-field theory (DMFT)~\cite{Georges1996},
 which takes a single lattice site as a representative
 and averages all spacial fluctuations around it, only keeping time correlations
