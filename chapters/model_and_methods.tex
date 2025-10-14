@@ -407,14 +407,14 @@ we split this expression into two components $C_\omega = C^+_\omega + C^-_\omega
     \begin{align}
         C^+_\omega
          & =
-        \expval*{A \frac{1}{\omega + \mi0^+ - H + E_0} B}
+        \expval*{A \frac{1}{\omega + \mi0^+ - (H - E_0)} B}
         =
-        \sum_n \frac{\sandwich{\psi_0}{A}{n}\sandwich{n}{B}{\psi_0}}{\omega + \mi0^+ - E_n + E_0}, \\
+        \sum_n \frac{\sandwich{\psi_0}{A}{n}\sandwich{n}{B}{\psi_0}}{\omega + \mi0^+ - (E_n - E_0)}, \\
         C^-_\omega
          & =
-        \expval*{B \frac{1}{\omega + \mi0^+ + H - E_0} A}
+        \expval*{B \frac{1}{\omega + \mi0^+ + (H - E_0)} A}
         =
-        \sum_n \frac{\sandwich{\psi_0}{B}{n}\sandwich{n}{A}{\psi_0}}{\omega + \mi0^+ + E_n - E_0}.
+        \sum_n \frac{\sandwich{\psi_0}{B}{n}\sandwich{n}{A}{\psi_0}}{\omega + \mi0^+ + (E_n - E_0)}.
     \end{align}
 \end{subequations}
 The sum is over a complete basis $H\ket{n} = E_n\ket{n}$ with ground state energy $E_0$.
@@ -633,7 +633,7 @@ Concretely, we first calculate the components of our block correlator as
                 \tilde q^{\pdag}_\sigma \\
                 d^{\pdag}_\sigma
             \end{pmatrix}
-            \frac{1}{\omega + \mi0^+ - H + E_0}
+            \frac{1}{\omega + \mi0^+ - (H - E_0)}
             \begin{pmatrix}
                 \tilde q^\dag_\sigma & d^\dag_\sigma
             \end{pmatrix}
@@ -653,7 +653,7 @@ Concretely, we first calculate the components of our block correlator as
                 \tilde q^\dag_\sigma \\
                 d^\dag_\sigma
             \end{pmatrix}
-            \frac{1}{\omega + \mi0^+ + H - E_0}
+            \frac{1}{\omega + \mi0^+ + (H - E_0)}
             \begin{pmatrix}
                 \tilde q^{\pdag}_\sigma & d^{\pdag}_\sigma
             \end{pmatrix}

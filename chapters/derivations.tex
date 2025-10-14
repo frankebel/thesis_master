@@ -39,7 +39,7 @@ Transformation of the first component:
      & =
     -\mi \left(0 - \expval*{A \frac{1}{\mi(z - H + E_0)} B}\right)        \\
      & =
-    \expval*{A \frac{1}{z - H + E_0} B}
+    \expval*{A \frac{1}{z - (H - E_0)} B}
 \end{align}
 Taking the limit gives
 \begin{equation}
@@ -47,7 +47,7 @@ Taking the limit gives
     =
     \lim_{\delta\to0^+} \expval*{A \frac{1}{z - H + E_0} B}
     =
-    \expval*{A \frac{1}{\omega + \mi0^+ - H + E_0} B}.
+    \expval*{A \frac{1}{\omega + \mi0^+ - (H - E_0)} B}.
 \end{equation}
 Transformation of the second component:
 \begin{align}
@@ -65,15 +65,15 @@ Transformation of the second component:
     -\mi \int_0^\infty \md t \>
     \expval*{B \me^{\mi(z + H - E_0)t} A}                                 \\
      & =
-    \expval*{B \frac{1}{z + H - E_0} A}
+    \expval*{B \frac{1}{z + (H - E_0)} A}
 \end{align}
 Taking the limit gives
 \begin{equation}
     C^-_\omega
     =
-    \lim_{\delta\to0^+} \expval*{A \frac{1}{z + H - E_0} B}
+    \lim_{\delta\to0^+} \expval*{A \frac{1}{z + (H - E_0)} B}
     =
-    \expval*{A \frac{1}{\omega + \mi0^+ + H - E_0} B}.
+    \expval*{A \frac{1}{\omega + \mi0^+ + (H - E_0)} B}.
 \end{equation}
 
 \section{DMFT simplification}%
