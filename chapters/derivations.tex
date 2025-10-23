@@ -5,39 +5,46 @@
 \section{Fourier transform of the retarded correlator}%
 \label{app:fourier-transform}
 
-Fourier transform of the retarded correlator from time to frequency space.
+In this section we perform the Fourier transform of
+the retarded correlator given in \zcref{eq:correlator-time},
+and show how to arrive at \zcref{eq:correlator-frequency}.
+As the transformation is linear,
+we can transform each term separately:
 \begin{align}
     C_\omega
      & =
-    \mathcal{F}[-\mi \Theta(t) \expval{\acomm{A(t)}{B}}] \\
+    \lim_{\delta\to0^+}
+    -\mi \int_0^\infty\! \md t\> \me^{\mi (\omega + \mi\delta) t}
+    \langle A(t) B\rangle + \langle B A(t)\rangle \\
      & =
-    \mathcal{F}[-\mi \Theta(t) \expval{A(t) B}]
+    \lim_{\delta\to0^+}
+    -\mi \int_0^\infty\! \md t\> \me^{\mi (\omega + \mi\delta) t}
+    \langle A(t) B\rangle
     +
-    \mathcal{F}[-\mi \Theta(t) \expval{B A(t)}]          \\
+    \lim_{\delta\to0^+}
+    -\mi \int_0^\infty\! \md t\> \me^{\mi (\omega + \mi\delta) t}
+    \langle B A(t)\rangle                         \\
      & =
-    C^+_\omega + C^-_\omega
+    C^+_\omega + C^-_\omega.
 \end{align}
 We define the complex frequency $z=\omega+\mi\delta$ and take the limit $\delta\to0^+$ at the end.
 Transformation of the first component:
 \begin{align}
     C^+_z
      & =
-    \int_{-\infty}^\infty \md t \>
-    \me^{\mi zt}(-\mi \Theta(t) \expval*{\me^{\mi Ht} A \me^{-\mi Ht} B}) \\
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \expval*{\me^{\mi Ht} A \me^{-\mi Ht} B}          \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \expval*{\me^{\mi Ht} A \me^{-\mi Ht} B}                 \\
+    \me^{\mi zt} \expval*{\me^{\mi E_0t} A \me^{-\mi Ht} B}        \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \expval*{\me^{\mi E_0t} A \me^{-\mi Ht} B}               \\
-     & =
-    -\mi \int_0^\infty \md t \>
-    \expval{A \me^{\mi(z - H + E_0)t} B}                                  \\
+    \expval{A \me^{\mi(z - H + E_0)t} B}                           \\
      & =
     -\mi \left.\expval*{A \frac{\me^{\mi(z - H + E_0)t}}{\mi(z - H + E_0)} B}
-    \right|_0^\infty                                                      \\
+    \right|_0^\infty                                               \\
      & =
-    -\mi \left(0 - \expval*{A \frac{1}{\mi(z - H + E_0)} B}\right)        \\
+    -\mi \left(0 - \expval*{A \frac{1}{\mi(z - H + E_0)} B}\right) \\
      & =
     \expval*{A \frac{1}{z - (H - E_0)} B}
 \end{align}
@@ -45,7 +52,7 @@ Taking the limit gives
 \begin{equation}
     C^+_\omega
     =
-    \lim_{\delta\to0^+} \expval*{A \frac{1}{z - H + E_0} B}
+    \lim_{\delta\to0^+} \expval*{A \frac{1}{z - (H - E_0)} B}
     =
     \expval*{A \frac{1}{\omega + \mi0^+ - (H - E_0)} B}.
 \end{equation}
@@ -53,17 +60,14 @@ Transformation of the second component:
 \begin{align}
     C^-_z
      & =
-    \int_{-\infty}^\infty \md t \>
-    \me^{\mi zt}(-\mi \Theta(t) \expval*{B \me^{\mi Ht} A \me^{-\mi Ht}}) \\
+    -\mi \int_0^\infty \md t \>
+    \me^{\mi zt} \expval*{B \me^{\mi Ht} A \me^{-\mi Ht}}   \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \expval*{B \me^{\mi Ht} A \me^{-\mi Ht}}                 \\
+    \me^{\mi zt} \expval*{B \me^{\mi Ht} A \me^{-\mi E_0t}} \\
      & =
     -\mi \int_0^\infty \md t \>
-    \me^{\mi zt} \expval*{B \me^{\mi Ht} A \me^{-\mi E_0t}}               \\
-     & =
-    -\mi \int_0^\infty \md t \>
-    \expval*{B \me^{\mi(z + H - E_0)t} A}                                 \\
+    \expval*{B \me^{\mi(z + H - E_0)t} A}                   \\
      & =
     \expval*{B \frac{1}{z + (H - E_0)} A}
 \end{align}
