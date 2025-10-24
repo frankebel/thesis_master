@@ -32,7 +32,7 @@
             ylabel={runtime (\unit{\second})},
             legend style={
                     at={($(0,0)+(1cm,1cm)$)},
-                    legend columns=3,
+                    legend columns=2,
                     anchor=center,
                     align=center,
                     /tikz/every even column/.append style={column sep=5mm},
@@ -41,7 +41,6 @@
                 {
                     {$L=1$, $p=1$},
                     {$L=2$, $p=1$},
-                    {$L=3$, $p=1$},
                     {$L=1$, $p=2$},
                     {$L=2$, $p=2$},
                 },
@@ -49,7 +48,6 @@
         ]
         \addplot+ table [x=krylov, y=time_L1_p1] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=time_L2_p1] {data/benchmark_krylov.csv};
-        \addplot+ table [x=krylov, y=time_L3_p1] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=time_L1_p2] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=time_L2_p2] {data/benchmark_krylov.csv};
         \node
@@ -69,7 +67,6 @@
         ]
         \addplot+ table [x=bath, y=time_L1_p1] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=time_L2_p1] {data/benchmark_bath.csv};
-        \addplot+ table [x=bath, y=time_L3_p1] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=time_L1_p2] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=time_L2_p2] {data/benchmark_bath.csv};
         \node
@@ -91,7 +88,6 @@
         ]
         \addplot+ table [x=krylov, y=allocations_L1_p1] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=allocations_L2_p1] {data/benchmark_krylov.csv};
-        \addplot+ table [x=krylov, y=allocations_L3_p1] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=allocations_L1_p2] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=allocations_L2_p2] {data/benchmark_krylov.csv};
         \node
@@ -111,7 +107,6 @@
         ]
         \addplot+ table [x=bath, y=allocations_L1_p1] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=allocations_L2_p1] {data/benchmark_bath.csv};
-        \addplot+ table [x=bath, y=allocations_L3_p1] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=allocations_L1_p2] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=allocations_L2_p2] {data/benchmark_bath.csv};
         \node
