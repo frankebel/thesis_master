@@ -1,0 +1,61 @@
+%! TeX root = ../main.tex
+
+\chapter{Methods}%
+\label{ch:methods}
+
+\subsection{Natural impurity orbitals}%
+\label{sec:natural-impurity-orbitals}
+
+To solve the Anderson impurity model,
+we can use Slater determinants to decompose the wave function
+\begin{equation}
+    \ket{\psi} = \sum_{i=1}^M \alpha_i \ket{\alpha_i}
+    \label{eq:slater-decomposition}
+\end{equation}
+using any orthonormal set of basis functions.
+With the occupation number,
+we can express the number of electrons in each spin sector as
+the sum of impurity and bath electrons
+\begin{equation}
+    N_\sigma = n_{i,\sigma} + \sum_{k=1}^N n_{b,k\sigma}.
+\end{equation}
+For a fixed amount of electrons $N_\mathrm{tot} = N_\uparrow + N_\downarrow$,
+a combination of
+\begin{equation}
+    M = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
+\end{equation}
+determinants are necessary to fully describe the wave function.
+For a half-filled system ($N_\uparrow = N_\downarrow = (N+1)/2$)
+with $N+1=140$ sites, this is approximately $\num{9e81}$
+exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
+As this is not treatable numerically,
+we need to truncate a certain number of determinants with the smallest probabilities.
+To save computational resources,
+we want to find a new basis in which the probabilities
+$|\alpha_i^2|$ in \zcref{eq:slater-decomposition}
+decay faster than those of the star geometry
+(further details in~\cite{Bi2019}).
+
+Given a spin-orbital basis set $\{\ket{\phi_{i\sigma}}\}$
+with their respective creator $c_{i\sigma}^\dag$~\cite{Bi2019},
+the density matrix of the ground state is defined as
+\begin{equation}
+    n_{ij\sigma} = \sandwich{\psi_0}{c_{i\sigma}^\dag c_{j\sigma}}{\psi_0}.
+\end{equation}
+A commonly employed basis in quantum chemistry are the \emph{natural orbitals},
+where the orbitals $\ket{\phi_{i\sigma}}$ are chosen such that
+the aforementioned density matrix is diagonal $n_{ij\sigma} = \delta_{ij}n_{ij\sigma}$.
+However,
+a naive implementation of the natural orbitals will inevitably mix the original impurity
+and bath sites transforming the local Coulomb interaction (\zcref{eq:Anderson-interaction})
+among multiple new sites,
+losing locality~\cite{Lu2014,Lu2019}.
+We therefore use the \emph{natural impurity orbitals}
+which only rotates bath orbitals while keeping the impurity untouched.
+This new geometry is shown in \zcref{subfig:geometry-natural-impurity-orbitals}.
+The unchanged impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
+Following the convention of~\cite{Lu2014,Lu2019},
+we call sites in the almost fully filled chain valence bath sites (labeled $v$),
+and sites in the almost empty chain as conduction bath sites (labeled $c$).
+Hopping between sites is again shown by lines.
+

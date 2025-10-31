@@ -133,129 +133,54 @@ while the Coulomb interaction is diagonal in real space.
 \section{Anderson impurity model}%
 \label{sec:anderson-impurity-model}
 
-Thus, in DMFT (details in \zcref{sec:dmft}) we instead solve a simpler model which has only one correlated site.
-% TODO: reference DMFT
-The Hamiltonian of the Anderson impurity model~\cite{Anderson1961} can be split into
-an interacting and non-interacting part
-\begin{equation}
-    H = H_0 + H_\mathrm{int}.
-    \label{eq:impurity-Hamiltonian}
-\end{equation}
-Denoting the impurity (labeled $i$) annihilators by $d_\sigma$
-and bath (labeled $b$) annihilators by $b_{k\sigma}$
-it can be written as
-\begin{align}
-    H_0
-     & =
-    (\epsilon - \mu) \sum_{\pk\sigma} n_\sigma
-    +
-    \sum_{k\sigma} \epsilon_{k\sigma}^{\pdag} b^\dag_{k\sigma} b^{\pdag}_{k\sigma}
-    +
-    \sum_{k\sigma} \left(V^{\ps}_{k\sigma} d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
-    + V_{k\sigma}^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma} \right),
-    \label{eq:anderson-non-interacting}
-    \\
-    H_\mathrm{int}
-     & =
-    U n_\uparrow n_\downarrow.
-    \label{eq:anderson-interaction}
-\end{align}
-Here,
-$\epsilon$ denotes the impurity energy,
-$\mu$ the chemical potential,
-$n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$ the impurity occupation,
-$\epsilon_{k\sigma}$ the energy levels of the bath,
-and $V_{k\sigma}$ the hybridization between the bath and impurity.
-A graphical representation of this \emph{star geometry} is given in \zcref{subfig:geometry-star}:
-each bath site has a given filling
-and electrons from each bath site can hop in and out of the impurity.
-
 \begin{figure}[ht]
     \centering
-    \savebox{\imagebox}{\input{graphics/tikz/geometry_star.tex}} % save for height alignment
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \usebox{\imagebox}
-        \caption{}%
-        \label{subfig:geometry-star}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \raisebox{\dimexpr0.5\ht\imagebox-0.5\height}
-        {
-            \input{graphics/tikz/geometry_natural_impurity_orbitals.tex}
-        }
-        \caption{}%
-        \label{subfig:geometry-natural-impurity-orbitals}
-    \end{subfigure}
+    \input{graphics/tikz/geometry_star.tex}
     \caption{
-        Anderson impurity model in different geometries.
+        Sketch of an Anderson impurity model.
         Impurity (square) interacting with bath sites (circles).
         Site occupation is indicated by fill level,
         where a full site corresponds to double occupation.
-        Furthermore, hopping between sites is shown by lines.
-        \subref{subfig:geometry-star} is the conventional \emph{star geometry};
-        \subref{subfig:geometry-natural-impurity-orbitals} the \emph{natural impurity orbitals}
-        are explained in \zcref{sec:natural-impurity-orbitals}
+        Furthermore, hopping between the impurity and bath sites is shown by lines.
         (adapted from~\cite{Lu2019}).
-    }
+    }%
+    \label{fig:AIM-geometry-star}
 \end{figure}
 
-\subsection{Natural impurity orbitals}%
-\label{sec:natural-impurity-orbitals}
-
-To solve the Anderson impurity model,
-we can use Slater determinants to decompose the wave function
+Instead of having a repulsion $U$ on each site,
+we can create a model in which only one site is correlated
+(called \emph{impurity site} or just \emph{impurity})
+and embedded in a non-interacting bath.
+This is called the Anderson impurity model~\cite{Anderson1961}
+and its Hamiltonian can be written as
 \begin{equation}
-    \ket{\psi} = \sum_{i=1}^M \alpha_i \ket{\alpha_i}
-    \label{eq:slater-decomposition}
+    H = H_\mathrm{imp} + H_\mathrm{bath} + H_\mathrm{imp - bath}.
+    \label{eq:H-Anderson}
 \end{equation}
-using any orthonormal set of basis functions.
-With the occupation number,
-we can express the number of electrons in each spin sector as
-the sum of impurity and bath electrons
+The impurity can be further split into a non-interacting and interacting part
+using the occupation operator $n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$
+\begin{align}
+    H_{\mathrm{imp},0} & = (\epsilon - \mu) \sum_\sigma n_\sigma \\
+    H_\mathrm{int}     & = U n_\uparrow n_\downarrow,
+    \label{eq:Anderson-interaction}
+\end{align}
+which has overlapping terms with \zcref{eq:H-Hubbard}.
+For the bath we define the annihilator $b_{k\sigma}$ and energy $\epsilon_k$,
+allowing us to write
 \begin{equation}
-    N_\sigma = n_{i,\sigma} + \sum_{k=1}^N n_{b,k\sigma}.
+    H_\mathrm{bath} = \sum_{k\sigma} \epsilon_k b^\dag_{k\sigma} b^{\pdag}_{k\sigma}.
 \end{equation}
-For a fixed amount of electrons $N_\mathrm{tot} = N_\uparrow + N_\downarrow$,
-a combination of
+Finally, the interaction between impurity and bath is given by the hybridization strength $V_k$:
 \begin{equation}
-    M = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
+    H_\mathrm{imp - bath}
+    =
+    \sum_{k\sigma} \left(V^{\ps}_k d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
+    + V_k^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma} \right)
 \end{equation}
-determinants are necessary to fully describe the wave function.
-For a half-filled system ($N_\uparrow = N_\downarrow = (N+1)/2$)
-with $N+1=140$ sites, this is approximately $\num{9e81}$
-exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
-As this is not treatable numerically,
-we need to truncate a certain number of determinants with the smallest probabilities.
-To save computational resources,
-we want to find a new basis in which the probabilities
-$|\alpha_i^2|$ in \zcref{eq:slater-decomposition}
-decay faster than those of the star geometry
-(further details in~\cite{Bi2019}).
-
-Given a spin-orbital basis set $\{\ket{\phi_{i\sigma}}\}$
-with their respective creator $c_{i\sigma}^\dag$~\cite{Bi2019},
-the density matrix of the ground state is defined as
-\begin{equation}
-    n_{ij\sigma} = \sandwich{\psi_0}{c_{i\sigma}^\dag c_{j\sigma}}{\psi_0}.
-\end{equation}
-A commonly employed basis in quantum chemistry are the \emph{natural orbitals},
-where the orbitals $\ket{\phi_{i\sigma}}$ are chosen such that
-the aforementioned density matrix is diagonal $n_{ij\sigma} = \delta_{ij}n_{ij\sigma}$.
-However,
-a naive implementation of the natural orbitals will inevitably mix the original impurity
-and bath sites transforming the local Coulomb interaction (\zcref{eq:anderson-interaction})
-among multiple new sites,
-losing locality~\cite{Lu2014,Lu2019}.
-We therefore use the \emph{natural impurity orbitals}
-which only rotates bath orbitals while keeping the impurity untouched.
-This new geometry is shown in \zcref{subfig:geometry-natural-impurity-orbitals}.
-The unchanged impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
-Following the convention of~\cite{Lu2014,Lu2019},
-we call sites in the almost fully filled chain valence bath sites (labeled $v$),
-and sites in the almost empty chain as conduction bath sites (labeled $c$).
-Hopping between sites is again shown by lines.
+A graphical representation of the Hamiltonian in \zcref{eq:H-Anderson} is given
+in \zcref{fig:AIM-geometry-star}:
+each bath site has a given filling
+and electrons from each bath site can hop in and out of the impurity.
 
 \section{Restricted active space}%
 \label{sec:ras}
@@ -311,7 +236,7 @@ and one hole in the valence bath sites $v_l$ ($l\ge L$).
 The Lanczos algorithm~\cite{Lanczos1950} can be used to approximate the extremal eigenvalues
 of a hermitian $n\times n$ matrix.
 In our case we are interested in the ground state and low energy excitations of a
-given Hamiltonian $H$ (\zcref{eq:impurity-Hamiltonian}).
+given Hamiltonian $H$ (\zcref{eq:H-Anderson}).
 The method is especially useful if $H$ is sparse and too large to decompose fully.
 It is based on a Krylov basis
 \begin{equation}
@@ -614,7 +539,7 @@ the spectrum of the log Gaussian vanishes for $\omega\le0$.
 
 As mentioned in the previous section,
 the Green's function $G_\omega$ describes the propagation of an electron/hole in our system.
-If our system is non-interacting ($U=0$ in \zcref{eq:anderson-interaction}),
+If our system is non-interacting ($U=0$ in \zcref{eq:Anderson-interaction}),
 we call it the non-interacting Green's function $G_{0, \omega}$.
 The quantity that connects these two objects is the self-energy defined by the Dyson equation
 \fe{NOTE:\@ I do not want to introduce Feynman diagrams and irreducibility as
@@ -774,7 +699,7 @@ and no merging of negative weight into neighbors is necessary.
 In order to calculate correlators and expectation values listed in
 \zcref{sec:correlators, sec:self-energy} at $T=0$,
 one first needs to obtain the ground state of a given impurity Hamiltonian $H$
-(\zcref{eq:impurity-Hamiltonian}).
+(\zcref{eq:H-Anderson}).
 As an initial guess we take the state with all valence bath sites $v_k$ filled in combination with
 a singlet state in the impurity $i$ and mirror site $m$
 (the filling of each site is sketched in \zcref{subfig:geometry-natural-impurity-orbitals}):
@@ -857,8 +782,8 @@ containing the impurity energy $\epsilon - \mu$ and hybridization function
     \Delta_\omega = \sum_{k\sigma} \frac{\abs{V_{k\sigma}}^2}{\omega +\mi0^+ - \epsilon_{k\sigma}}.
 \end{equation}
 Given these terms, we can write down the non-interacting Hamiltonian
-of \zcref{eq:anderson-non-interacting}.
-After adding the interacting term of \zcref{eq:anderson-interaction}, we can solve the impurity
+of \zcref{eq:H-Anderson}.
+After adding the interacting term of \zcref{eq:Anderson-interaction}, we can solve the impurity
 Hamiltonian using the previously discussed solver,
 yielding us a new impurity Green's function $G_\omega$
 and self-energy $\Sigma_\omega$.
