@@ -1,0 +1,23 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    \begin{axis}
+        [
+            width=6cm,
+            xlabel=$\omega/D$,
+            ylabel=$\rho(\omega)$,
+            xmin=-1.1,
+            xmax=1.1,
+            ymin=0,
+            legend cell align=left,
+            every axis plot/.append style=
+                {
+                    thick,
+                    domain=-1:1,
+                    samples=800,
+                },
+        ]
+
+        \addplot {2/pi * sqrt(1 - x^2)};
+    \end{axis}
+\end{tikzpicture}

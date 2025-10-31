@@ -3,12 +3,94 @@
 \chapter{Models and formalism}%
 \label{ch:models-and-formalism}
 
+\section{Bethe lattice}%
+\label{sec:bethe-lattice}
+
+In solid-states physics we study crystals in which atoms are periodically arranged in a lattice.
+Given a set of basis vectors $\{\vec{a}_i\}$,
+the lattice is periodic for all translations
+\begin{equation}
+    \vec{R} = \sum_i n_i \vec{a}_i
+\end{equation}
+for any integer $n_i \in \mathbb{Z}$.
+
+In this work however,
+we look at the Bethe lattice which is only characterized by a single quantity:
+the coordination number $z$.
+It is an infinite graph where each vertex is connected to $z$ neighbors\footnote{
+    It is a lattice in the sense that a translation shifts the root node which is set arbitrarily.
+}.
+A sketch for $z=3$ is given in \zcref{subfig:bethe-lattice}:
+We choose the black vertex in the center as the root node.
+It is connected to three nodes (marked in blue) which in turn are also connected
+to three nodes (each blue node is connected to the original black node and two red nodes).
+This scheme is then infinitely repeated for each site.
+
+We can then model electron movement as hopping from a given site to
+one of the $z$ neighbors.
+If we assume that hopping to each neighbor is equally likely and assign it the probability $p^*$,
+the total probability of movement is $p = zp^*$.
+In the limit of infinite connectivity $z\to\infty$ (infinite dimensions) this will diverge,
+necessitating a renormalization.
+Thus, the probability is rescaled as $p^* \to p^*/z$ such that
+the total probability $p$ stays finite.
+Instead of working with a hopping probability,
+we instead introduce the hopping amplitude $t^* = t/\sqrt{z}$~\cite{Held2007}
+which is sketched in \zcref{subfig:bethe-lattice}.
+The density of states (DOS) for $z\to\infty$ then reads
+\begin{equation}
+    \rho(\omega) = \frac{1}{2\muppi t^2} \sqrt{4t^2 - \omega^2},
+\end{equation}
+with bandwidth $W=4t$.
+This equation\footnote{
+    This distribution is also known as the Wigner semicircle distribution
+    which is the eigenvalue distribution of random matrices.
+    They are related to the DOS in as much as a random walk on the Bethe lattice.
+    As the graph has no closed loops,
+    a particle must necessarily take the same path back to return to its origin.
+    Further information can be found in the literature under \emph{random matrix theory}.
+}
+is commonly written using the half-bandwidth $D = W/2 = 2t$:
+\begin{equation}
+    \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{D^2 - \omega^2},
+    \label{eq:dos-semicircle}
+\end{equation}
+which is shown in \zcref{subfig:bethe-density}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \input{graphics/tikz/bethe_lattice.tex}
+        \caption{}%
+        \label{subfig:bethe-lattice}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \input{graphics/tikz/bethe_density.tex}
+        \caption{}%
+        \label{subfig:bethe-density}
+    \end{subfigure}
+    \caption{
+        \subref{subfig:bethe-lattice}
+        Bethe lattice with coordination number $z=3$ and hopping amplitude $t^*$.
+        \subref{subfig:bethe-density}
+        DOS in infinite dimensions.
+        \fe{TODO: align sub figures?} %TODO: align subfigures? % chktex 13
+    }
+\end{figure}
+
 \section{Hubbard model}%
 \label{sec:hubbard-model}
 
 In this work we use the Hubbard model~\cite{Hubbard1997} to describe strongly correlated systems.
 Denoting the creator of site $i$ and spin $\sigma\in\{\uparrow,\downarrow\}$
-as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonian reads
+as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonian\footnote{
+    In this work we look at the SU(2) symmetric model % chktex 36
+    which means that $\epsilon_\uparrow = \epsilon_\downarrow$.
+    For simplicity, we omit the spin index and just write $\epsilon$.
+}
+reads
 \begin{equation}
     H
     =
@@ -219,33 +301,6 @@ Two electrons in the conduction bath sites $c_l$,
 two holes in the valence bath sites $v_l$,
 or one electron in the conduction bath sites $c_l$
 and one hole in the valence bath sites $v_l$ ($l\ge L$).
-
-\section{Bethe lattice}%
-\label{sec:bethe-lattice}
-
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/bethe_lattice.tex}
-    \caption{
-        Bethe lattice with connectivity $z=3$ and nearest-neighbor hopping $t^*$.
-    }%
-    \label{fig:bethe-lattice}
-\end{figure}
-
-In this work we study the Anderson impurity model (\zcref{sec:anderson-impurity-model})
-on the Bethe lattice defined by the coordination number $z$
-as there is ample literature available~\cite{Georges1996}.
-\fe{TODO:\@ cite references} % TODO: cite references
-\zcref{fig:bethe-lattice} shows a sketch for $z=3$:
-Each site is connected with three neighbors and hopping between two neighboring sites is possible
-with the rescaled amplitude $t^* = t/\sqrt{z}$~\cite{Held2007}
-($t$: hopping amplitude of \zcref{eq:hubbard}).
-In the limit $z\to\infty$ this gives the well-known semicircular density of states (DOS):
-\begin{equation}
-    \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{D^2 - \omega^2},
-    \label{eq:dos-semicircle}
-\end{equation}
-with half-bandwidth $D=2t$.
 
 \section{Lanczos algorithm}%
 \label{sec:lanczos-algorithm}
