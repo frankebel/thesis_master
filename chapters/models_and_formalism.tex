@@ -83,12 +83,25 @@ which is shown in \zcref{subfig:bethe-density}.
 \section{Hubbard model}%
 \label{sec:hubbard-model}
 
-In this work we use the Hubbard model~\cite{Hubbard1997} to describe strongly correlated systems.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/hubbard_2d.tex}
+    \caption{
+        Hubbard model for a 2D square lattice.
+        $t$ denotes hopping between neighboring sites
+        and $U$ describes the Coulomb repulsion on a doubly occupied site.
+    }%
+    \label{fig:hubbard-model}
+\end{figure}
+
+As already mentioned, we want to describe strongly correlated electron systems
+for which we will use the Hubbard model~\cite{Hubbard1997}.
+\fe{TODO: mention strongly correlated electrons in indroduction} % TODO: chktex 13
 Denoting the creator of site $i$ and spin $\sigma\in\{\uparrow,\downarrow\}$
 as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonian\footnote{
     In this work we look at the SU(2) symmetric model % chktex 36
-    which means that $\epsilon_\uparrow = \epsilon_\downarrow$.
-    For simplicity, we omit the spin index and just write $\epsilon$.
+    which means that quantities (e.g.,\ on-site energies) are spin-independent.
+    Thus, we omit the spin index.
 }
 reads
 \begin{equation}
@@ -100,38 +113,28 @@ reads
     U\sum_i n_{i\uparrow} n_{i\downarrow}
     +
     (\epsilon - \mu)\sum_{i\sigma} n_{i\sigma},
-    \label{eq:hubbard}
+    \label{eq:H-Hubbard}
 \end{equation}
 with a sketch given in \zcref{fig:hubbard-model}.
 Each site can be occupied by up to two electrons.
 The first term describes the kinetics of the system:
 Electrons can hop between nearest-neighbors $\langle i j\rangle$
-defining the hopping amplitude $t$.
-If two electrons are on the same site, they are repulsed by the Coulomb interaction $U$
+with the hopping amplitude $t$.
+If two electrons are on the same site, they are repulsed by the local Coulomb interaction $U$
 expressed by the second term (occupation $n_{i\sigma} = d^\dag_{i\sigma} d^{\pdag}_{i\sigma}$).
 The last term describes the on-site energy $\epsilon$ and
-chemical potential $\mu$ as we are in the grand canonical ensemble.
+chemical potential $\mu$.
 
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/hubbard_2d.tex}
-    \caption{
-        Hubbard model on a 2D square lattice.
-        $t$ denotes hopping between nearest-neighbors,
-        while $U$ describes the Coulomb repulsion on a doubly occupied site.
-    }%
-    \label{fig:hubbard-model}
-\end{figure}
-
-Although the model looks simple, no analytical solution in arbitrary dimension exists.
+Although the model Hamiltonian looks simple at first glance,
+no analytical solution exists for the general case.
 The problem is that the kinetic part is diagonal in momentum space,
 while the Coulomb interaction is diagonal in real space.
-Thus, in DMFT (details in \zcref{sec:dmft}) we instead solve a simpler model which has only one correlated site.
-% TODO: reference DMFT
 
 \section{Anderson impurity model}%
 \label{sec:anderson-impurity-model}
 
+Thus, in DMFT (details in \zcref{sec:dmft}) we instead solve a simpler model which has only one correlated site.
+% TODO: reference DMFT
 The Hamiltonian of the Anderson impurity model~\cite{Anderson1961} can be split into
 an interacting and non-interacting part
 \begin{equation}
