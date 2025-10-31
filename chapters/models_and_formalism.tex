@@ -182,54 +182,6 @@ in \zcref{fig:AIM-geometry-star}:
 each bath site has a given filling
 and electrons from each bath site can hop in and out of the impurity.
 
-\section{Restricted active space}%
-\label{sec:ras}
-
-\fe{NOTE:\@ I think RAS fits better than CI.}
-
-Using the natural impurity orbitals (\zcref{sec:natural-impurity-orbitals}) allows us to
-write the ground state in a basis which has optimal scaling behavior with respect to
-the number of bath sites~\cite{Lu2019}.
-However, the computational complexity still grows combinatorial with each added bath site.
-To alleviate the scaling problem we employ the same restricted active space (RAS) method
-as \citeauthor{Lu2019}~\cite{Lu2019}, which is sketched in \zcref{fig:aim-separation}.
-
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/aim_separation.tex}
-    \caption{
-        Separation of the wave function into two components
-        $\ket{\phi_I}$ and $\ket{\phi_{II}}$ denoted by two boxes.
-    }%
-    \label{fig:aim-separation}
-\end{figure}
-
-The full Hilbert space is projected onto a subspace that only contains
-empty conduction sites $\ket{\mathbb{0}_c}$
-and full valence sites $\ket{\mathbb{1}_v}$ for $l>L$.
-The ground state can be written as
-\begin{equation}
-    \ket{\psi_0}
-    =
-    \ket{\phi_I} \otimes \ket{\mathbb{0}_c} \otimes \ket{\mathbb{1}_v}
-    =
-    \ket{\phi_I} \otimes \ket{\phi_{II}},
-\end{equation}
-where $\ket{\phi_I}$ is the exact ground state calculated by ED for some $L$
-and $\ket{\phi_{II}} = \ket{\mathbb{0}_c} \otimes \ket{\mathbb{1}_v}$ is a reference state.
-
-In the next step we loosen the restriction of empty conduction and full valence bath sites
-in $\ket{\phi_{II}}$.
-The $p=1$ projection allows one state to differ from the reference state:
-Either one electron of $\ket{\phi_I}$ enters the empty conduction sites
-or one electron from the full valence sites enters $\ket{\phi_I}$.
-In the $p=2$ projection two states are allowed to differ.
-This allows for one of the following possibilities for $\ket{\phi_{II}}$:
-Two electrons in the conduction bath sites $c_l$,
-two holes in the valence bath sites $v_l$,
-or one electron in the conduction bath sites $c_l$
-and one hole in the valence bath sites $v_l$ ($l\ge L$).
-
 \section{Lanczos algorithm}%
 \label{sec:lanczos-algorithm}
 
