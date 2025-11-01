@@ -39,7 +39,7 @@ we instead introduce the hopping amplitude $t^* = t/\sqrt{z}$~\cite{Held2007}
 which is sketched in \zcref{subfig:bethe-lattice}.
 The density of states (DOS) for $z\to\infty$ then reads
 \begin{equation}
-    \rho(\omega) = \frac{1}{2\muppi t^2} \sqrt{4t^2 - \omega^2},
+    \rho(\omega) = \frac{1}{2\muppi t^2} \sqrt{\omega^2 - 4t^2},
 \end{equation}
 with bandwidth $W=4t$.
 This equation\footnote{
@@ -52,7 +52,7 @@ This equation\footnote{
 }
 is commonly written using the half-bandwidth $D = W/2 = 2t$:
 \begin{equation}
-    \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{D^2 - \omega^2},
+    \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{\omega^2 - D^2},
     \label{eq:dos-semicircle}
 \end{equation}
 which is shown in \zcref{subfig:bethe-density}.
@@ -182,20 +182,53 @@ in \zcref{fig:AIM-geometry-star}:
 each bath site has a given filling
 and electrons from each bath site can hop in and out of the impurity.
 
-\section{Correlators}%
-\label{sec:correlators}
-
-The retarded correlator for two fermionic operators $A, B$ is defined as
+The last two terms of \zcref{eq:H-Anderson} are commonly combined into the
+\emph{hybridization function}
 \begin{equation}
-    C(t) = -\mi \Theta(t) \expval{\acomm{A(t)}{B}},
-    \label{eq:correlator-time}
+    \Delta_\omega = \sum_{k\sigma} \frac{|V_k|^2}{\omega - \epsilon_k}.
+\end{equation}
+
+\section{Green's function and correlators}%
+\label{sec:greens-function-correlators}
+
+The retarded Green's function is defined as
+\begin{equation}
+    G(t) = -\mi \Theta(t) \expval{\acomm{d^{\pdag}_{i\sigma}(t)}{d^\dag_{i\sigma}}},
 \end{equation}
 with the step function $\Theta$ and anticommutator $\acomm{\cdot}{\cdot}$.
-$A(t) = \me^{\mi H t} A \me^{-\mi H t}$ is given in the Heisenberg picture.
+$d_{i\sigma}(t) = \me^{\mi H t} d_{i\sigma} \me^{-\mi H t}$ is given
+in the Heisenberg picture\footnote{
+    In this work we look at time-independent Hamiltonians.
+    Thus, we can set our time origin arbitrarily and
+    our time evolution operator is given as $U(t, 0) = \me^{-\mi H t}$
+    which evolves the system from $0$ to $t$.
+    Otherwise, one needs to use a general time evolution $U(t, t_0)$
+}.
 At zero temperature $T=0$, the expectation value is evaluated on the ground state
 $\expval{\,\cdot\,} = \sandwich{\psi_0}{\,\cdot\,}{\psi_0}$ only.
+This function consists of two terms which can be interpreted as
+the propagation of a particle or hole respectively,
+e.g., at time $0$ a particle is added at site $i$ with spin $\sigma$.
+The system then evolves as dictated by the Hamiltonian.
+At a later time $t$ the particle is then removed from the same site.
+The Green's function can therefore be interpreted as the probability amplitude
+of a particle returning to its origin at time $t$.
+
+This method can be generalized for two arbitrary fermionic operators $A, B$ defining
+a \emph{correlation function} or just \emph{correlator}
+\begin{equation}
+    C(t) = -\mi \Theta(t) \expval{\acomm{A(t)}{B}}.
+    \label{eq:correlator-time}
+\end{equation}
 Following the notation of~\cite{Bulla1998,Kugler2022},
-we will denote the Fourier transform as
+we will denote the Fourier transform\footnote{
+    As our Hamiltonian is hermitian, its eigenvalues (poles) lie on the real axis.
+    This means that the correlator is analytic in the upper and lower complex plane
+    and allows us to approach it from above $\omega + \mi 0^+$ (retarded)
+    or below $\omega - \mi 0^+$ (advanced).
+    Using different approaches for $\omega\gtrless0$ gives rise to the causal and anti-causal correlator.
+}
+as
 \begin{equation}
     C_\omega
     \coloneq
@@ -204,92 +237,64 @@ we will denote the Fourier transform as
     \eqcolon
     \dangle{A}{B}{\omega}.
 \end{equation}
-Furthermore,
-we split this expression into two components $C_\omega = C^+_\omega + C^-_\omega$ with
+Given the ground state energy $E_0$
+and splitting this expression into two components $C_\omega = C^+_\omega + C^-_\omega$\footnote{
+    $C^+_\omega$ has poles on the positive real axis
+    while $C^-_\omega$ has poles on the negative real axis.
+}
+gives
 \begin{subequations}
     \begin{align}
         C^+_\omega
          & =
-        \expval*{A \frac{1}{\omega + \mi0^+ - (H - E_0)} B}
-        =
-        \sum_n \frac{\sandwich{\psi_0}{A}{n}\sandwich{n}{B}{\psi_0}}{\omega + \mi0^+ - (E_n - E_0)}, \\
+        \expval*{A \frac{1}{\omega + \mi0^+ - (H - E_0)} B}, \\
         C^-_\omega
          & =
-        \expval*{B \frac{1}{\omega + \mi0^+ + (H - E_0)} A}
-        =
-        \sum_n \frac{\sandwich{\psi_0}{B}{n}\sandwich{n}{A}{\psi_0}}{\omega + \mi0^+ + (E_n - E_0)}.
+        \expval*{B \frac{1}{\omega + \mi0^+ + (H - E_0)} A}.
     \end{align}
     \label{eq:correlator-frequency} % chktex 24
 \end{subequations}
-The sum is over a complete basis $H\ket{n} = E_n\ket{n}$ with ground state energy $E_0$.
-A derivation is given in \zcref{app:fourier-transform}.
-The problem however is the exponential algorithmic complexity:
-For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
-limiting exact diagonalization (ED) to $N=O(10)$ sites.
-
-For the choice $A=d_\sigma, B=d_\sigma^\dag$ the correlator describes
-the propagation of an electron/hole in the system and is called Green's function $G_\omega$.
-
-\subsection{Representation}
-
-Using the (block) Lanczos algorithm we can represent (block) correlators as the first component
-of the inverse of our (block) tridiagonal matrix $T$~\cite{Lu2014},
-see \zcref{eq:tridiagonal-scalar, eq:tridiagonal-block}
+A detailed derivation is available in \zcref{app:fourier-transform}.
+As we are only interested in energies relative to the ground state,
+we can absorb it into our Hamiltonian
 \begin{equation}
-    C_\omega
-    \propto
-    [(\omega + \mi0^+ - T)^{-1}]_{11},
+    H \to H - E_0
 \end{equation}
-where $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ is a shorthand notation
-for a diagonal matrix.
-Using the Schur complement~\cite{Schur1917} this can be written as a continued fraction
+such that all eigenvalues are non-negative: $H\ket{n} = E_n\ket{n}$ with $E_n \ge 0$.
+E.g., for the Green's function on the positive real axis we can write
 \begin{equation}
-    C_\omega
+    G^+_\omega
     =
-    B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0,
-\end{equation}
-with $\frac{1}{D} \wedgeq D^{-1}$ meant as the matrix inverse.
-$B_0$ normalizes the initial state of
-the block Lanczos routine.
-In contrast to \quanty~\cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
-even if they are rank-deficient.
-In the scalar case, all matrices $A_j$, $B_j$ are replaced by
-their scalar counterpart $a_j$, $b_j$ respectively.
-We will call this the \emph{continued fraction} representation.
-
-Diagonalizing the matrix $T$ instead gives us a sum of poles:
-\begin{equation}
-    C_\omega
+    \sum_n
+    \frac{\sandwich{\psi_0}{d^{\pdag}_{i\sigma}}{n}\sandwich{n}{d^\dag_{i\sigma}}{\psi_0}}{\omega + \mi0^+ - E_n}
     =
-    \sum_{i=1}^M \frac{W_i}{\omega + \mi0^+ - \epsilon_i},
-    \label{eq:correlator-sum}
+    \sum_n
+    \frac{|\sandwich{n}{d^\dag_{i\sigma}}{\psi_0}|^2}{\omega + \mi0^+ - E_n}.
 \end{equation}
-where the matrix $W_i$ is again replaced by the scalar $w_i$ for the non-block version.
-In order for a (block) correlator to represent physical quantities,
-$W_i$ must be positive semidefinite or
-$w_i$ positive.
 
-Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Anderson representation}
-\begin{equation}
-    C_\omega
-    =
-    B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0.
-    \label{eq:correlator-anderson}
-\end{equation}
-A detailed explanation on how to switch between these representations is given in~\cite{Lu2014}.
+\subsection{Spectral function}
 
-\subsection{Broadening and spectra}
-
-Given a correlator $C_\omega$ the corresponding spectral part is defined as
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/bethe_greens-function.tex}
+    \caption{
+        Real and imaginary part of the Green's function of the
+        Bethe lattice in infinite dimensions.
+    }%
+    \label{fig:bethe-greens-function}
+\end{figure}
+Given our Green's function,
+we can split it up into a real and imaginary part.
+Taking the latter and rescaling it allows us to define the spectral function
 \begin{equation}
-    A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega,
+    A_\omega \coloneq -\frac{1}{\muppi}\Im G_\omega,
 \end{equation}
-which is easy to calculate if it is given as a sum of poles \zcref{eq:correlator-sum}:
+which is generalized to the \emph{spectral part} of $C$
 \begin{equation}
-    A_\omega = \sum_{i=1}^m w_i \delta(\omega - \epsilon_i).
-    \label{eq:spectral-sum}
+    A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega.
 \end{equation}
-The real and imaginary part of a correlator are not independent
+As our correlator is analytic in the upper complex plane,
+the real and imaginary part are not independent
 but related by Kramers-Kronig transformations (Hilbert transform)
 \begin{subequations}
     \begin{align}
@@ -305,54 +310,25 @@ but related by Kramers-Kronig transformations (Hilbert transform)
         \label{eq:kramers-kronig-imag}
     \end{align}
 \end{subequations}
-
-Thus, we can broaden our delta-peaks from \zcref{eq:spectral-sum}
-for the imaginary part and obtain the real part through \zcref{eq:kramers-kronig-real}.
-We will denote the broadened correlator as $C_z$
-to contrast it against $C_\omega$ which has no broadening.
-In this work we will use the following three schemes:
-\begin{enumerate}[(i)]
-    \item Lorentzian broadening characterized by $\delta$:%
-          \label{item:lorentzian}
-          \begin{equation}
-              \delta(\omega - \omega_0)
-              \longrightarrow
-              \frac{1}{\muppi}\frac{\delta}{(\omega - \omega_0)^2 + \delta^2}
-          \end{equation}
-    \item Gaussian broadening characterized by $\sigma$:%
-          \label{item:gaussian}
-          \begin{equation}
-              \delta(\omega - \omega_0)
-              \longrightarrow
-              \frac{1}{\sqrt{2\muppi \sigma^2}}\exp\left(-\frac{(\omega - \omega_0)^2}{2\sigma^2}\right)
-          \end{equation}
-    \item logarithmic Gaussian characterized by $b$~\cite{Bulla2008}:%
-          \label{item:logarithmic-gaussian}
-          \begin{equation}
-              \delta(\omega - \omega_0)
-              \longrightarrow
-              \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega_0\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right)
-          \end{equation}
-\end{enumerate}
-
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/broadening.tex}
-    \caption{
-        Spectral part of a correlator
-        $C_\omega = \frac{1}{\omega + \mi0^+ - 0.25} + \frac{0.5}{\omega + \mi0^+ - 1}$
-        using various broadening schemes.
-    }%
-    \label{fig:broadening}
-\end{figure}
-
-A comparison of these broadenings is given in \zcref{fig:broadening}.
-The Lorentzian and Gaussian spectra consist of symmetric peaks
-with the former decaying slower compared to the latter.
-The peaks generated by the logarithmic Gaussian are asymmetric
-and sharper if the pole is closer to $\omega=0$.
-As all poles are at located at $\omega>0$,
-the spectrum of the log Gaussian vanishes for $\omega\le0$.
+Thus, using our non-interacting density of the Bethe lattice (\zcref{eq:dos-semicircle})
+as a spectrum,
+we can calculate the corresponding real part.
+This allows us to create a non-interacting Green's function~\cite{Economou2006}
+(labeled with a subscript $0$)
+\begin{equation}
+    G_{0,\omega}
+    =
+    \frac{2}{D^2} \left(\omega - \sgn(\omega) \sqrt{(\omega + \mi0^+)^2 - D^2}\right),
+\end{equation}
+shown in \zcref{fig:bethe-greens-function}.
+The signum function for zero is defined as $\sgn(0^\pm) = \pm 1$.
+As the complex square root has a branch cut,
+the imaginary part is taken to be positive.
+Due to the self-similarity of the Bethe lattice,
+the hybridization function of it is just a rescaled Green's function
+\begin{equation}
+    \Delta_\omega = \frac{D^2}{4} G_\omega.
+\end{equation}
 
 \section{Self-energy}%
 \label{sec:self-energy}

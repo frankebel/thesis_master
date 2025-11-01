@@ -16,4 +16,5 @@ eigenstate
 fermionic
 hermitian
 hermiticity
+signum
 tridiagonal
