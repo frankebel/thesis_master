@@ -461,51 +461,6 @@ The self-energy is computed as
     \Sigma^\mH + I_\omega - F^\mL_\omega (G_\omega)^{-1} F^\mR_\omega.
 \end{equation}
 
-\section{Ground state}
-
-In order to calculate correlators and expectation values listed in
-\zcref{sec:correlators, sec:self-energy} at $T=0$,
-one first needs to obtain the ground state of a given impurity Hamiltonian $H$
-(\zcref{eq:H-Anderson}).
-As an initial guess we take the state with all valence bath sites $v_k$ filled in combination with
-a singlet state in the impurity $i$ and mirror site $m$
-(the filling of each site is sketched in \zcref{subfig:geometry-natural-impurity-orbitals}):
-\begin{equation}
-    \ket*{\psi_0^{(1)}}
-    =
-    \frac{1}{\sqrt{2}}
-    \left(d^\dag_\uparrow m^\dag_\downarrow - d^\dag_\downarrow m^\dag_\uparrow\right)
-    \prod_{k\sigma} v^\dag_{k\sigma}
-    \ket{0}.
-\end{equation}
-Given this state, we can calculate an approximate ground state energy
-\begin{equation}
-    E_0^{(1)} = \sandwich*{\psi_0^{(1)}}{H}{\psi_0^{(1)}}
-\end{equation}
-and variance
-\begin{equation}
-    \var^{(1)}
-    =
-    \sandwich*{\psi_0^{(1)}}{\left(H - E_0^{(1)}\right)^2}{\psi_0^{(1)}}.
-\end{equation}
-As this approximation is not sufficient for calculations,
-we employ the Lanczos method (\zcref{sec:lanczos-algorithm}) with restarting
-as described in~\cite{Lu2014}:
-Given an approximate ground state $\ket{\psi_0^{(i)}}$,
-we calculate a new Krylov basis $\mathcal{K}^5(H, \ket{\psi_0^{(i)}})$ which is diagonalized.
-From this, we calculate a new state $\ket{\psi_0^{(i+1)}}$
-with a new ground state energy $E_0^{(i+1)}$
-and variance $\var^{(i+1)}$.
-This loop is repeated until the variance falls below a given tolerance
-as it must vanish for a true eigenstate of $H$.
-
-One should note that even if the variance is exactly zero for a state $\ket{\tilde\psi_0}$
-in the RAS truncation (\zcref{sec:ras}),
-this state is not a true eigenstate of the unrestricted Hamiltonian.
-Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
-will generate new states~\cite{Lu2014} that were not accounted for.
-It is just that these state have (hopefully) such small weight allowing us to ignore them.
-
 \section{DMFT}%
 \label{sec:dmft}
 
