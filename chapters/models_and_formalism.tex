@@ -123,7 +123,10 @@ with the hopping amplitude $t$.
 If two electrons are on the same site, they are repulsed by the local Coulomb interaction $U$
 expressed by the second term (occupation $n_{i\sigma} = d^\dag_{i\sigma} d^{\pdag}_{i\sigma}$).
 The last term describes the on-site energy $\epsilon$ and
-chemical potential $\mu$.
+chemical potential $\mu$ which control the average occupation per site.
+In this work we look at the half-filled system $\epsilon - \mu = U/2$
+with average occupation $\expval{n} = 1$.
+
 
 Although the model Hamiltonian looks simple at first glance,
 no analytical solution exists for the general case.
@@ -329,6 +332,43 @@ the hybridization function of it is just a rescaled Green's function
 \begin{equation}
     \Delta_\omega = \frac{D^2}{4} G_\omega.
 \end{equation}
+
+\subsection{Moments}
+
+The moments of a correlator~\cite{Lu2014,Kugler2022,Potthoff1997} are defined as
+\begin{equation}
+    C^{(n)}
+    =
+    -\frac{1}{\muppi} \int_{-\infty}^\infty\! \md\omega\> \omega^n \Im C_\omega
+    =
+    \int_{-\infty}^\infty\! \md\omega\> \omega^n A_\omega,
+\end{equation}
+allowing us to write a high-frequency expansion
+\begin{equation}
+    C_\omega = \sum_{n=0}^\infty \frac{C^{(n)}}{\omega^{n+1}}.
+    \label{eq:expansion-correlator}
+\end{equation}
+
+An alternative but equivalent approach is to use the Heisenberg equation of motion.
+We define $\mathcal{L}A = [A, H]$ as the commutator of an operator $A$ with the Hamiltonian
+which allows us to formulate the moments as
+\begin{equation}
+    C^{(n)} = \expval{\acomm{\mathcal{L}^n A}{B}},
+\end{equation}
+e.g., $G^{(0)} = \expval{\acomm{d^{\pdag}_{i\sigma}}{d^\dag_{i\sigma}}} = 1$
+by definition of anticommutative rules for fermionic operators.
+For the particle-hole symmetric system on the Bethe lattice
+the first four moments of the Green's function are\footnote{
+    The general case is available in~\cite{Potthoff1997}.
+}
+\begin{align}
+    G^{(0)} & = 1,                             \\
+    G^{(1)} & = 0,                             \\
+    G^{(2)} & = \frac{U^2}{2} + \frac{D^2}{4}, \\
+    G^{(3)} & = 0.
+\end{align}
+Due to symmetry $A_{-\omega} = A_\omega$ for the half-filled spectrum,
+all odd moments vanish.
 
 \section{Self-energy}%
 \label{sec:self-energy}
