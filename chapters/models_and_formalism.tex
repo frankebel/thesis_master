@@ -165,7 +165,7 @@ using the occupation operator $n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$
 \begin{align}
     H_{\mathrm{imp},0} & = (\epsilon - \mu) \sum_\sigma n_\sigma \\
     H_\mathrm{int}     & = U n_\uparrow n_\downarrow,
-    \label{eq:Anderson-interaction}
+    \label{eq:H-Anderson-interaction}
 \end{align}
 which has overlapping terms with \zcref{eq:H-Hubbard}.
 For the bath we define the annihilator $b_{k\sigma}$ and energy $\epsilon_k$,
@@ -188,7 +188,7 @@ and electrons from each bath site can hop in and out of the impurity.
 The last two terms of \zcref{eq:H-Anderson} are commonly combined into the
 \emph{hybridization function}
 \begin{equation}
-    \Delta_\omega = \sum_{k\sigma} \frac{|V_k|^2}{\omega - \epsilon_k}.
+    \Delta_\omega = \sum_{k\sigma} \frac{|V_k|^2}{\omega + \mi0^+ - \epsilon_k}.
 \end{equation}
 
 \section{Green's function and correlators}%
@@ -333,7 +333,8 @@ the hybridization function of it is just a rescaled Green's function
     \Delta_\omega = \frac{D^2}{4} G_\omega.
 \end{equation}
 
-\subsection{Moments}
+\subsection{Moments}%
+\label{sec:moments}
 
 The moments of a correlator~\cite{Lu2014,Kugler2022,Potthoff1997} are defined as
 \begin{equation}
@@ -375,41 +376,59 @@ all odd moments vanish.
 
 As mentioned in the previous section,
 the Green's function $G_\omega$ describes the propagation of an electron/hole in our system.
-If our system is non-interacting ($U=0$ in \zcref{eq:Anderson-interaction}),
-we call it the non-interacting Green's function $G_{0, \omega}$.
-The quantity that connects these two objects is the self-energy defined by the Dyson equation
-\fe{NOTE:\@ I do not want to introduce Feynman diagrams and irreducibility as
-    they will not be used in this work.}
+The quantity that connects these between an interacting and non-interacting system
+is the so-called \emph{self-energy} defined by the Dyson equation\footnote{
+    This equation can be motivated by Feynman diagrams.
+}
 \begin{equation}
     \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}.
-    \label{eq:dyson}
+    \label{eq:Dyson}
 \end{equation}
 
-In~\cite{Lu2014},
-this equation was used to represent the self-energy by the constant Hartree term $\Sigma^\mH$
-and a sum of poles
+We can define the moments of the self-energy in the same way as correlators in \zcref{sec:moments},
+allowing us to write down a high-energy expansion
 \begin{equation}
-    \Sigma_\omega = \Sigma^\mH + \sum_j \frac{w_j}{\omega + \mi0^+ - \epsilon_j}.
-    \label{eq:self-energy-sum-of-poles}
+    \Sigma_\omega = \sum_{n=-1}^\infty \frac{\Sigma^{(n)}}{\omega^{n+1}}.
 \end{equation}
-For the self-energy to be physical, all weights must be positive.
-On a system with finite bath sites and floating-point arithmetic however,
-this was violated and poles with negative weight had to be merged into neighbors
-such that only positive weight remained.
+In contrast to \zcref{eq:expansion-correlator},
+the self-energy contains a constant (frequency intependent) term
+which is called the Hartree term $\Sigma^\mH$.
+The analytic moments for half-filling are\footnote{
+    Again, the general case is available in~\cite{Potthoff1997}.
+}
+\begin{align}
+    \Sigma^\mH   & = \frac{U}{2},   \\
+    \Sigma^{(0)} & = \frac{U^4}{4}, \\
+    \Sigma^{(1)} & = 0,             \\
+\end{align}
+with every odd moment vanishing.
 
-Therefore, we calculate the self-energy using the symmetric improved estimator
+Although the Dyson equation (\zcref{eq:Dyson}) is exact,
+it poses an issue~\cite{Bulla1998}:
+$G_{0,\omega}$ is known analytically while
+$G_\omega$ can only be obtained numerically most of the time.
+Thus, calculating the difference as dictated by \zcref{eq:Dyson} is prone to
+catastrophic cancellation if the difference becomes very small\footnote{
+    This happens around the Fermi level which is the most important region.
+}.
+To mitigate this,
+\citeauthor{Bulla1998} calculated the self-energy using a quotient of two correlators.
+In this work we go a step further by using the symmetric improved estimator
 $\Sigma^\mIFG_\omega$~\cite{Kugler2022}
 which will be summarized in the following:
 We introduce the auxiliary operator
 \begin{equation}
     q_\sigma = \comm{d_\sigma}{H_\mathrm{int}}
 \end{equation}
-for the Anderson impurity model (\zcref{sec:anderson-impurity-model}),
+with the interacting Hamiltonian from \zcref{eq:H-Anderson-interaction},
 allowing us to calculate the Hartree term directly
 \begin{equation}
     \Sigma^\mH = \expval{\acomm{q^\dag_\sigma}{d^{\pdag}_\sigma}}.
 \end{equation}
-We then employ a quadratic shift
+We then employ a quadratic shift\footnote{
+    As noted by \citeauthor{Kugler2022},
+    this is especially convenient for particle-hole symmetric systems.
+}
 \begin{equation}
     \tilde q_\sigma = q_\sigma - \Sigma^\mH d_\sigma
     \label{eq:quadratic-shift}
@@ -441,94 +460,6 @@ The self-energy is computed as
     =
     \Sigma^\mH + I_\omega - F^\mL_\omega (G_\omega)^{-1} F^\mR_\omega.
 \end{equation}
-Concretely, we first calculate the components of our block correlator as
-\begin{subequations}
-    \begin{align}
-        C^+_\omega
-         & =
-        \sandwich*
-        {\psi_0}
-        {
-            \begin{pmatrix}
-                \tilde q^{\pdag}_\sigma \\
-                d^{\pdag}_\sigma
-            \end{pmatrix}
-            \frac{1}{\omega + \mi0^+ - (H - E_0)}
-            \begin{pmatrix}
-                \tilde q^\dag_\sigma & d^\dag_\sigma
-            \end{pmatrix}
-        }
-        {\psi_0}
-        =
-        \begin{pmatrix}
-            I^+_\omega      & F^{\mL+}_\omega \\
-            F^{\mR+}_\omega & G^+_\omega
-        \end{pmatrix}, \\
-        C^-_\omega
-         & =
-        \sandwich*
-        {\psi_0}
-        {
-            \begin{pmatrix}
-                \tilde q^\dag_\sigma \\
-                d^\dag_\sigma
-            \end{pmatrix}
-            \frac{1}{\omega + \mi0^+ + (H - E_0)}
-            \begin{pmatrix}
-                \tilde q^{\pdag}_\sigma & d^{\pdag}_\sigma
-            \end{pmatrix}
-        }
-        {\psi_0}
-        =
-        \begin{pmatrix}
-            I^-_\omega      & F^{\mR-}_\omega \\
-            F^{\mL-}_\omega & G^-_\omega
-        \end{pmatrix}
-    \end{align}
-\end{subequations}
-and add them together
-\begin{equation}
-    C_\omega
-    =
-    C^+_\omega + (C^-_\omega)^\top
-    =
-    \begin{pmatrix}
-        I_\omega       & F^{\mL}_\omega \\
-        F^{\mR}_\omega & G_\omega
-    \end{pmatrix}.
-\end{equation}
-In~\cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
-might be violated numerically.
-We do not have this problem as $C_\omega$ is hermitian by construction.
-
-Given each correlator as a sum of poles,~\citeauthor{Kugler2022}~\cite{Kugler2022} broadened
-each correlator and calculated the broadened self-energy $\Sigma_z$.
-In this work we instead calculate the self-energy on the real axis
-using the Schur complement~\cite{Schur1917}
-\fe{TODO:\@ credit Aleksandrs} %TODO: credit Aleksandrs
-\begin{equation}
-    \Sigma_\omega = \Sigma^\mH + \left([(C_\omega)^{-1}]_{11}\right)^{-1}.
-\end{equation}
-To invert our block correlation function, we first bring it to
-the Anderson representation (\zcref{eq:correlator-anderson}):
-\begin{equation}
-    C_\omega = B\frac{1}{\omega + \mi0^+ - A - D_\omega}B,
-\end{equation}
-with matrices $A$, $B$ and a block sum of poles $D_\omega$.
-The scaling matrix $B$ contains the square root of the zeroth moments,
-e.g.\ its first element $B_{11} = U/2$ at half-filling.
-Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal.
-The Schur complement is then
-\begin{equation}
-    \left([(C_\omega)^{-1}]_{11}\right)^{-1}
-    =
-    B_{11} \frac{1}{\omega + \mi0^+ - A_{11} - (D_\omega)_{11}} B_{11}.
-\end{equation}
-Diagonalizing this expression gives us the self-energy in the same form as
-\zcref{eq:self-energy-sum-of-poles}.
-Contrasting against \zcref{eq:dyson},
-all pole weights are positive by construction
-and no merging of negative weight into neighbors is necessary.
 
 \section{Ground state}
 
@@ -603,7 +534,7 @@ DMFT then enforces that this Green's function coincides with the impurity Green'
 of the corresponding Anderson impurity model: $G_{\mloc,\omega} \equiv G_\omega$.
 \fe{``$\equiv$'' or ``$\stackrel{!}{=}$'' better? Latter one raises line height.}
 
-Rearranging the Dyson equation (\zcref{eq:dyson}) then gives us a non-interacting impurity
+Rearranging the Dyson equation (\zcref{eq:Dyson}) then gives us a non-interacting impurity
 Green's function
 \begin{align}
     (G_{0,\omega})^{-1}
@@ -619,7 +550,7 @@ containing the impurity energy $\epsilon - \mu$ and hybridization function
 \end{equation}
 Given these terms, we can write down the non-interacting Hamiltonian
 of \zcref{eq:H-Anderson}.
-After adding the interacting term of \zcref{eq:Anderson-interaction}, we can solve the impurity
+After adding the interacting term of \zcref{eq:H-Anderson-interaction}, we can solve the impurity
 Hamiltonian using the previously discussed solver,
 yielding us a new impurity Green's function $G_\omega$
 and self-energy $\Sigma_\omega$.
