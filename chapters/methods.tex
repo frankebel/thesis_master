@@ -135,17 +135,29 @@ In this work the highest excitation we allow is $p=2$.
 \section{Lanczos algorithm}%
 \label{sec:lanczos-algorithm}
 
-The Lanczos algorithm~\cite{Lanczos1950} can be used to approximate the extremal eigenvalues
-of a hermitian $n\times n$ matrix.
-In our case we are interested in the ground state and low energy excitations of a
-given Hamiltonian $H$ (\zcref{eq:H-Anderson}).
-The method is especially useful if $H$ is sparse and too large to decompose fully.
-It is based on a Krylov basis
+Even with RAS,
+the Hilbert space is still too large decompose the Hamiltonian.
+Therefore,
+we use the Lanczos algorithm~\cite{Lanczos1950}
+as it has some nice properties for our given problem.
+First,
+it converges fastest to extremal eigenvalues which
+works very well for the ground state\footnote{
+    Due to the variational principle it is the state with the lowest possible energy
+    which is extreme.
+}
+and as DMFT is a low-energy theory we are not interested in states very far from it.
+Secondly, it requires a hermitian matrix which our Hamiltonian is.
+Lastly it works very well if our matrix is sparse which is the case for our Hamiltonian\footnote{
+    As most of it is composed of two long chains,
+    almost all hopping elements are zero.
+}.
+The method is based on a Krylov basis
 \begin{equation}
     \mathcal{K}^M(H, \vec{q}) = \spn\{\vec{q}, H\vec{q}, H^2\vec{q}, \ldots, H^{M-1}\vec{q}\}
 \end{equation}
 for a given vector $\vec{q}$.
-Typically, the value $M$ is very small compared to the matrix size: $M \ll n$.
+Typically, the value $M$ is very small compared to the matrix size.
 Instead of a simple power iteration, the Lanczos algorithm is described by the
 following recurrence relation
 \begin{equation}
@@ -176,7 +188,7 @@ From this relation we can create the tridiagonal matrix
             & b_2 & a_3    & \ddots  &         \\
             &     & \ddots & \ddots  & b_{M-1} \\
             &     &        & b_{M-1} & a_M
-    \end{pmatrix}
+    \end{pmatrix},
     \label{eq:tridiagonal-scalar}
 \end{equation}
 and matrix collecting all Lanczos vectors
@@ -187,7 +199,7 @@ Rewriting \zcref{eq:Lanczos-recurrence} in matrix form and rearranging results i
 which means that $T$ is the orthogonal projection of $H$ onto
 the subspace $\mathcal{K}^M(H, \vec{q}_1)$~\cite{Cullum1985}.
 
-\subsection{Block Lanczos}
+\subsection{Block variant}
 
 Instead of calculating only one vector $\vec{q}_j$ in each step,
 one can calculate $p$ vectors simultaneously.
