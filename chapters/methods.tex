@@ -15,11 +15,11 @@ by choosing a finite number $i\in\{1,\ldots,n\}$ of one-particle wave functions 
 with energies $\epsilon_i$.
 They can be combined to create Slater determinants
 \begin{equation}
-    \ket{\alpha_j} = \prod_{i\sigma} \left(c^\dag_{i\sigma}\right)^n \ket{0},
+    \ket{\alpha} = \prod_{i\sigma} \left(c^\dag_{i\sigma}\right)^n \ket{0},
     \quad
     n\in\{0,1\},
 \end{equation}
-which allows us to write arbitrary wave functions as linear combinations
+which allows us to write wave functions as linear combinations
 \begin{equation}
     \ket{\psi} = \sum_j \alpha_j \ket{\alpha_j}.
 \end{equation}
@@ -42,7 +42,7 @@ where the dimensionality of each block is given by
     \binom{2n}{p}.
 \end{equation}
 As our Hamiltonian is SU(2) symmetric, % chktex 36
-we can split our Hamiltonian into blocks of fixed $N_\uparrow$ and $N_\downarrow$
+we can split it into blocks of fixed $N_\uparrow$ and $N_\downarrow$
 further reducing the dimensionality to
 \begin{equation}
     \binom{n}{p_\uparrow} \binom{n}{p_\downarrow}.
@@ -65,7 +65,7 @@ Instead of exploring the full Hilbert space of $n$ particles in an Anderson impu
 we consider only a very small subset.
 
 In the first step,
-the one particle basis $\{\ket{\phi_i}\}$ was optimized to the so-called
+the one particle basis $\{\ket{\phi_i}\}$ is optimized to the so-called
 \emph{natural impurity orbitals} which
 --- compared to the commonly used \emph{natural orbitals} in quantum chemistry ---
 optimize only the bath basis while keeping the impurity unchanged\footnote{
@@ -111,8 +111,7 @@ The wave function can thus be written as
     \ket{\psi_\mathrm{II}} = \ket{\mathbb{1}_v} \otimes \ket{\mathbb{0}_c}.
 \end{equation}
 
-For $p=1$ we allow additionally one excitation
-which creates an electron or hole excitation.
+For $p=1$ we additionally allow one electron or hole excitation.
 This creates possible states
 \begin{align}
     \ket{\mathbb{1}_v}             & \otimes c^\dag_{k\sigma} \ket{\mathbb{0}_c}, \\
