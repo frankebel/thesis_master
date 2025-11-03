@@ -86,17 +86,29 @@ Taking the limit gives
 To emphasize function arguments,
 in this section we will forego the compact notation with parameters as subscripts
 and write them in brackets instead,
-e.g.\ $G_\omega \to G(\omega)$.
+e.g., $G_\omega \to G(\omega)$.
 
 In the limit of infinite dimensions, the self-energy is $\vec{k}$-independent
-and the local lattice Green's function can be evaluated from
-its non-interacting counterpart:
-\begin{equation}
+and the lattice Green's function can be evaluated from
+its non-interacting counterpart
+\begin{align}
+    G_0(\vec{k},\omega)
+     & =
+    \frac{1}{\omega + \mi0^+ + \mu_0 - \epsilon(\vec{k})}                \\
+    G(\vec{k},\omega)
+     & =
+    \frac{1}{\omega + \mi0^+ + \mu - \epsilon(\vec{k}) - \Sigma(\omega)} \\
+     & =
+    G_0(\vec{k},\omega + \mu - \mu_0 - \Sigma(\omega)).
+\end{align}
+The same holds for the lattice Green's function which is just the average over the
+Brillouin zone
+\begin{align}
     G_\mloc(\omega)
     =
     G_{\mloc,0}(\omega + \mu - \mu_0 - \Sigma(\omega)).
-\end{equation}
-We then map the lattice onto our impurity Green's function $G_0(\omega)$.
+\end{align}
+We then map this lattice problem onto our impurity Green's function $G_0(\omega)$.
 Without a Coulomb interaction on the lattice this requires
 \begin{align}
     [G_0(\omega)]^{-1}
@@ -114,7 +126,7 @@ whereas in the interacting case it can be written as
     [G_{\mloc,0}(\omega + \mu - \mu_0 - \Sigma(\omega))]^{-1} + \Sigma(\omega)         \\
      & =
     \omega + \mi0^+ + \mu - \epsilon - \Delta_0(\omega + \mu - \mu_0 - \Sigma(\omega)) \\
-     & \stackrel{!}{=}
+     & \equiv
     \omega + \mi0^+ + \mu - \epsilon - \Delta(\omega).
 \end{align}
 Comparing the last two lines, we can immediately deduce

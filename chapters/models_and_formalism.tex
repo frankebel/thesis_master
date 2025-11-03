@@ -328,7 +328,7 @@ The signum function for zero is defined as $\sgn(0^\pm) = \pm 1$.
 As the complex square root has a branch cut,
 the imaginary part is taken to be positive.
 Due to the self-similarity of the Bethe lattice,
-the hybridization function of it is just a rescaled Green's function
+its hybridization function is just a rescaled Green's function
 \begin{equation}
     \Delta_\omega = \frac{D^2}{4} G_\omega.
 \end{equation}
@@ -359,9 +359,7 @@ which allows us to formulate the moments as
 e.g., $G^{(0)} = \expval{\acomm{d^{\pdag}_{i\sigma}}{d^\dag_{i\sigma}}} = 1$
 by definition of anticommutative rules for fermionic operators.
 For the particle-hole symmetric system on the Bethe lattice
-the first four moments of the Green's function are\footnote{
-    The general case is available in~\cite{Potthoff1997}.
-}
+the first four moments of the Green's function are~\cite{Potthoff1997}
 \begin{align}
     G^{(0)} & = 1,                             \\
     G^{(1)} & = 0,                             \\
@@ -393,9 +391,7 @@ allowing us to write down a high-energy expansion
 In contrast to \zcref{eq:expansion-correlator},
 the self-energy contains a constant (frequency intependent) term
 which is called the Hartree term $\Sigma^\mH$.
-The analytic moments for half-filling are\footnote{
-    Again, the general case is available in~\cite{Potthoff1997}.
-}
+The analytic moments for half-filling are~\cite{Potthoff1997}
 \begin{align}
     \Sigma^\mH   & = \frac{U}{2},   \\
     \Sigma^{(0)} & = \frac{U^4}{4}, \\
@@ -466,7 +462,7 @@ The self-energy is computed as
 
 As mentioned in \zcref{sec:hubbard-model},
 the Hubbard model has no analytical solution in arbitrary dimensions $d$.
-In the limit $d\to\infty$ however, it can be solved with
+In the limit $d\to\infty$ however, it can be solved by
 dynamical mean-field theory (DMFT)~\cite{Georges1996},
 which takes a single lattice site as a representative
 and averages all spacial fluctuations around it, only keeping time correlations
@@ -487,9 +483,9 @@ where the approximation assumes that the lattice self-energy is purely local
 ($\Sigma_{\vec{k}\omega} \to \Sigma_\omega$).
 DMFT then enforces that this Green's function coincides with the impurity Green's function
 of the corresponding Anderson impurity model: $G_{\mloc,\omega} \equiv G_\omega$.
-\fe{``$\equiv$'' or ``$\stackrel{!}{=}$'' better? Latter one raises line height.}
 
-Rearranging the Dyson equation (\zcref{eq:Dyson}) then gives us a non-interacting impurity
+Rearranging the Dyson equation (\zcref{eq:Dyson}) for the impurity
+then gives us a non-interacting impurity
 Green's function
 \begin{align}
     (G_{0,\omega})^{-1}
@@ -498,18 +494,16 @@ Green's function
      & =
     \omega + \mi0^+ + \mu - \epsilon - \Delta_\omega,
 \end{align}
-which is then rewritten into terms,
-containing the impurity energy $\epsilon - \mu$ and hybridization function
-\begin{equation}
-    \Delta_\omega = \sum_{k\sigma} \frac{\abs{V_{k\sigma}}^2}{\omega +\mi0^+ - \epsilon_{k\sigma}}.
-\end{equation}
+which is rewritten into terms,
+containing the impurity energy $\epsilon - \mu$ and hybridization function $\Delta_\omega$.
 Given these terms, we can write down the non-interacting Hamiltonian
 of \zcref{eq:H-Anderson}.
-After adding the interacting term of \zcref{eq:H-Anderson-interaction}, we can solve the impurity
-Hamiltonian using the previously discussed solver,
+After adding the interacting term of \zcref{eq:H-Anderson-interaction},
+we can solve the impurity Hamiltonian
 yielding us a new impurity Green's function $G_\omega$
 and self-energy $\Sigma_\omega$.
-Subsequently, we use this impurity self-energy to
+Subsequently,
+we use this impurity self-energy to
 calculate a new lattice Green's function using \zcref{eq:greens-function-local},
 closing our self-consistency loop.
 
@@ -520,12 +514,3 @@ and directly update the hybridization~\cite{Lu2014}:
     \Delta_\omega = \Delta_{0}(\omega + \mu - \mu_0 - \Sigma_\omega),
 \end{equation}
 with a derivation given in \zcref{app:dmft-simplification}.
-
-Due to the self-similarity present in the Bethe lattice,
-the hybridization function is just a rescaled Green's function
-\begin{equation}
-    \Delta_\omega = \frac{D^2}{4} G_\omega.
-\end{equation}
-Notably,
-the spectrum of the non-interacting hybridization function $-1/\muppi \Im \Delta_{0,\omega}$
-is nothing more than a rescaled semicircular DOS \zcref{eq:dos-semicircle}.
