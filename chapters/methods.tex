@@ -324,53 +324,132 @@ Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
 will generate new states~\cite{Lu2014} that were not accounted for.
 It is just that these state have such small weight allowing us to ignore them.
 
-\subsection{Representation}
+\section{Correlator representation}
 
-Using the (block) Lanczos algorithm we can represent (block) correlators as the first component
-of the inverse of our (block) tridiagonal matrix $T$~\cite{Lu2014},
-see \zcref{eq:tridiagonal-scalar, eq:tridiagonal-block}
+Using the Lanczos algorithm,
+we can obtain diagonal correlators (where operators $A$, $B$ are related by $A=B^\dag$)
+by using $B\ket{\psi_0}$ or $A\ket{\psi_0}$ as our input vector $\vec{\tilde q}_1$.
+By storing its norm $b_0 = \norm{\vec{\tilde q}_1}$ and subsequent
+normalization $\vec{q}_1 = \vec{\tilde q}_1/b_0$,
+we obtain the correlator as
+the first component of the inverse of our tridiagonal matrix $T$~\cite{Lu2014},
 \begin{equation}
-    C_\omega
+    C^\pm_\omega
     \propto
-    [(\omega + \mi0^+ - T)^{-1}]_{11},
+    [(\omega + \mi0^+ \mp T)^{-1}]_{11},
 \end{equation}
 where $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ is a shorthand notation
 for a diagonal matrix.
-Using the Schur complement~\cite{Schur1917} this can be written as a continued fraction
-\begin{equation}
-    C_\omega
-    =
-    B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0,
-\end{equation}
-with $\frac{1}{D} \wedgeq D^{-1}$ meant as the matrix inverse.
-$B_0$ normalizes the initial state of
-the block Lanczos routine.
+This can be expanded to calculate block correlators where we apply multiple
+operators onto $\ket{\psi_0}$ simultaneously.
+In the following we will use the notation $\frac{1}{A}$ for the matrix inverse $A^{-1}$.
+
+Using the Schur complement~\cite{Schur1917},
+we can directly take our coefficients given in \zcref{eq:tridiagonal-scalar, eq:tridiagonal-block}
+and represent correlators as a continued fraction
+\begin{subequations}
+    \begin{align}
+        C_\omega
+         & =
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \frac{b_1^2}{\omega + \mi0^+ - a_2 - \ldots}}, \\
+        C_\omega
+         & =
+        B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0.
+    \end{align}%
+    \label{eq:Greens-function-continued-fraction}
+\end{subequations}
 In contrast to \quanty~\cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
-In the scalar case, all matrices $A_j$, $B_j$ are replaced by
-their scalar counterpart $a_j$, $b_j$ respectively.
-We will call this the \emph{continued fraction} representation.
 
-Diagonalizing the matrix $T$ instead gives us a sum of poles:
-\begin{equation}
-    C_\omega
-    =
-    \sum_{i=1}^M \frac{W_i}{\omega + \mi0^+ - \epsilon_i},
+Diagonalizing the matrix $T$ gives us a sum of poles:
+\begin{subequations}
+    \begin{align}
+        C_\omega
+         & =
+        \sum_{i=1}^M \frac{w_i}{\omega + \mi0^+ - \epsilon_i}, \\
+        C_\omega
+         & =
+        \sum_{i=1}^{Mp} \frac{W_i}{\omega + \mi0^+ - \epsilon_i},
+    \end{align}%
     \label{eq:correlator-sum}
-\end{equation}
-where the matrix $W_i$ is again replaced by the scalar $w_i$ for the non-block version.
-In order for a (block) correlator to represent physical quantities,
-$W_i$ must be positive semidefinite or
-$w_i$ positive.
+\end{subequations}
+As we calculate diagonal elements,
+all weights $w_i$ are positive or $W_i$ positive semidefinite.
 
 Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Anderson representation}
+\begin{subequations}
+    \begin{align}
+        C_\omega
+         & =
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}, \\
+        C_\omega
+         & =
+        B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=p+1}^{Mp} \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0.
+    \end{align}%
+    \label{eq:correlator-anderson}
+\end{subequations}
+A detailed explanation on how to transform between these representations is given in~\cite{Lu2014}.
+
+We calculate the correlators listed in \zcref{eq:correlators} as
+\begin{subequations}
+    \begin{align}
+        C^+_\omega
+         & =
+        \sandwich*
+        {\psi_0}
+        {
+            \begin{pmatrix}
+                \tilde q^{\pdag}_\sigma \\
+                d^{\pdag}_\sigma
+            \end{pmatrix}
+            \frac{1}{\omega + \mi0^+ - H}
+            \begin{pmatrix}
+                \tilde q^\dag_\sigma & d^\dag_\sigma
+            \end{pmatrix}
+        }
+        {\psi_0}
+        =
+        \begin{pmatrix}
+            I^+_\omega      & F^{\mL+}_\omega \\
+            F^{\mR+}_\omega & G^+_\omega
+        \end{pmatrix}, \\
+        C^-_\omega
+         & =
+        \sandwich*
+        {\psi_0}
+        {
+            \begin{pmatrix}
+                \tilde q^\dag_\sigma \\
+                d^\dag_\sigma
+            \end{pmatrix}
+            \frac{1}{\omega + \mi0^+ + H}
+            \begin{pmatrix}
+                \tilde q^{\pdag}_\sigma & d^{\pdag}_\sigma
+            \end{pmatrix}
+        }
+        {\psi_0}
+        =
+        \begin{pmatrix}
+            I^-_\omega      & F^{\mR-}_\omega \\
+            F^{\mL-}_\omega & G^-_\omega
+        \end{pmatrix}
+    \end{align}
+\end{subequations}
+and add them together
 \begin{equation}
     C_\omega
     =
-    B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0.
-    \label{eq:correlator-anderson}
+    C^+_\omega + (C^-_\omega)^\top
+    =
+    \begin{pmatrix}
+        I_\omega       & F^{\mL}_\omega \\
+        F^{\mR}_\omega & G_\omega
+    \end{pmatrix}.
 \end{equation}
-A detailed explanation on how to switch between these representations is given in~\cite{Lu2014}.
+In~\cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
+might be violated numerically.
+We do not have this problem as all matrices $A_i$ and $B_i$ are hermitian,
+and thus $C_\omega$ is also hermitian.
 
 \subsection{Broadening}
 
@@ -435,66 +514,6 @@ For the self-energy to be physical, all weights must be positive.
 On a system with finite bath sites and floating-point arithmetic however,
 this was violated and poles with negative weight had to be merged into neighbors
 such that only positive weight remained.
-
-Concretely, we first calculate the components of our block correlator as
-\begin{subequations}
-    \begin{align}
-        C^+_\omega
-         & =
-        \sandwich*
-        {\psi_0}
-        {
-            \begin{pmatrix}
-                \tilde q^{\pdag}_\sigma \\
-                d^{\pdag}_\sigma
-            \end{pmatrix}
-            \frac{1}{\omega + \mi0^+ - (H - E_0)}
-            \begin{pmatrix}
-                \tilde q^\dag_\sigma & d^\dag_\sigma
-            \end{pmatrix}
-        }
-        {\psi_0}
-        =
-        \begin{pmatrix}
-            I^+_\omega      & F^{\mL+}_\omega \\
-            F^{\mR+}_\omega & G^+_\omega
-        \end{pmatrix}, \\
-        C^-_\omega
-         & =
-        \sandwich*
-        {\psi_0}
-        {
-            \begin{pmatrix}
-                \tilde q^\dag_\sigma \\
-                d^\dag_\sigma
-            \end{pmatrix}
-            \frac{1}{\omega + \mi0^+ + (H - E_0)}
-            \begin{pmatrix}
-                \tilde q^{\pdag}_\sigma & d^{\pdag}_\sigma
-            \end{pmatrix}
-        }
-        {\psi_0}
-        =
-        \begin{pmatrix}
-            I^-_\omega      & F^{\mR-}_\omega \\
-            F^{\mL-}_\omega & G^-_\omega
-        \end{pmatrix}
-    \end{align}
-\end{subequations}
-and add them together
-\begin{equation}
-    C_\omega
-    =
-    C^+_\omega + (C^-_\omega)^\top
-    =
-    \begin{pmatrix}
-        I_\omega       & F^{\mL}_\omega \\
-        F^{\mR}_\omega & G_\omega
-    \end{pmatrix}.
-\end{equation}
-In~\cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
-might be violated numerically.
-We do not have this problem as $C_\omega$ is hermitian by construction.
 
 Given each correlator as a sum of poles,~\citeauthor{Kugler2022}~\cite{Kugler2022} broadened
 each correlator and calculated the broadened self-energy $\Sigma_z$.
