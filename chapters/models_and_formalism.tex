@@ -188,7 +188,7 @@ and electrons from each bath site can hop in and out of the impurity.
 The last two terms of \zcref{eq:H-Anderson} are commonly combined into the
 \emph{hybridization function}
 \begin{equation}
-    \Delta_\omega = \sum_{k\sigma} \frac{|V_k|^2}{\omega + \mi0^+ - \epsilon_k}.
+    \Delta_\omega = \sum_{k} \frac{|V_k|^2}{\omega + \mi0^+ - \epsilon_k}.
 \end{equation}
 
 \section{Green's function and correlators}%
@@ -321,12 +321,13 @@ This allows us to create a non-interacting Green's function~\cite{Economou2006}
 \begin{equation}
     G_{0,\omega}
     =
-    \frac{2}{D^2} \left(\omega - \sgn(\omega) \sqrt{(\omega + \mi0^+)^2 - D^2}\right),
+    \frac{2}{D^2} \left(\omega - \sgn(\omega) \sqrt{\omega^2 - D^2}\right),
 \end{equation}
 shown in \zcref{fig:bethe-greens-function}.
-The signum function for zero is defined as $\sgn(0^\pm) = \pm 1$.
+The signum function at zero is defined as $\sgn(0^\pm) = \pm 1$.
 As the complex square root has a branch cut,
 the imaginary part is taken to be positive.
+
 Due to the self-similarity of the Bethe lattice,
 its hybridization function is just a rescaled Green's function
 \begin{equation}
