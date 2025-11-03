@@ -28,21 +28,22 @@ This scheme is then infinitely repeated for each site.
 
 We can then model electron movement as hopping from a given site to
 one of the $z$ neighbors.
-If we assume that hopping to each neighbor is equally likely and assign it the probability $p^*$,
+If we assume that hopping to each nearest neighbor is equally likely and assign it the probability $p^*$,
 the total probability of movement is $p = zp^*$.
 In the limit of infinite connectivity $z\to\infty$ (infinite dimensions) this will diverge,
 necessitating a renormalization.
 Thus, the probability is rescaled as $p^* \to p^*/z$ such that
 the total probability $p$ stays finite.
 Instead of working with a hopping probability,
-we instead introduce the hopping amplitude $t^* = t/\sqrt{z}$~\cite{Held2007}
-which is sketched in \zcref{subfig:bethe-lattice}.
-The density of states (DOS) for $z\to\infty$ then reads
+we instead introduce the hopping amplitude $t^* = t/\sqrt{z}$~\cite{Held2007}.
+Such a hopping process between neighboring sites is sketched in \zcref{subfig:bethe-lattice}.
+
+For the Bethe lattice, the density of states (DOS) for $z\to\infty$ reads
 \begin{equation}
     \rho(\omega) = \frac{1}{2\muppi t^2} \sqrt{\omega^2 - 4t^2},
 \end{equation}
 with bandwidth $W=4t$.
-This equation\footnote{
+This expression\footnote{
     This distribution is also known as the Wigner semicircle distribution
     which is the eigenvalue distribution of random matrices.
     They are related to the DOS in as much as a random walk on the Bethe lattice.
@@ -75,7 +76,7 @@ which is shown in \zcref{subfig:bethe-density}.
         \subref{subfig:bethe-lattice}
         Bethe lattice with coordination number $z=3$ and hopping amplitude $t^*$.
         \subref{subfig:bethe-density}
-        DOS in infinite dimensions.
+        DOS in infinite dimensions for $D=1$.
         \fe{TODO: align sub figures?} %TODO: align subfigures? % chktex 13
     }
 \end{figure}
@@ -83,20 +84,9 @@ which is shown in \zcref{subfig:bethe-density}.
 \section{Hubbard model}%
 \label{sec:hubbard-model}
 
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/hubbard_2d.tex}
-    \caption{
-        Hubbard model for a 2D square lattice.
-        $t$ denotes hopping between neighboring sites
-        and $U$ describes the Coulomb repulsion on a doubly occupied site.
-    }%
-    \label{fig:hubbard-model}
-\end{figure}
-
-As already mentioned, we want to describe strongly correlated electron systems
-for which we will use the Hubbard model~\cite{Hubbard1997}.
-\fe{TODO: mention strongly correlated electrons in indroduction} % TODO: chktex 13
+Although we do not explicitly calculate properties of the system through the
+Hubbard model~\cite{Hubbard1997},
+we nevertheless want to mention it briefly due to its importance in DMFT\@.
 Denoting the creator of site $i$ and spin $\sigma\in\{\uparrow,\downarrow\}$
 as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonian\footnote{
     In this work we look at the SU(2) symmetric model % chktex 36
@@ -116,6 +106,16 @@ reads
     \label{eq:H-Hubbard}
 \end{equation}
 with a sketch given in \zcref{fig:hubbard-model}.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/hubbard_2d.tex}
+    \caption{
+        Hubbard model for a 2D square lattice.
+        $t$ denotes hopping between neighboring sites
+        and $U$ describes the Coulomb repulsion on a doubly occupied site.
+    }%
+    \label{fig:hubbard-model}
+\end{figure}
 Each site can be occupied by up to two electrons.
 The first term describes the kinetics of the system:
 Electrons can hop between nearest-neighbors $\langle i j\rangle$
@@ -135,20 +135,6 @@ while the Coulomb interaction is diagonal in real space.
 
 \section{Anderson impurity model}%
 \label{sec:anderson-impurity-model}
-
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/geometry_star.tex}
-    \caption{
-        Sketch of an Anderson impurity model.
-        Impurity (square) interacting with bath sites (circles).
-        Site occupation is indicated by fill level,
-        where a full site corresponds to double occupation.
-        Furthermore, hopping between the impurity and bath sites is shown by lines.
-        (adapted from~\cite{Lu2019}).
-    }%
-    \label{fig:AIM-geometry-star}
-\end{figure}
 
 Instead of having a repulsion $U$ on each site,
 we can create a model in which only one site is correlated
@@ -184,7 +170,19 @@ A graphical representation of the Hamiltonian in \zcref{eq:H-Anderson} is given
 in \zcref{fig:AIM-geometry-star}:
 each bath site has a given filling
 and electrons from each bath site can hop in and out of the impurity.
-
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/geometry_star.tex}
+    \caption{
+        Sketch of an Anderson impurity model.
+        Impurity (square) interacting with bath sites (circles).
+        Site occupation is indicated by fill level,
+        where a full site corresponds to double occupation.
+        Furthermore, hopping between the impurity and bath sites is shown by lines.
+        (adapted from~\cite{Lu2019}).
+    }%
+    \label{fig:AIM-geometry-star}
+\end{figure}
 The last two terms of \zcref{eq:H-Anderson} are commonly combined into the
 \emph{hybridization function}
 \begin{equation}
