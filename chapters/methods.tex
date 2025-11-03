@@ -133,7 +133,7 @@ with the limit of all excitations recovering the full Hilbert space
 In this work the highest excitation we allow is $p=2$.
 
 \section{Lanczos algorithm}%
-\label{sec:lanczos-algorithm}
+\label{sec:Lanczos-algorithm}
 
 Even with RAS,
 the Hilbert space is still too large decompose the Hamiltonian.
@@ -275,6 +275,54 @@ non-vanishing singular values
 \end{equation}
 still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb{0}_{q\times q}$
 for $i \in \{1,\ldots,j-1\}$~\cite{Golub2013}.
+
+\section{Ground state}
+
+Before we can calculate any expectation value or correlators,
+we first need to obtain the ground state of our impurity problem.
+
+As an initial guess we take the state with all valence bath sites $v_k$ filled in combination with
+a singlet state\footnote{
+    We do not want any magnetic moment, as we are SU(2) symmetric. % chktex 36
+}
+in the impurity $i$ and mirror site $m$
+\begin{equation}
+    \ket*{\psi_0^{(1)}}
+    =
+    \frac{1}{\sqrt{2}}
+    \left(d^\dag_\uparrow m^\dag_\downarrow - d^\dag_\downarrow m^\dag_\uparrow\right)
+    \prod_{k\sigma} v^\dag_{k\sigma}
+    \ket{0}.
+\end{equation}
+Given this state, we can calculate an approximate ground state energy
+\begin{equation}
+    E_0^{(1)} = \sandwich*{\psi_0^{(1)}}{H}{\psi_0^{(1)}}
+\end{equation}
+and shift our Hamiltonian accordingly \zcref{eq:Hamiltonian-shift}.
+This allows use to calculate a variance
+\begin{equation}
+    \var^{(1)}
+    =
+    \sandwich*{\psi_0^{(1)}}{H^2}{\psi_0^{(1)}},
+\end{equation}
+which is not going to be very accurate.
+To get a better approximation,
+we employ the aforementioned Lanczos method (\zcref{sec:Lanczos-algorithm}) with restarting
+as described in~\cite{Lu2014}:
+Given an approximate ground state $\ket{\psi_0^{(i)}}$,
+we calculate a new Krylov basis $\mathcal{K}^5(H, \ket{\psi_0^{(i)}})$ which is diagonalized.
+From this, we calculate a new state $\ket{\psi_0^{(i+1)}}$
+with a new ground state energy $E_0^{(i+1)}$
+and variance $\var^{(i+1)}$.
+This loop is repeated until the variance falls below a given tolerance
+as it must vanish for a true eigenstate of $H$.
+
+One should note that even if the variance is exactly zero for a state $\ket{\tilde\psi_0}$
+in RAS,
+this state is not a true eigenstate of the unrestricted Hamiltonian.
+Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
+will generate new states~\cite{Lu2014} that were not accounted for.
+It is just that these state have such small weight allowing us to ignore them.
 
 \subsection{Representation}
 
@@ -476,48 +524,3 @@ Diagonalizing this expression gives us the self-energy in the same form as
 Contrasting against \zcref{eq:Dyson},
 all pole weights are positive by construction
 and no merging of negative weight into neighbors is necessary.
-
-\section{Ground state}
-
-In order to calculate correlators and expectation values listed in
-\zcref{sec:correlators, sec:self-energy} at $T=0$,
-one first needs to obtain the ground state of a given impurity Hamiltonian $H$
-(\zcref{eq:H-Anderson}).
-As an initial guess we take the state with all valence bath sites $v_k$ filled in combination with
-a singlet state in the impurity $i$ and mirror site $m$
-(the filling of each site is sketched in \zcref{subfig:geometry-natural-impurity-orbitals}):
-\begin{equation}
-    \ket*{\psi_0^{(1)}}
-    =
-    \frac{1}{\sqrt{2}}
-    \left(d^\dag_\uparrow m^\dag_\downarrow - d^\dag_\downarrow m^\dag_\uparrow\right)
-    \prod_{k\sigma} v^\dag_{k\sigma}
-    \ket{0}.
-\end{equation}
-Given this state, we can calculate an approximate ground state energy
-\begin{equation}
-    E_0^{(1)} = \sandwich*{\psi_0^{(1)}}{H}{\psi_0^{(1)}}
-\end{equation}
-and variance
-\begin{equation}
-    \var^{(1)}
-    =
-    \sandwich*{\psi_0^{(1)}}{\left(H - E_0^{(1)}\right)^2}{\psi_0^{(1)}}.
-\end{equation}
-As this approximation is not sufficient for calculations,
-we employ the Lanczos method (\zcref{sec:lanczos-algorithm}) with restarting
-as described in~\cite{Lu2014}:
-Given an approximate ground state $\ket{\psi_0^{(i)}}$,
-we calculate a new Krylov basis $\mathcal{K}^5(H, \ket{\psi_0^{(i)}})$ which is diagonalized.
-From this, we calculate a new state $\ket{\psi_0^{(i+1)}}$
-with a new ground state energy $E_0^{(i+1)}$
-and variance $\var^{(i+1)}$.
-This loop is repeated until the variance falls below a given tolerance
-as it must vanish for a true eigenstate of $H$.
-
-One should note that even if the variance is exactly zero for a state $\ket{\tilde\psi_0}$
-in the RAS truncation (\zcref{sec:ras}),
-this state is not a true eigenstate of the unrestricted Hamiltonian.
-Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
-will generate new states~\cite{Lu2014} that were not accounted for.
-It is just that these state have (hopefully) such small weight allowing us to ignore them.
