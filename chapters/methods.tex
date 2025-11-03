@@ -1,115 +1,137 @@
 %! TeX root = ../main.tex
 
-\chapter{Methods}%
-\label{ch:methods}
+\chapter{Numerical methods}%
+\label{ch:numerical-methods}
 
-The problem however is the exponential algorithmic complexity:
-For $N$ sites (bath and impurity), the number of all possible states scales as $O(4^N)$
-limiting exact diagonalization (ED) to $N=O(10)$ sites.
+The goal of this chapter is to explain the numerical implementation of our
+impurity solver and subsequent DMFT self-consistency loop.
+Most ideas are taken from~\cite{Lu2014,Lu2019,Kugler2022,Zacinskis2025}.
 
-\subsection{Natural impurity orbitals}%
-\label{sec:natural-impurity-orbitals}
+The main problem in quantum many-body physics the size of
+the associated Hilbert space~\cite{Brass2021}.
+In principle there are infinitely many states an electron can occupy.
+One method to calculate models on a computer is therefore to discretize the space
+by choosing a finite number $i\in\{1,\ldots,n\}$ of one-particle wave functions $\{\ket{\phi_i}\}$
+with energies $\epsilon_i$.
+They can be combined to create Slater determinants
+\begin{equation}
+    \ket{\alpha_j} = \prod_{i\sigma} \left(c^\dag_{i\sigma}\right)^n \ket{0},
+    \quad
+    n\in\{0,1\},
+\end{equation}
+which allows us to write arbitrary wave functions as linear combinations
+\begin{equation}
+    \ket{\psi} = \sum_j \alpha_j \ket{\alpha_j}.
+\end{equation}
 
-To solve the Anderson impurity model,
-we can use Slater determinants to decompose the wave function
+As each site has four possible states\footnote{
+    They are $\ket{0}$, $\ket{\uparrow}$, $\ket{\downarrow}$, and $\ket{\uparrow\downarrow}$.
+}
+the dimension of the Hilbert space grows as $4^n$ limiting exact diagonalization (ED)
+to $\bigO{10}$ sites.
+To further reduce the dimensionality of our space,
+we can employ so-called \emph{quantum numbers}~\cite{Wallerberger2022}:
+We look at symmetries of our Hamiltonian which allows us to decompose it into blocks
+with no overlaps between those.
+E.g., we introduce the number operator $N = \sum_{i\sigma} c^\dag_{i\sigma} c^{\pdag}_{i\sigma}$
+and if our Hamiltonian conserves it $[H, N] = 0$,
+we know that $H$ and $N$ share a common basis.
+Thus, we can decompose our Hamiltonian into blocks of $p\in\{0, \ldots, 2n\}$ particles
+where the dimensionality of each block is given by
 \begin{equation}
-    \ket{\psi} = \sum_{i=1}^M \alpha_i \ket{\alpha_i}
-    \label{eq:slater-decomposition}
+    \binom{2n}{p}.
 \end{equation}
-using any orthonormal set of basis functions.
-With the occupation number,
-we can express the number of electrons in each spin sector as
-the sum of impurity and bath electrons
+As our Hamiltonian is SU(2) symmetric, % chktex 36
+we can split our Hamiltonian into blocks of fixed $N_\uparrow$ and $N_\downarrow$
+further reducing the dimensionality to
 \begin{equation}
-    N_\sigma = n_{i,\sigma} + \sum_{k=1}^N n_{b,k\sigma}.
+    \binom{n}{p_\uparrow} \binom{n}{p_\downarrow}.
 \end{equation}
-For a fixed amount of electrons $N_\mathrm{tot} = N_\uparrow + N_\downarrow$,
-a combination of
+For the half-filled block where $p_\sigma = n/2$ its asymptotic behavior is
 \begin{equation}
-    M = \binom{N+1}{n_\uparrow} \cdot \binom{N+1}{n_\downarrow}
+    \binom{n}{n/2} \binom{n}{n/2}
+    \approx
+    \frac{2}{\muppi}\frac{4^n}{n},
 \end{equation}
-determinants are necessary to fully describe the wave function.
-For a half-filled system ($N_\uparrow = N_\downarrow = (N+1)/2$)
-with $N+1=140$ sites, this is approximately $\num{9e81}$
+which for $n=140$ sites is approximately $\num{9e81}$
 exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
-As this is not treatable numerically,
-we need to truncate a certain number of determinants with the smallest probabilities.
-To save computational resources,
-we want to find a new basis in which the probabilities
-$|\alpha_i^2|$ in \zcref{eq:slater-decomposition}
-decay faster than those of the star geometry
-(further details in~\cite{Bi2019}).
 
-Given a spin-orbital basis set $\{\ket{\phi_{i\sigma}}\}$
-with their respective creator $c_{i\sigma}^\dag$~\cite{Bi2019},
-the density matrix of the ground state is defined as
-\begin{equation}
-    n_{ij\sigma} = \sandwich{\psi_0}{c_{i\sigma}^\dag c_{j\sigma}}{\psi_0}.
-\end{equation}
-A commonly employed basis in quantum chemistry are the \emph{natural orbitals},
-where the orbitals $\ket{\phi_{i\sigma}}$ are chosen such that
-the aforementioned density matrix is diagonal $n_{ij\sigma} = \delta_{ij}n_{ij\sigma}$.
-However,
-a naive implementation of the natural orbitals will inevitably mix the original impurity
-and bath sites transforming the local Coulomb interaction (\zcref{eq:H-Anderson-interaction})
-among multiple new sites,
-losing locality~\cite{Lu2014,Lu2019}.
-We therefore use the \emph{natural impurity orbitals}
-which only rotates bath orbitals while keeping the impurity untouched.
-This new geometry is shown in \zcref{subfig:geometry-natural-impurity-orbitals}.
-The unchanged impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
+\subsection{Natural impurity orbitals and restricted active space}%
+\label{sec:NIO-RAS}
+
+To mitigate this issue,
+we take the same approach as~\cite{Lu2019}.
+Instead of exploring the full Hilbert space of $n$ particles in an Anderson impurity model,
+we consider only a very small subset.
+
+In the first step,
+the one particle basis $\{\ket{\phi_i}\}$ was optimized to the so-called
+\emph{natural impurity orbitals} which
+--- compared to the commonly used \emph{natural orbitals} in quantum chemistry ---
+optimize only the bath basis while keeping the impurity unchanged\footnote{
+    Otherwise,
+    the Coulomb interaction (\zcref{eq:H-Anderson-interaction})
+    is distributed onto many new sites and is not local anymore.
+}.
+This new geometry is shown in \zcref{fig:AIM-natural-impurity-orbitals}.
+The untouched impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
 Following the convention of~\cite{Lu2014,Lu2019},
 we call sites in the almost fully filled chain valence bath sites (labeled $v$),
 and sites in the almost empty chain as conduction bath sites (labeled $c$).
 Hopping between sites is again shown by lines.
-
-\section{Restricted active space}%
-\label{sec:ras}
-
-\fe{NOTE:\@ I think RAS fits better than CI.}
-
-Using the natural impurity orbitals (\zcref{sec:natural-impurity-orbitals}) allows us to
-write the ground state in a basis which has optimal scaling behavior with respect to
-the number of bath sites~\cite{Lu2019}.
-However, the computational complexity still grows combinatorial with each added bath site.
-To alleviate the scaling problem we employ the same restricted active space (RAS) method
-as \citeauthor{Lu2019}~\cite{Lu2019}, which is sketched in \zcref{fig:aim-separation}.
-
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/aim_separation.tex}
     \caption{
-        Separation of the wave function into two components
-        $\ket{\phi_I}$ and $\ket{\phi_{II}}$ denoted by two boxes.
+        Anderson impurity model in the natural orbital basis and
+        subsequent separation of the wave function into two components
+        $\ket{\psi_\mathrm{I}}$ and $\ket{\psi_\mathrm{II}}$ denoted by two boxes.
     }%
-    \label{fig:aim-separation}
+    \label{fig:AIM-natural-impurity-orbitals}
 \end{figure}
 
-The full Hilbert space is projected onto a subspace that only contains
-empty conduction sites $\ket{\mathbb{0}_c}$
-and full valence sites $\ket{\mathbb{1}_v}$ for $l>L$.
-The ground state can be written as
+This however, does not change the dimensionality of the Hilbert space.
+To alleviate the scaling problem we employ the restricted active space (RAS) method,
+which decomposes the wave function
 \begin{equation}
-    \ket{\psi_0}
-    =
-    \ket{\phi_I} \otimes \ket{\mathbb{0}_c} \otimes \ket{\mathbb{1}_v}
-    =
-    \ket{\phi_I} \otimes \ket{\phi_{II}},
+    \ket{\psi} = \ket{\psi_\mathrm{I}} \otimes \ket{\psi_\mathrm{II}}
 \end{equation}
-where $\ket{\phi_I}$ is the exact ground state calculated by ED for some $L$
-and $\ket{\phi_{II}} = \ket{\mathbb{0}_c} \otimes \ket{\mathbb{1}_v}$ is a reference state.
+sketched in \zcref{fig:AIM-natural-impurity-orbitals}.
+For $\ket{\psi_\mathrm{I}}$ we take all possible states into account.
+This is feasible because we fix the parameter $L$
+(the number of conduction and valence bath sites to be treated exactly)
+to be very small compared to the number of bath sites $L \ll n$.
 
-In the next step we loosen the restriction of empty conduction and full valence bath sites
-in $\ket{\phi_{II}}$.
-The $p=1$ projection allows one state to differ from the reference state:
-Either one electron of $\ket{\phi_I}$ enters the empty conduction sites
-or one electron from the full valence sites enters $\ket{\phi_I}$.
-In the $p=2$ projection two states are allowed to differ.
-This allows for one of the following possibilities for $\ket{\phi_{II}}$:
-Two electrons in the conduction bath sites $c_l$,
-two holes in the valence bath sites $v_l$,
-or one electron in the conduction bath sites $c_l$
-and one hole in the valence bath sites $v_l$ ($l\ge L$).
+In $\ket{\psi_\mathrm{II}}$ which contains the remaining chain sites we neglect almost all states.
+In the simplest approximation (labeled $p=0$)
+we enforce that all valences sites are fully filled (denoted $\ket{\mathbb{1}_v}$) while
+conduction sites are completely empty (denoted $\ket{\mathbb{0}_c}$).
+The wave function can thus be written as
+\begin{equation}
+    \ket{\psi_\mathrm{II}} = \ket{\mathbb{1}_v} \otimes \ket{\mathbb{0}_c}.
+\end{equation}
+
+For $p=1$ we allow additionally one excitation
+which creates an electron or hole excitation.
+This creates possible states
+\begin{align}
+    \ket{\mathbb{1}_v}             & \otimes c^\dag_{k\sigma} \ket{\mathbb{0}_c}, \\
+    v_{k\sigma} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
+\end{align}
+
+This can be further extended to $p=2$ which
+(including all previous excitations)
+contains electron-electron, electron-hole, and hole-hole excitations
+\begin{align}
+    \ket{\mathbb{1}_v}                           & \otimes c^\dag_{k\sigma} c^\dag_{k'\sigma'} \ket{\mathbb{0}_c}, \\
+    v_{k\sigma} \ket{\mathbb{1}_v}               & \otimes c^\dag_{k'\sigma'} \ket{\mathbb{0}_c},                  \\
+    v_{k\sigma} v_{k'\sigma'} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
+\end{align}
+
+Theoretically, one can continue this approach to higher and higher orders
+with the limit of all excitations recovering the full Hilbert space
+(including the curse of dimensionality).
+In this work the highest excitation we allow is $p=2$.
 
 \section{Lanczos algorithm}%
 \label{sec:lanczos-algorithm}
