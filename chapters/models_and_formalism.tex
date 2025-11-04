@@ -163,8 +163,8 @@ Finally, the interaction between impurity and bath is given by the hybridization
 \begin{equation}
     H_\mathrm{imp - bath}
     =
-    \sum_{k\sigma} \left(V^{\ps}_k d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
-    + V_k^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma} \right)
+    \sum_{k\sigma} V^{\ps}_k d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
+    + V_k^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma}
 \end{equation}
 A graphical representation of the Hamiltonian in \zcref{eq:H-Anderson} is given
 in \zcref{fig:AIM-geometry-star}:
@@ -204,6 +204,7 @@ in the Heisenberg picture\footnote{
     our time evolution operator is given as $U(t, 0) = \me^{-\mi H t}$
     which evolves the system from $0$ to $t$.
     Otherwise, one needs to use a general time evolution $U(t, t_0)$
+    based on the time-dependent Schrödinger equation.
 }.
 At zero temperature $T=0$, the expectation value is evaluated on the ground state
 $\expval{\,\cdot\,} = \sandwich{\psi_0}{\,\cdot\,}{\psi_0}$ only.
@@ -400,7 +401,7 @@ The analytic moments for half-filling are~\cite{Potthoff1997}
 \end{align}
 with every odd moment vanishing.
 
-Although the Dyson equation (\zcref{eq:Dyson}) is exact,
+Although the Dyson equation is exact,
 it poses an issue~\cite{Bulla1998}:
 $G_{0,\omega}$ is known analytically while
 $G_\omega$ can only be obtained numerically most of the time.
@@ -513,6 +514,6 @@ For the special case of a lattice in infinite dimensions,
 one can skip the calculation of the lattice Green's function
 and directly update the hybridization~\cite{Lu2014}:
 \begin{equation}
-    \Delta_\omega = \Delta_{0}(\omega + \mu - \mu_0 - \Sigma_\omega),
+    \Delta(\omega) = \Delta_{0}(\omega + \mu - \mu_0 - \Sigma_\omega),
 \end{equation}
 with a derivation given in \zcref{app:dmft-simplification}.
