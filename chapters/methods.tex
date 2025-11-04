@@ -520,25 +520,28 @@ and sharper if the pole is closer to $\omega=0$.
 As all poles are at located at $\omega>0$,
 the spectrum of the log Gaussian vanishes for $\omega\le0$.
 
-\subsection{Self-energy}
+\subsection{Self-energy calculation}
 
 In~\cite{Lu2014},
-this equation was used to represent the self-energy by the constant Hartree term $\Sigma^\mH$
+the Dyson equation (\zcref{eq:Dyson}) was used to represent the
+self-energy by the constant Hartree term $\Sigma^\mH$
 and a sum of poles
 \begin{equation}
-    \Sigma_\omega = \Sigma^\mH + \sum_j \frac{w_j}{\omega + \mi0^+ - \epsilon_j}.
+    \Sigma_\omega = \Sigma^\mH + \sum_i \frac{w_i}{\omega + \mi0^+ - \epsilon_i}.
     \label{eq:self-energy-sum-of-poles}
 \end{equation}
-For the self-energy to be physical, all weights must be positive.
+As the self-energy is also analytical in the upper complex plane,
+all weights must be positive.
 On a system with finite bath sites and floating-point arithmetic however,
 this was violated and poles with negative weight had to be merged into neighbors
 such that only positive weight remained.
 
-Given each correlator as a sum of poles,~\citeauthor{Kugler2022}~\cite{Kugler2022} broadened
-each correlator and calculated the broadened self-energy $\Sigma_z$.
+To avoid this issue,
+we use the symmetric improved estimator~\cite{Kugler2022}.
+\citeauthor{Kugler2022} calculated each correlator from \zcref{eq:correlators}
+broadenend on a grid and then the self-energy $\Sigma_z$.
 In this work we instead calculate the self-energy on the real axis
-using the Schur complement~\cite{Schur1917}
-\fe{TODO:\@ credit Aleksandrs} %TODO: credit Aleksandrs
+using the Schur complement~\cite{Schur1917, Zacinskis2025}
 \begin{equation}
     \Sigma_\omega = \Sigma^\mH + \left([(C_\omega)^{-1}]_{11}\right)^{-1}.
 \end{equation}
@@ -549,8 +552,17 @@ the Anderson representation (\zcref{eq:correlator-anderson}):
 \end{equation}
 with matrices $A$, $B$ and a block sum of poles $D_\omega$.
 The scaling matrix $B$ contains the square root of the zeroth moments,
-e.g.\ its first element $B_{11} = U/2$ at half-filling.
-Due to the quadratic shift (\zcref{eq:quadratic-shift}), it is diagonal.
+and is
+\begin{equation}
+    B
+    =
+    \begin{pmatrix}
+        U/2 & 0 \\
+        0   & 1
+    \end{pmatrix}
+\end{equation}
+at half-filling.
+Diagonality comes from the quadratic shift in \zcref{eq:quadratic-shift}.
 The Schur complement is then
 \begin{equation}
     \left([(C_\omega)^{-1}]_{11}\right)^{-1}
