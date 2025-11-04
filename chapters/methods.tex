@@ -56,8 +56,8 @@ For the half-filled block where $p_\sigma = n/2$ its asymptotic behavior is
 which for $n=140$ sites is approximately $\num{9e81}$
 exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
 
-\subsection{Natural impurity orbitals and restricted active space}%
-\label{sec:NIO-RAS}
+\section{Natural impurity orbitals and restricted active space}%
+\label{sec:natural-impurity-orbitals}
 
 To mitigate this issue,
 we take the same approach as~\cite{Lu2019}.
@@ -113,7 +113,7 @@ The wave function can thus be written as
     \ket{\psi_\mathrm{II}} = \ket{\mathbb{1}_v} \otimes \ket{\mathbb{0}_c}.
 \end{equation}
 
-For $p=1$ we additionally to $p=0$ allow one electron or one hole excitation.
+For $p=1$ we (additionally to $p=0$) allow one electron or one hole excitation.
 This creates possible states
 \begin{subequations}
     \begin{align}
@@ -143,20 +143,20 @@ as higher $p$ are not numerically feasible for hundreds of bath sites.
 \label{sec:Lanczos-algorithm}
 
 Even with RAS,
-the Hilbert space is still too large decompose the Hamiltonian.
+the Hilbert space is still too large decompose the Hamiltonian
+which can be represented as an $n\times n$ matrix.
 Therefore,
 we use the Lanczos algorithm~\cite{Lanczos1950}
 as it has some nice properties for our given problem.
 First,
 it converges fastest to extremal eigenvalues which
 works very well for the ground state\footnote{
-    Due to the variational principle it is the state with the lowest possible energy
-    which is extreme.
+    Due to the variational principle it is the state with the lowest possible energy.
 }
 and as DMFT is a low-energy theory we are not interested in states very far from it.
 Secondly, it requires a hermitian matrix which our Hamiltonian is.
 Lastly it works very well if our matrix is sparse which is the case for our geometry\footnote{
-    As most of it is composed of two long chains,
+    As most bath sites are inside two long chains,
     almost all hopping elements are zero.
 }.
 The method is based on a Krylov basis
@@ -259,7 +259,7 @@ and its roots as
 \end{equation}
 The resulting vectors are then
 \begin{align}
-    Q_{j+1} & = \tilde Q_{j+1} S^{-1/2} \qquad \text{and} \\
+    Q_{j+1} & = \tilde Q_{j+1} S^{-1/2}, \\
     B_j     & = S^{1/2}.
 \end{align}
 We use this method as it guarantees hermiticity in the off-diagonal blocks $B_j^\dag = B_j$
@@ -290,7 +290,7 @@ we first need to obtain the ground state of our impurity problem.
 
 As an initial guess we take the state with all valence bath sites $v_k$ filled in combination with
 a singlet state\footnote{
-    We do not want any magnetic moment, as we are SU(2) symmetric. % chktex 36
+    We do not want any magnetic moment in SU(2) symmetry. % chktex 36
 }
 in the impurity $i$ and mirror site $m$
 \begin{equation}
@@ -396,10 +396,12 @@ Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Ander
         \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}, \\
         C_\omega
          & =
-        B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=p+1}^{Mp} \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0.
+        B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=p+1}^{Mp} \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0,
     \end{align}%
     \label{eq:correlator-anderson}
 \end{subequations}
+which is helpful to calculate inverses of correlators.
+
 A detailed explanation on how to transform between these representations is given in~\cite{Lu2014}.
 
 We calculate the correlators listed in \zcref{eq:correlators} as
@@ -520,7 +522,7 @@ and sharper if the pole is closer to $\omega=0$.
 As all poles are at located at $\omega>0$,
 the spectrum of the log Gaussian vanishes for $\omega\le0$.
 
-\subsection{Self-energy calculation}
+\section{Self-energy calculation}
 
 In~\cite{Lu2014},
 the Dyson equation (\zcref{eq:Dyson}) was used to represent the
