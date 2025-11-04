@@ -92,7 +92,7 @@ Hopping between sites is again shown by lines.
 
 This however, does not change the dimensionality of the Hilbert space.
 To alleviate the scaling problem we employ the restricted active space (RAS) method,
-which decomposes the wave function
+which decomposes the wave function into two components
 \begin{equation}
     \ket{\psi} = \ket{\psi_\mathrm{I}} \otimes \ket{\psi_\mathrm{II}}
 \end{equation}
@@ -102,35 +102,42 @@ This is feasible because we fix the parameter $L$
 (the number of conduction and valence bath sites to be treated exactly)
 to be very small compared to the number of bath sites $L \ll n$.
 
-In $\ket{\psi_\mathrm{II}}$ which contains the remaining chain sites we neglect almost all states.
+In $\ket{\psi_\mathrm{II}}$ which contains the remaining chain sites we neglect almost all
+possible electron configurations.
 In the simplest approximation (labeled $p=0$)
-we enforce that all valences sites are fully filled (denoted $\ket{\mathbb{1}_v}$) while
-conduction sites are completely empty (denoted $\ket{\mathbb{0}_c}$).
+we enforce that all valence sites in $\ket{\psi_\mathrm{II}}$
+are fully filled (denoted by $\ket{\mathbb{1}_v}$) while
+conduction sites are completely empty (denoted by $\ket{\mathbb{0}_c}$).
 The wave function can thus be written as
 \begin{equation}
     \ket{\psi_\mathrm{II}} = \ket{\mathbb{1}_v} \otimes \ket{\mathbb{0}_c}.
 \end{equation}
 
-For $p=1$ we additionally allow one electron or hole excitation.
+For $p=1$ we additionally to $p=0$ allow one electron or one hole excitation.
 This creates possible states
-\begin{align}
-    \ket{\mathbb{1}_v}             & \otimes c^\dag_{k\sigma} \ket{\mathbb{0}_c}, \\
-    v_{k\sigma} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
-\end{align}
+\begin{subequations}
+    \begin{align}
+        \ket{\mathbb{1}_v}             & \otimes c^\dag_{k\sigma} \ket{\mathbb{0}_c}, \\
+        v_{k\sigma} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
+    \end{align}
+\end{subequations}
 
 This can be further extended to $p=2$ which
 (including all previous excitations)
 contains electron-electron, electron-hole, and hole-hole excitations
-\begin{align}
-    \ket{\mathbb{1}_v}                           & \otimes c^\dag_{k\sigma} c^\dag_{k'\sigma'} \ket{\mathbb{0}_c}, \\
-    v_{k\sigma} \ket{\mathbb{1}_v}               & \otimes c^\dag_{k'\sigma'} \ket{\mathbb{0}_c},                  \\
-    v_{k\sigma} v_{k'\sigma'} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
-\end{align}
+\begin{subequations}
+    \begin{align}
+        \ket{\mathbb{1}_v}                           & \otimes c^\dag_{k\sigma} c^\dag_{k'\sigma'} \ket{\mathbb{0}_c}, \\
+        v_{k\sigma} \ket{\mathbb{1}_v}               & \otimes c^\dag_{k'\sigma'} \ket{\mathbb{0}_c},                  \\
+        v_{k\sigma} v_{k'\sigma'} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
+    \end{align}
+\end{subequations}
 
 Theoretically, one can continue this approach to higher and higher orders
 with the limit of all excitations recovering the full Hilbert space
-(including the curse of dimensionality).
-In this work the highest excitation we allow is $p=2$.
+(including the exponential growth of the available configurations).
+In this work we only implemented excitations up to $p=2$,
+as higher $p$ are not numerically feasible for hundreds of bath sites.
 
 \section{Lanczos algorithm}%
 \label{sec:Lanczos-algorithm}
@@ -148,7 +155,7 @@ works very well for the ground state\footnote{
 }
 and as DMFT is a low-energy theory we are not interested in states very far from it.
 Secondly, it requires a hermitian matrix which our Hamiltonian is.
-Lastly it works very well if our matrix is sparse which is the case for our Hamiltonian\footnote{
+Lastly it works very well if our matrix is sparse which is the case for our geometry\footnote{
     As most of it is composed of two long chains,
     almost all hopping elements are zero.
 }.
@@ -330,7 +337,9 @@ Using the Lanczos algorithm,
 we can obtain diagonal correlators (where operators $A$, $B$ are related by $A=B^\dag$)
 by using $B\ket{\psi_0}$ or $A\ket{\psi_0}$ as our input vector $\vec{\tilde q}_1$.
 By storing its norm $b_0 = \norm{\vec{\tilde q}_1}$ and subsequent
-normalization $\vec{q}_1 = \vec{\tilde q}_1/b_0$,
+normalization $\vec{q}_1 = \vec{\tilde q}_1/b_0$\footnote{
+    $b_0$ therefore contains information about the zeroth moment $C^{(0)}$.
+},
 we obtain the correlator as
 the first component of the inverse of our tridiagonal matrix $T$~\cite{Lu2014},
 \begin{equation}
