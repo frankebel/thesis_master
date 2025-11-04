@@ -5,7 +5,7 @@
 
 The goal of this chapter is to explain the numerical implementation of our
 impurity solver and subsequent DMFT self-consistency loop.
-Most ideas are taken from~\cite{Lu2014,Lu2019,Kugler2022,Zacinskis2025}.
+Most ideas are taken from~\cite{Lu2014, Lu2019, Kugler2022, Zacinskis2025}.
 
 The main problem in quantum many-body physics the size of
 the associated Hilbert space~\cite{Brass2021}.
@@ -465,32 +465,39 @@ and thus $C_\omega$ is also hermitian.
 
 \subsection{Broadening}
 
-Thus, we can broaden our delta-peaks from TODO
-for the imaginary part and obtain the real part through \zcref{eq:kramers-kronig-real}.
+In this work we calculate the whole DMFT self-consistency on the real axis with discrete poles.
+However, this gives issues when we want to plot the spectral part of our correlators.
+Applying \zcref{eq:spectral-part} to our representation from \zcref{eq:correlator-sum}
+gives discrete delta-peaks
+\begin{equation}
+    A_\omega = \sum_i w_i \delta(\omega - \epsilon_i)
+\end{equation}
+Thus, to get smooth spectra we broaden the peaks
+and obtain the real part through \zcref{eq:kramers-kronig-real}.
 We will denote the broadened correlator as $C_z$
 to contrast it against $C_\omega$ which has no broadening.
-In this work we will use the following three schemes:
+In this work we will use the following three methods
 \begin{enumerate}[(i)]
     \item Lorentzian broadening characterized by $\delta$:%
           \label{item:lorentzian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
-              \frac{1}{\muppi}\frac{\delta}{(\omega - \omega_0)^2 + \delta^2}
+              \frac{1}{\muppi}\frac{\delta}{(\omega - \omega_0)^2 + \delta^2},
           \end{equation}
     \item Gaussian broadening characterized by $\sigma$:%
           \label{item:gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
-              \frac{1}{\sqrt{2\muppi \sigma^2}}\exp\left(-\frac{(\omega - \omega_0)^2}{2\sigma^2}\right)
+              \frac{1}{\sqrt{2\muppi \sigma^2}}\exp\left(-\frac{(\omega - \omega_0)^2}{2\sigma^2}\right),
           \end{equation}
     \item logarithmic Gaussian characterized by $b$~\cite{Bulla2008}:%
           \label{item:logarithmic-gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
-              \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega_0\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right)
+              \Theta(\omega\omega_0)\frac{\me^{-b^2/4}}{b\omega_0\sqrt{\muppi}}\exp\left(-\frac{(\ln\omega-\ln\omega_0)^2}{b^2}\right).
           \end{equation}
 \end{enumerate}
 
