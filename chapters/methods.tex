@@ -7,19 +7,39 @@ The goal of this chapter is to explain the numerical implementation of our
 impurity solver and subsequent DMFT self-consistency loop.
 Most ideas are taken from~\cite{Lu2014, Lu2019, Kugler2022, Zacinskis2025}.
 
-The main problem in quantum many-body physics the size of
+The main problem in quantum many-body physics is the size of
 the associated Hilbert space~\cite{Brass2021}.
 In principle there are infinitely many states an electron can occupy.
 One method to calculate models on a computer is therefore to discretize the space
 by choosing a finite number $i\in\{1,\ldots,n\}$ of one-particle wave functions $\{\ket{\phi_i}\}$
-with energies $\epsilon_i$.
-They can be combined to create Slater determinants
+with energies $\{\epsilon_i\}$.
+A simple discretization of the semicircular DOS (\zcref{eq:dos-semicircle})
+is shown in \zcref{fig:dos-discretization}.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/discretization.tex}
+    \caption{
+        Possible discretization of the semicircular DOS (\zcref{eq:dos-semicircle})
+        with half-bandwidth $D=1$ to 31 orbitals.
+    }%
+    \label{fig:dos-discretization}
+\end{figure}
+Using this basis,
+we can combine the one-particle wave functions to Slater determinants\footnote{
+    Formally we must distinguish between the occupation number operator
+    $n_{i\sigma} = c^\dag_{i\sigma} c^{\pdag}_{i\sigma}$ and
+    occupation number $n_{i\sigma} \in \{0, 1\}$
+    which is why sometimes the former is written with a hat $\hat n_{i\sigma}$ in the literature.
+    In this work this was not done to avoid visual clutter
+    and the meaning can be inferred from context.
+}
 \begin{equation}
-    \ket{\alpha} = \prod_{i\sigma} \left(c^\dag_{i\sigma}\right)^n \ket{0},
+    \ket{\alpha} = \prod_{i\sigma} \left(c^\dag_{i\sigma}\right)^{n_{i\sigma}} \ket{0},
     \quad
-    n\in\{0,1\},
+    n_{i\sigma}\in\{0,1\},
 \end{equation}
-which allows us to write wave functions as linear combinations
+which allows us to write wave functions as linear combinations of all possible configurations
+$\{n_{i\sigma}\}$.
 \begin{equation}
     \ket{\psi} = \sum_j \alpha_j \ket{\alpha_j}.
 \end{equation}
@@ -27,14 +47,16 @@ which allows us to write wave functions as linear combinations
 As each site has four possible states\footnote{
     They are $\ket{0}$, $\ket{\uparrow}$, $\ket{\downarrow}$, and $\ket{\uparrow\downarrow}$.
 }
-the dimension of the Hilbert space grows as $4^n$ limiting exact diagonalization (ED)
+the dimension of the Hilbert space (number of possible Slater determinants)
+grows as $4^n$ limiting exact diagonalization (ED)
 to $\bigO{10}$ sites.
 To further reduce the dimensionality of our space,
-we can employ so-called \emph{quantum numbers}~\cite{Wallerberger2022}:
-We look at symmetries of our Hamiltonian which allows us to decompose it into blocks
-with no overlaps between those.
-E.g., we introduce the number operator $N = \sum_{i\sigma} c^\dag_{i\sigma} c^{\pdag}_{i\sigma}$
-and if our Hamiltonian conserves it $[H, N] = 0$,
+we can make use of symmetries,
+which allow us to decompose the Hilbert space into subspaces that are invariant under certain
+operations and characterized by conserved quantum numbers~\cite{Wallerberger2022}.
+The Hamiltonian thus becomes block-diagonal with respect to these subspaces.
+One example is the number operator $N = \sum_{i\sigma} c^\dag_{i\sigma} c^{\pdag}_{i\sigma}$:
+If our Hamiltonian conserves it $[H, N] = 0$,
 we know that $H$ and $N$ share a common basis.
 Thus, we can decompose our Hamiltonian into blocks of $p\in\{0, \ldots, 2n\}$ particles
 where the dimensionality of each block is given by
@@ -143,8 +165,12 @@ as higher $p$ are not numerically feasible for hundreds of bath sites.
 \label{sec:Lanczos-algorithm}
 
 Even with RAS,
-the Hilbert space is still too large decompose the Hamiltonian
-which can be represented as an $n\times n$ matrix.
+the Hilbert space is still too large to decompose the Hamiltonian
+which is represented as an $n\times n$ matrix\footnote{
+    The matrix dimension $n$ is not the same as
+    the discretization to $n$ one-particle wave functions in the previous section.
+    In fact, the former is much larger than the latter.
+}.
 Therefore,
 we use the Lanczos algorithm~\cite{Lanczos1950}
 as it has some nice properties for our given problem.
@@ -164,7 +190,7 @@ The method is based on a Krylov basis
     \mathcal{K}^M(H, \vec{q}) = \spn\{\vec{q}, H\vec{q}, H^2\vec{q}, \ldots, H^{M-1}\vec{q}\}
 \end{equation}
 for a given vector $\vec{q}$.
-Typically, the value $M$ is very small compared to the matrix size.
+Typically, the value $M$ is very small compared to the matrix size $M \ll n$.
 Instead of a simple power iteration, the Lanczos algorithm is described by the
 following recurrence relation
 \begin{equation}
@@ -306,7 +332,7 @@ Given this state, we can calculate an approximate ground state energy
     E_0^{(1)} = \sandwich*{\psi_0^{(1)}}{H}{\psi_0^{(1)}}
 \end{equation}
 and shift our Hamiltonian accordingly \zcref{eq:Hamiltonian-shift}.
-This allows use to calculate a variance
+This allows us to calculate a variance
 \begin{equation}
     \var^{(1)}
     =
@@ -333,25 +359,34 @@ It is just that these state have such small weight allowing us to ignore them.
 
 \section{Correlator representation}
 
+In the following we will use the notation $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$
+for a diagonal matrix and
+$\frac{1}{K}$ for the matrix inverse $K^{-1}$.
 Using the Lanczos algorithm,
-we can obtain diagonal correlators (where operators $A$, $B$ are related by $A=B^\dag$)
-by using $B\ket{\psi_0}$ or $A\ket{\psi_0}$ as our input vector $\vec{\tilde q}_1$.
-By storing its norm $b_0 = \norm{\vec{\tilde q}_1}$ and subsequent
-normalization $\vec{q}_1 = \vec{\tilde q}_1/b_0$\footnote{
+we can obtain diagonal correlators
+by using $A^\dag\ket{\psi_0}$ or $A\ket{\psi_0}$ as our input vector $\vec{\tilde q}_1$.
+By storing its norm\footnote{
     $b_0$ therefore contains information about the zeroth moment $C^{(0)}$.
-},
+}
+$b_0 = \norm{\vec{\tilde q}_1}$ and subsequent
+normalization $\vec{q}_1 = \vec{\tilde q}_1/b_0$
 we obtain the correlator as
 the first component of the inverse of our tridiagonal matrix $T$~\cite{Lu2014},
 \begin{equation}
     C^\pm_\omega
-    \propto
-    [(\omega + \mi0^+ \mp T)^{-1}]_{11},
+    =
+    b_0 \left[\frac{1}{\omega + \mi0^+ \mp T}\right]_{11} b_0.
 \end{equation}
-where $\omega + \mi0^+ \wedgeq (\omega + \mi0^+)\mathbb{1}$ is a shorthand notation
-for a diagonal matrix.
 This can be expanded to calculate block correlators where we apply multiple
-operators onto $\ket{\psi_0}$ simultaneously.
-In the following we will use the notation $\frac{1}{A}$ for the matrix inverse $A^{-1}$.
+operators onto $\ket{\psi_0}$ simultaneously where the subscript $K_{11}$ is meant
+as the first $q\times q$ block of the matrix $K$
+\begin{equation}
+    C^\pm_\omega
+    =
+    B_0 \left[\frac{1}{\omega + \mi0^+ \mp T}\right]_{11} B_0.
+\end{equation}
+Thus, the scalar case returns one correlator
+while the block version returns $p^2$ correlators simultaneously.
 
 Using the Schur complement~\cite{Schur1917},
 we can directly take our coefficients given in \zcref{eq:tridiagonal-scalar, eq:tridiagonal-block}
@@ -370,7 +405,7 @@ and represent correlators as a continued fraction
 In contrast to \quanty~\cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
 
-Diagonalizing the matrix $T$ gives us a sum of poles:
+Diagonalizing the matrix $T$ allows us to represent (block) correlators as a sum of poles:
 \begin{subequations}
     \begin{align}
         C_\omega
@@ -382,6 +417,7 @@ Diagonalizing the matrix $T$ gives us a sum of poles:
     \end{align}%
     \label{eq:correlator-sum}
 \end{subequations}
+where $M$ is the Krylov size and $p$ the size of each block.
 As we calculate diagonal elements,
 all weights $w_i$ are positive or $W_i$ positive semidefinite.
 To simplify the sum,
@@ -400,7 +436,7 @@ Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Ander
     \end{align}%
     \label{eq:correlator-anderson}
 \end{subequations}
-which is helpful to calculate inverses of correlators.
+which is helpful to calculate inverses of (block) correlators.
 
 A detailed explanation on how to transform between these representations is given in~\cite{Lu2014}.
 
@@ -463,7 +499,10 @@ and add them together
 In~\cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
 might be violated numerically.
 We do not have this problem as all matrices $A_i$ and $B_i$ are hermitian,
-and thus $C_\omega$ is also hermitian.
+and thus $C_\omega$ is also hermitian\footnote{
+    Due to floating-point arithmetic it can happen that hermiticity is violated for the least
+    significant digits. This is avoided by setting our matrix to $K \to 1/2 (K + K^\dag)$.
+}.
 
 \subsection{Broadening}
 

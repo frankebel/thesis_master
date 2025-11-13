@@ -1,0 +1,20 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    \begin{axis}[
+            xlabel=$\omega$,
+            ylabel=$\rho(\omega)$,
+            xmin=-1.1,
+            xmax=1.1,
+            every axis plot/.append style={
+                    thick,
+                    domain=-1:1,
+                    samples=31,
+                },
+        ]
+
+        \addplot+ [only marks]{
+            2/pi * sqrt(1 - x^2)
+        };
+    \end{axis}
+\end{tikzpicture}
