@@ -8,3 +8,5 @@ under the supervision of Prof. [Karsten Held](https://tiss.tuwien.ac.at/adressbu
 Download the latest build by clicking on the `Build` badge above,
 selecting the newest run,
 and downloading the artifact.
+
+The [`expose`](expose) directory contains my expose which explains the goal of this thesis.
