@@ -2,6 +2,48 @@
 
 \chapter{Results}
 
+In this chapter we show results for our DMFT solver.
+The calculations were done using Julia~\cite{Bezanson2017} version 1.11 and 1.12.
+The codebase is contained in two packages:
+\texttt{Fermions.jl}~\cite{Wallerberger2022} implements
+Hamiltonians, wave functions and their interplay.
+The second package \texttt{DMFT.jl}\footnote{
+    \url{https://github.com/frankebel/DMFT.jl}
+}
+\fe{
+    Should it be moved to the organization \url{https://github.com/tuwien-cms}?
+    I'm not part of the organization and don't have permissions.
+    Also, should we try to find a better package name?
+}
+contains the DMFT self-consistency loop together
+with the representation of correlators and self-energies.
+
+For all following calculations we set $D=1$ as our unit of energy.
+For the discretization we use and odd number of bath sites $N$
+with $(N - 1)/2$ poles on the positive and negative axis respectively
+and one pole at exactly zero.
+The location of these poles $\epsilon_i$ are fixed at the beginning
+and kept between each DMFT cycle.
+This is in contrast to~\cite{Lu2014, Lu2019} where the locations could shift in each iteration.
+Given a continuous function $f$ and aforementioned locations,
+the corresponding weights are set to
+\begin{equation}
+    V_i^2 = \int_{I_i} \md\omega\> f(\omega),
+\end{equation}
+with the interval endpoints chosen to be halfway between neighbors
+\begin{equation}
+    I_i = \left[\frac{\epsilon_{i-1} + \epsilon_i}{2}, \frac{\epsilon_i + \epsilon_{i+1}}{2}\right].
+\end{equation}
+The lower bound for the first point is set to $-\infty$
+while the upper bound for the last point is set to $+\infty$.
+This asserts that
+the sum of all discrete weights equals the zeroth moment of the continuous function\footnote{
+    The zeroth moment is conserved exactly while higher moments are not.
+    The higher the moment,
+    the more it differs between the discrete and continuous one.
+    Odd moments stay zero as the discrete function is still symmetric.
+}.
+
 \section{Performance analysis}
 
 \begin{figure}[ht]
