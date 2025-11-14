@@ -17,7 +17,40 @@ The second package \texttt{DMFT.jl}\footnote{
 }
 contains the DMFT self-consistency loop with representation of correlators and self-energies.
 
+\section{Ground state convergence}
+
+Before we can calculate any correlators or expectation values,
+we first need to find the ground state of our system.
+To get a discrete hybridization function,
+we create $N$ equidistant points $\epsilon_i$ in the interval $[-D, D]$ and
+discretize our semicircular DOS\footnote{
+    We need to multiply it by $D^2/4$ as dictated by \zcref{eq:hybridization-function-bethe}.
+}
+(\zcref{eq:dos-semicircle}) onto these points.
+The weight of each point is given by
+\begin{equation}
+    V_i^2 = \int_{I_i} \md\omega\> A(\omega),
+\end{equation}
+with the interval endpoints are chosen to be halfway between neighbors
+\begin{equation}
+    I_i = \left[\frac{\epsilon_{i-1} + \epsilon_i}{2}, \frac{\epsilon_i + \epsilon_{i+1}}{2}\right].
+\end{equation}
+For the first and last point the lower and upper bound are set to
+$-\infty$ and $+\infty$ respectively.
+This asserts that the sum of all discrete weights equals the total continuous spectral weight.
+This method is slightly different from~\cite{Lu2019},
+where the intervals were set in such a way that each weight $V_i^2$ was equal.
+Given the parameters $\{V_i, \epsilon_i\}$,
+we can create $H_\mathrm{bath}$ and $H_\mathrm{imp-bath}$ of \zcref{eq:H-Anderson}.
+For the impurity $H_\mathrm{imp}$ we then add a Coulomb interaction of $U=2D$ which fixes our
+on-site energy to $\epsilon-\mu=-D$ for half-filling.
+We can then iteratively find our ground state using the algorithm described in \zcref{sec:ground-state}.
+
 \section{Performance analysis}
+
+To calculate our correlators,
+we have to create the block tridiagonal matrix $T$
+using the aforementioned block Lanczos algorithm.
 
 \begin{figure}[ht]
     \centering
