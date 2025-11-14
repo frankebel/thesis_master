@@ -2,6 +2,21 @@
 
 \chapter{Results}
 
+In this chapter we show results for our DMFT solver.
+The calculations were done using Julia~\cite{Bezanson2017} version 1.11 and 1.12.
+The codebase is contained in two packages:
+\texttt{Fermions.jl}~\cite{Wallerberger2022} implements
+Hamiltonians, wave functions and their interplay.
+The second package \texttt{DMFT.jl}\footnote{
+    \url{https://github.com/frankebel/DMFT.jl}
+}
+\fe{
+    Should it be moved to the organization \url{https://github.com/tuwien-cms}?
+    I'm not part of the organization and don't have permissions.
+    Also try to find a better package name?
+}
+contains the DMFT self-consistency loop with representation of correlators and self-energies.
+
 \section{Performance analysis}
 
 \begin{figure}[ht]
