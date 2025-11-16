@@ -570,7 +570,7 @@ self-energy by the constant Hartree term $\Sigma^\mH$
 and a sum of poles
 \begin{equation}
     \Sigma_\omega = \Sigma^\mH + \sum_i \frac{w_i}{\omega + \mi0^+ - \epsilon_i}.
-    \label{eq:self-energy-sum-of-poles}
+    \label{eq:self-energy-discrete}
 \end{equation}
 As the self-energy is also analytical in the upper complex plane,
 all weights must be positive.
@@ -592,7 +592,8 @@ the Anderson representation (\zcref{eq:correlator-anderson}):
 \begin{equation}
     C_\omega = B\frac{1}{\omega + \mi0^+ - A - D_\omega}B,
 \end{equation}
-with matrices $A$, $B$ and a block sum of poles $D_\omega$.
+with $2\times2$ matrices $A$, $B$
+and $D_\omega$ respresenting a $2\times2$ block sum of poles (\zcref{eq:correlator-sum}).
 The scaling matrix $B$ contains the square root of the zeroth moments,
 and is
 \begin{equation}
@@ -602,6 +603,7 @@ and is
         U/2 & 0 \\
         0   & 1
     \end{pmatrix}
+    \label{eq:amplitudes-half-filling}
 \end{equation}
 at half-filling.
 Diagonality comes from the shift in \zcref{eq:shift}.
@@ -612,7 +614,7 @@ The Schur complement is then
     B_{11} \frac{1}{\omega + \mi0^+ - A_{11} - (D_\omega)_{11}} B_{11}.
 \end{equation}
 Diagonalizing this expression gives us the self-energy in the same form as
-\zcref{eq:self-energy-sum-of-poles}.
+\zcref{eq:self-energy-discrete}.
 Contrasting against \zcref{eq:Dyson},
 all pole weights are positive by construction
 and no merging of negative weight into neighbors is necessary.
