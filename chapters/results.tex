@@ -44,6 +44,74 @@ the sum of all discrete weights equals the zeroth moment of the continuous funct
     Odd moments stay zero as the discrete function is still symmetric.
 }.
 
+\section{Ground state convergence}
+
+Before we can calculate any correlators or expectation values,
+we first need to find the ground state of our system.
+To get a discrete hybridization function,
+we create $N=101$ equidistant bath sites $\epsilon_i$ in the interval $[-D, D]$ and
+discretize our semicircular DOS\footnote{
+    We need to multiply it by $D^2/4$ as dictated by \zcref{eq:hybridization-function-bethe}.
+}
+(\zcref{eq:dos-semicircle}) onto these points.
+Given the parameters $\{\epsilon_i, V_i\}$,
+we can create $H_\mathrm{bath}$ and $H_\mathrm{imp-bath}$ of \zcref{eq:H-Anderson}.
+For the impurity $H_\mathrm{imp}$ we then add a Coulomb interaction of $U=2D$ which fixes our
+on-site energy to $\epsilon-\mu=-D$ for half-filling.
+We can then iteratively find our ground state using the algorithm described in \zcref{sec:ground-state}.
+The variance after each restart is shown in \zcref{fig:ground-state-convergence}.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/ground_state_convergence.tex}
+    \caption{
+        Variance of the Hamiltonian on a state $\ket{\psi}$
+        calculated by the algorithm from \zcref{sec:ground-state}.
+        For the ground state the variance must vanish.
+        The dashed line indicates double precision machine epsilon $2^{-52}$.
+    }%
+    \label{fig:ground-state-convergence}
+\end{figure}
+We see that it decreases exponentially with the number of restarts and reaches
+below double precision machine precision $\epsilon_\mathrm{MP} = 2^{-52}$.
+In general, the bigger the explored Hilbert space
+(corresponding to increasing the parameters $L$, $p$),
+the more steps are necessary to reach a desired variance.
+For the parameters $L=1$, $p=1$, machine precision is reached after \num{16} restarts
+which equals a Krylov space\footnote{
+    Each restart explores a further space of $\mathcal{K}^5$.
+}
+of $\mathcal{K}^{80}(H, \ket{\psi_s})$,
+while for $L=2$, $p=2$ convergence was reached with a space of $\mathcal{K}^{370}(H, \ket{\psi_s})$.
+To fully propagate an electron (hole) excitation through the conduction (valence) band,
+one should at least explore a space of $\mathcal{K}^{N/2}(H, \ket{\psi_s})$ with $N/2$ the rough
+length of a chain.
+In \zcref{tab:ground-state-energy} we list the ground state energy $E_0$ obtained in the
+calculation of \zcref{fig:ground-state-convergence}.
+\begin{table}[ht]
+    \caption{
+        Ground state energy $E_0$ of the half-filled Anderson impurity model
+        for parameters $L$, $p$.
+    }
+    \label{tab:ground-state-energy}
+    \centering
+    \pgfplotstabletypeset[
+        columns/L/.style={
+                column name=$L$,
+            },
+        columns/p/.style={
+                column name=$p$,
+            },
+        columns/E0/.style={
+                column name=$E_0$,
+                precision=5,
+            },
+    ]
+    {data/ground_state_convergence_energy.csv}
+\end{table}
+We see that the values are very close to each other with an absolute difference
+of less than one per mille of the bandwidth.
+As expected, the energy is lower if the explored Hilbert space is larger.
+
 \section{Performance analysis}
 
 \begin{figure}[ht]

@@ -1,0 +1,39 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    \begin{axis}
+        [
+            ymode=log,
+            xmin=0,
+            xmax=80,
+            xlabel={number of restarts},
+            ylabel={$\expval{H^2}$},
+            ytickten={-13,-10,...,-4},
+            extra y ticks={2^(-52)},
+            extra y tick labels={$\epsilon_\mathrm{MP}$},
+            cycle multiindex* list={
+                    Set1\nextlist%
+                    mark list*\nextlist
+                },
+            legend entries=
+                {
+                    {$L=1$, $p=1$},
+                    {$L=2$, $p=1$},
+                    {$L=1$, $p=2$},
+                    {$L=2$, $p=2$},
+                },
+        ]
+
+        \addplot+ [only marks] table [x=restart, y=L1_p1] {data/ground_state_convergence_variance.csv};
+        \addplot+ [only marks] table [x=restart, y=L2_p1] {data/ground_state_convergence_variance.csv};
+        \addplot+ [only marks] table [x=restart, y=L1_p2] {data/ground_state_convergence_variance.csv};
+        \addplot+ [only marks] table [x=restart, y=L2_p2] {data/ground_state_convergence_variance.csv};
+        \addplot [
+            black,
+            dashed,
+            domain=0:100,
+            samples=2,
+        ] {2^(-52)};
+
+    \end{axis}
+\end{tikzpicture}

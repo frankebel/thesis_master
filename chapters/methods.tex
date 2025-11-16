@@ -310,6 +310,7 @@ still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb
 for $i \in \{1,\ldots,j-1\}$~\cite{Golub2013}.
 
 \section{Ground state}
+\label{sec:ground-state}
 
 Before we can calculate any expectation value or correlators,
 we first need to obtain the ground state of our impurity problem.
@@ -320,7 +321,7 @@ a singlet state\footnote{
 }
 in the impurity $i$ and mirror site $m$
 \begin{equation}
-    \ket*{\psi_0^{(1)}}
+    \ket*{\psi_s}
     =
     \frac{1}{\sqrt{2}}
     \left(d^\dag_\uparrow m^\dag_\downarrow - d^\dag_\downarrow m^\dag_\uparrow\right)
@@ -329,23 +330,23 @@ in the impurity $i$ and mirror site $m$
 \end{equation}
 Given this state, we can calculate an approximate ground state energy
 \begin{equation}
-    E_0^{(1)} = \sandwich*{\psi_0^{(1)}}{H}{\psi_0^{(1)}}
+    E_s = \sandwich*{\psi_s}{H}{\psi_s}
 \end{equation}
-and shift our Hamiltonian accordingly \zcref{eq:Hamiltonian-shift}.
+and shift our Hamiltonian according to \zcref{eq:Hamiltonian-shift}.
 This allows us to calculate a variance
 \begin{equation}
-    \var^{(1)}
+    \var_s
     =
-    \sandwich*{\psi_0^{(1)}}{H^2}{\psi_0^{(1)}},
+    \sandwich*{\psi_s}{H^2}{\psi_s},
 \end{equation}
 which is not going to be very accurate.
 To get a better approximation,
 we employ the aforementioned Lanczos method (\zcref{sec:Lanczos-algorithm}) with restarting
 as described in~\cite{Lu2014}:
-Given an approximate ground state $\ket{\psi_0^{(i)}}$,
-we calculate a new Krylov basis $\mathcal{K}^5(H, \ket{\psi_0^{(i)}})$ which is diagonalized.
-From this, we calculate a new state $\ket{\psi_0^{(i+1)}}$
-with a new ground state energy $E_0^{(i+1)}$
+Given an approximate ground state $\ket{\psi^{(i)}}$,
+we calculate a new Krylov basis $\mathcal{K}^5(H, \ket{\psi^{(i)}})$ which is diagonalized.
+From this, we calculate a new state $\ket{\psi^{(i+1)}}$
+with a new ground state energy $E^{(i+1)}$
 and variance $\var^{(i+1)}$.
 This loop is repeated until the variance falls below a given tolerance
 as it must vanish for a true eigenstate of $H$.
