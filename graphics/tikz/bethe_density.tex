@@ -6,8 +6,8 @@
             width=6cm,
             xlabel=$\omega$,
             ylabel=$\rho(\omega)$,
-            xmin=-2.1,
-            xmax=2.1,
+            xmin=-2.5,
+            xmax=2.5,
             ymin=0,
             every axis plot/.append style=
                 {
@@ -27,8 +27,8 @@
                 },
         ]
 
-        \addplot {1/(2*pi) * sqrt(4 - x^2) / (3/(3-1) - x^2/3}; % z=3
-        \addplot {1/(2*pi) * sqrt(4 - x^2) / (6/(6-1) - x^2/6}; % z=6
+        \addplot+ [dotted] {1/(2*pi) * sqrt(4 - x^2) / (3/(3-1) - x^2/3}; % z=3
+        \addplot+ [dashed] {1/(2*pi) * sqrt(4 - x^2) / (6/(6-1) - x^2/6}; % z=6
         \addplot {1/(2*pi) * sqrt(4 - x^2)}; % z\to\infty
     \end{axis}
 \end{tikzpicture}

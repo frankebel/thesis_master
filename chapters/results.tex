@@ -18,15 +18,15 @@ The second package \texttt{DMFT.jl}\footnote{
 contains the DMFT self-consistency loop together
 with the representation of correlators and self-energies.
 
-For all following calculations we set $D=1$ as our unit of energy.
-For the discretization we use and odd number of bath sites $N$
+For all following calculations we set the half-bandwidth $D=1$ as our unit of energy.
+For the discretization we use an odd number of bath sites $N$
 with $(N - 1)/2$ poles on the positive and negative axis respectively
 and one pole at exactly zero.
-The location of these poles $\epsilon_i$ are fixed at the beginning
+The locations of these poles $\{\epsilon_i\}$ are fixed at the beginning
 and kept between each DMFT cycle.
 This is in contrast to~\cite{Lu2014, Lu2019} where the locations could shift in each iteration.
 Given a continuous function $f$ and aforementioned locations,
-the corresponding weights are set to
+the corresponding hybridization values are obtained as
 \begin{equation}
     V_i^2 = \int_{I_i} \md\omega\> f(\omega),
 \end{equation}
@@ -49,7 +49,7 @@ the sum of all discrete weights equals the zeroth moment of the continuous funct
 Before we can calculate any correlators or expectation values,
 we first need to find the ground state of our system.
 To get a discrete hybridization function,
-we create $N=101$ equidistant bath sites $\epsilon_i$ in the interval $[-D, D]$ and
+we create $N=101$ equidistant bath sites in the interval $[-D, D]$ and
 discretize our semicircular DOS\footnote{
     We need to multiply it by $D^2/4$ as dictated by \zcref{eq:hybridization-function-bethe}.
 }
@@ -74,7 +74,7 @@ The variance after each restart is shown in \zcref{fig:ground-state-convergence}
 We see that it decreases exponentially with the number of restarts and reaches
 below double precision machine precision $\epsilon_\mathrm{MP} = 2^{-52}$.
 In general, the bigger the explored Hilbert space
-(corresponding to increasing the parameters $L$, $p$),
+(corresponding to increased parameters $L$, $p$),
 the more steps are necessary to reach a desired variance.
 For the parameters $L=1$, $p=1$, machine precision is reached after \num{16} restarts
 which equals a Krylov space\footnote{
@@ -83,14 +83,17 @@ which equals a Krylov space\footnote{
 of $\mathcal{K}^{80}(H, \ket{\psi_s})$,
 while for $L=2$, $p=2$ convergence was reached with a space of $\mathcal{K}^{370}(H, \ket{\psi_s})$.
 To fully propagate an electron (hole) excitation through the conduction (valence) band,
-one should at least explore a space of $\mathcal{K}^{N/2}(H, \ket{\psi_s})$ with $N/2$ the rough
-length of a chain.
+one should at least explore a space of $\mathcal{K}^{N/2}(H, \ket{\psi_s})$ where $N/2$ is the
+approximate length of a chain.
+For our choice of $N=101$ this corresponds to roughly $\mathcal{K}^{50}$ which
+is reached after 10 restarts.
 In \zcref{tab:ground-state-energy} we list the ground state energy $E_0$ obtained in the
 calculation of \zcref{fig:ground-state-convergence}.
 \begin{table}[ht]
     \caption{
         Ground state energy $E_0$ of the half-filled Anderson impurity model
-        for parameters $L$, $p$.
+        on 101 bath sites for parameters $L$, $p$.
+        The energy difference is less than one per mille of the half-bandwidth $D$.
     }
     \label{tab:ground-state-energy}
     \centering

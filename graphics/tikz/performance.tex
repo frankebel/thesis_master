@@ -50,13 +50,24 @@
         \addplot+ table [x=krylov, y=time_L2_p1] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=time_L1_p2] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=time_L2_p2] {data/benchmark_krylov.csv};
+        \addplot [
+            color=black,
+            mark=none,
+            domain=10:20,
+            samples=2,
+        ] {20*x}
+        [
+            xshift=11pt,
+            yshift=2pt,
+        ]
+        node [pos=1.0]  {$M$};
         \node
         [
             text width=1em,
-            anchor=north west,
-            inner ysep=-3pt,
+            anchor=south east,
         ]
-        (c1) at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-time-krylov}};
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:perf-time-krylov}};
+        \coordinate (c1) at (rel axis cs:0,1);
 
         \nextgroupplot
         [
@@ -69,13 +80,34 @@
         \addplot+ table [x=bath, y=time_L2_p1] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=time_L1_p2] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=time_L2_p2] {data/benchmark_bath.csv};
+        \addplot [
+            color=black,
+            mark=none,
+            domain=10:20,
+            samples=2,
+        ] {2*x}
+        [
+            xshift=11pt,
+            yshift=2pt,
+        ]
+        node [pos=1.0]  {$N\phantom{^2}$};
+        \addplot [
+            color=black,
+            mark=none,
+            domain=10:20,
+            samples=2,
+        ] {x^2}
+        [
+            xshift=11pt,
+            yshift=3pt,
+        ]
+        node [pos=1.0]  {$N^2$};
         \node
         [
             text width=1em,
-            anchor=north west,
-            inner ysep=-3pt,
+            anchor=south east,
         ]
-        at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-time-sites}};
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:perf-time-sites}};
         \coordinate (c2) at (rel axis cs:1,1); % top right
 
         \nextgroupplot
@@ -93,10 +125,9 @@
         \node
         [
             text width=1em,
-            anchor=north west,
-            inner ysep=-3pt,
+            anchor=south east,
         ]
-        at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-allocations-krylov}};
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:perf-allocations-krylov}};
 
         \nextgroupplot[
             xmax=1e3,
@@ -109,13 +140,34 @@
         \addplot+ table [x=bath, y=allocations_L2_p1] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=allocations_L1_p2] {data/benchmark_bath.csv};
         \addplot+ table [x=bath, y=allocations_L2_p2] {data/benchmark_bath.csv};
+        \addplot [
+            color=black,
+            mark=none,
+            domain=10:20,
+            samples=2,
+        ] {1.5*10^8*x}
+        [
+            xshift=11pt,
+            yshift=2pt,
+        ]
+        node [pos=1.0]  {$N\phantom{^2}$};
+        \addplot [
+            color=black,
+            mark=none,
+            domain=10:20,
+            samples=2,
+        ] {4*10^7*x^2}
+        [
+            xshift=11pt,
+            yshift=3pt,
+        ]
+        node [pos=1.0]  {$N^2$};
         \node
         [
             text width=1em,
-            anchor=north west,
-            inner ysep=-3pt,
+            anchor=south east,
         ]
-        at (rel axis cs:0,1) {\subcaption{}\label{subfig:perf-allocations-sites}};
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:perf-allocations-sites}};
 
     \end{groupplot}
 
