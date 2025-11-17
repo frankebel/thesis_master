@@ -73,8 +73,11 @@ The variance after each restart is shown in \zcref{fig:ground-state-convergence}
 \end{figure}
 We see that it decreases exponentially with the number of restarts and reaches
 below double precision machine precision $\epsilon_\mathrm{MP} = 2^{-52}$.
+Although not shown,
+this is also the case for other values of $U$.
 In general, the bigger the explored Hilbert space
-(corresponding to increased parameters $L$, $p$),
+(increasing the exact system size by the parameter $L$
+and increasing the allowed excitations $p$),
 the more steps are necessary to reach a desired variance.
 For the parameters $L=1$, $p=1$, machine precision is reached after \num{16} restarts
 which equals a Krylov space\footnote{
@@ -85,7 +88,7 @@ while for $L=2$, $p=2$ convergence was reached with a space of $\mathcal{K}^{370
 To fully propagate an electron (hole) excitation through the conduction (valence) band,
 one should at least explore a space of $\mathcal{K}^{N/2}(H, \ket{\psi_s})$ where $N/2$ is the
 approximate length of a chain.
-For our choice of $N=101$ this corresponds to roughly $\mathcal{K}^{50}$ which
+For our choice of $N=101$ this corresponds to $\mathcal{K}^{50}$ which
 is reached after 10 restarts.
 In \zcref{tab:ground-state-energy} we list the ground state energy $E_0$ obtained in the
 calculation of \zcref{fig:ground-state-convergence}.
@@ -117,17 +120,86 @@ As expected, the energy is lower if the explored Hilbert space is larger.
 
 \section{Performance analysis}
 
+To obtain our correlators listed in \zcref{eq:correlators},
+we have to calculate the block tridiagonal matrix $T$
+using the block Lanczos algorithm explained in \zcref{sec:block-lanczos}.
+As this is the most time-consuming part within the DMFT step,
+we benchmarked its time and memory requirements in \zcref{fig:performance}.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/performance.tex}
     \caption{
-        foo bar
-        \subref{subfig:perf-time-krylov},
-        \subref{subfig:perf-time-sites},
+        Runtime and memory allocations
+        to obtain the block correlator on the positive real axis $C^+_\omega$ using
+        the block Lanczos algorithm described in \zcref{sec:block-lanczos}.
+        Given the ground state, we create the vectors
+        $\tilde q^\dag_\sigma\ket{\psi_0}$
+        and
+        $d^\dag_\sigma\ket{\psi_0}$ as our input.
+        In \subref{subfig:perf-time-krylov},
         \subref{subfig:perf-allocations-krylov}
+        we fix the number of bath sites to $N=161$.
+        In \subref{subfig:perf-time-sites},
         \subref{subfig:perf-allocations-sites}
-    }
+        we fix the number of Krylov steps to $M=160$.
+    }%
+    \label{fig:performance}
 \end{figure}
+For each data point we ran the same calculation ten times and show the minimum
+as our estimator~\cite{Chen2016}.
+The operations were done on an AMD EPYC\texttrademark~9654 processor
+with 96 cores and \qty{1}{\tera\byte} of memory,
+but can also be run on consumer hardware.
+Although the code is multithreaded,
+the benchmarks were run on one thread for easier reproducibility.
+Given the ground state, we create the excited states
+$\tilde q^\dag_\sigma\ket{\psi_0}$
+and
+$d^\dag_\sigma\ket{\psi_0}$ as our block Lanczos input allowing us to calculate
+the partial correlator $C^+_\omega$ on the positive real axis.
+In \zcref{subfig:perf-time-krylov},
+we fixed the number of bath sites to $N=161$.
+We see that the runtime is linear with the number of Krylov steps $M$.
+This is expected as our wave function representation stores determinants
+in the restricted part $\ket{\psi_\mathrm{II}}$ in a dense format.
+As all possible states are already present in the first step,
+each subsequent Lanczos iteration takes the same amount of time
+resulting in a linear scaling.
+\zcref{subfig:perf-allocations-krylov} shows the used memory during calculations.
+We see an almost constant behavior.
+This is because the Lanczos algorithm only needs the last two states for
+orthogonalization.
+Thus, we can overwrite the oldest state in-place in each iteration.
+However, there are still some allocations of the order \qty{10}{\mega\byte}
+coming from matrix diagonalization and matrix multiplication.
+These allocations are negligible on current hardware
+which has multiple \unit{\giga\byte} of memory.
+
+In \zcref{subfig:perf-time-sites}
+we analyze the time taken for a fixed number of Krylov steps $M=160$ by varying
+the number of bath sites $N$.
+For the restricted excitation,
+the number of possible states is
+\begin{equation}
+    \binom{2(N-1-2L)}{p},
+\end{equation}
+where the factor 2 accounts for two spin states at each site,
+and the reduction of sites results from only looking at part of the chains.
+For $N \gg L$ and $N \gg p$ (we are using $L, p\in\{1,2\}$),
+the scaling of the binomial coefficient can be written as $N^p$.
+Thus, for $p=1$ we see a linear scaling with increased bath sites while for $p=2$ it is squared.
+We also see that raising the parameter $L$ (the number of chain sites treated exactly)
+by one increases the complexity by a factor of more than ten.
+A calculation of all possible states\footnote{
+    The exact number depends on the values of $N$ and $p$ too.
+    For the relevant regime the complexity by increasing $L$ by one unit varies between 12 and 14.
+}
+reveals a ratio of around 14 which is relatively close to the measured one.
+\zcref{subfig:perf-allocations-sites} shows the required memory for those calculations
+which scales as $N$ and $N^2$ respectively.
+
+In summary, we can say that our computational complexity scales approximately as $\bigO{14^L M N^p}$
+while memory complexity scales as $\bigO{14^L N^p}$.
 
 \section{Convergence}
 

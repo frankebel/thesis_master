@@ -2,6 +2,7 @@ Bravais
 Correlator
 Correlators
 DMFT
+EPYC
 Hartree
 Kramers-Kronig
 Krylov
