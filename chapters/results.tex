@@ -19,18 +19,23 @@ contains the DMFT self-consistency loop together
 with the representation of correlators and self-energies.
 
 For all following calculations we set the half-bandwidth $D=1$ as our unit of energy.
-For the discretization we use an odd number of bath sites $N$
+For the discretization of our hybridization function $\Delta_\omega$
+we use an odd number of bath sites $N$
 with $(N - 1)/2$ poles on the positive and negative axis respectively
 and one pole at exactly zero.
 The locations of these poles $\{\epsilon_i\}$ are fixed at the beginning
 and kept between each DMFT cycle.
 This is in contrast to~\cite{Lu2014, Lu2019} where the locations could shift in each iteration.
-Given a continuous function $f$ and aforementioned locations,
-the corresponding hybridization values are obtained as
+If, in the DMFT update (\zcref{eq:hybridization-update}), we get a pole $\epsilon$ which is not on the given grid,
+we shift its weight to nearest neighbors,
+locally conserving the zeroth and first moment.
+This scheme is explained in \zcref{app:shifting-of-poles}.
+In the first step, the continuous function is discretized on the aforementioned locations
+with hybridization weights
 \begin{equation}
-    V_i^2 = \int_{I_i} \md\omega\> f(\omega),
+    V_i^2 = -\frac{1}{\muppi} \int_{I_i} \md\omega\> \Im \Delta_{0,\omega}.
 \end{equation}
-with the interval endpoints chosen to be halfway between neighbors
+The interval endpoints are chosen to be halfway between neighbors
 \begin{equation}
     I_i = \left[\frac{\epsilon_{i-1} + \epsilon_i}{2}, \frac{\epsilon_i + \epsilon_{i+1}}{2}\right].
 \end{equation}
