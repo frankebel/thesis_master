@@ -643,8 +643,8 @@ we can calculate the quasipaicle weight in Fermi-liquid theory~\cite{Hewson1993}
     \left(1 + \Sigma^{(-2)}\right)^{-1}
 \end{align}
 with $\Sigma^{(-2)}$ equaling the negative second moment.
-We see that the expression inside the brackets diverges if there is a pole at $\epsilon=0$,
-which is the case for an insulator.
+We see that the expression inside the brackets diverges if there is a pole at $\epsilon_i=0$,
+which is the case for an insulator~\cite{Georges1996}.
 In a metal,
 the low energy expansion of the self-energy is~\cite{Hewson1993}
 \begin{equation}
@@ -656,3 +656,11 @@ Thus, in the metallic region we have no pole located at zero\footnote{
     % TODO: add reference
     \fe{TODO\@: add reference}
 }.
+
+In~\cite{Karski2005, Karski2008} it was suggested to calculate the quasipaicle weight
+using \zcref{eq:greens-function-from-self-energy} applied on the impurity Green's function
+\begin{equation}
+    Z = \frac{2}{D^2} \left(\left.\frac{\partial G_\omega}{\partial \omega}\right|_{\omega=0}\right)^{-1}.
+\end{equation}
+This is not possible in our method,
+as the metallic Green's function has a pole located at zero which gives a divergence.
