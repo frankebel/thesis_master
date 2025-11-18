@@ -456,10 +456,11 @@ $\Sigma^\mIFG_\omega$ by \citeauthor{Kugler2022}~\cite{Kugler2022}
 which will be summarized in the following.
 We introduce the auxiliary operator
 \begin{equation}
-    q_\sigma = \comm{d_\sigma}{H_\mathrm{int}}
+    q_\sigma = \comm{d_\sigma}{H_\mathrm{int}} = U d_\sigma n_{-\sigma}
 \end{equation}
-with the interacting Hamiltonian from \zcref{eq:H-Anderson-interaction},
-allowing us to calculate the Hartree term directly
+with the interacting Hamiltonian from \zcref{eq:H-Anderson-interaction}.
+Here, $-\sigma$ indicates opposite spin.
+This allows us to calculate the Hartree term directly
 \begin{equation}
     \Sigma^\mH = \expval{\acomm{q^\dag_\sigma}{d^{\pdag}_\sigma}}.
 \end{equation}

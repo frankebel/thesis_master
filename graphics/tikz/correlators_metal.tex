@@ -1,0 +1,113 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        node distance=0pt,
+    ]
+    \begin{groupplot}
+        [
+            group style=
+                {
+                    group name=plots,
+                    group size=2 by 2,
+                    horizontal sep=6mm,
+                    vertical sep=6mm,
+                    x descriptions at=edge bottom,
+                    ylabels at=edge left,
+                    yticklabels at=edge left,
+                },
+            xmin=-4,
+            xmax=4,
+            ymin=-2,
+            ymax=2,
+            xlabel=$\omega/D$,
+            ylabel=$C(\omega)/D$,
+            no marks,
+            every axis plot/.append style={
+                    thick,
+                },
+            width=0.45\textwidth,
+            legend style={
+                    draw=none,
+                },
+            cycle multiindex* list={
+                    Set1\nextlist%
+                },
+        ]
+
+        \nextgroupplot
+        [
+            legend pos=north west,
+            legend entries=
+                {
+                    $\Re I$,
+                    $\Im I$,
+                },
+        ]
+        \addplot+ [dashed] table [x=omega, y=Re_I] {data/correlators_metal.csv};
+        \addplot+  table [x=omega, y=Im_I] {data/correlators_metal.csv};
+        \node
+        [
+            text width=1em,
+            anchor=south east,
+        ]
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:correaltor-I-metal}};
+
+        \nextgroupplot
+        [
+            legend pos=north east,
+            legend entries=
+                {
+                    $\Re F^\mL$,
+                    $\Im F^\mL$,
+                },
+        ]
+        \addplot+  [dashed] table [x=omega, y=Re_FL] {data/correlators_metal.csv};
+        \addplot+  table [x=omega, y=Im_FL] {data/correlators_metal.csv};
+        \node
+        [
+            text width=1em,
+            anchor=south east,
+        ]
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:correaltor-FL-metal}};
+
+        \nextgroupplot
+        [
+            legend pos=north east,
+            legend entries=
+                {
+                    $\Re F^\mR$,
+                    $\Im F^\mR$,
+                },
+        ]
+        \addplot+ [dashed]  table [x=omega, y=Re_FR] {data/correlators_metal.csv};
+        \addplot+  table [x=omega, y=Im_FR] {data/correlators_metal.csv};
+        \node
+        [
+            text width=1em,
+            anchor=south east,
+        ]
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:correaltor-FR-metal}};
+
+        \nextgroupplot
+        [
+            legend pos=north west,
+            legend style={
+                    draw=none,
+                },
+            legend entries=
+                {
+                    $\Re G$,
+                    $\Im G$,
+                },
+        ]
+        \addplot+ [dashed] table [x=omega, y=Re_G] {data/correlators_metal.csv};
+        \addplot+  table [x=omega, y=Im_G] {data/correlators_metal.csv};
+        \node
+        [
+            text width=1em,
+            anchor=south east,
+        ]
+        at (rel axis cs:1,0) {\subcaption{}\label{subfig:correaltor-G-metal}};
+    \end{groupplot}
+\end{tikzpicture}

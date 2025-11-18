@@ -40,7 +40,7 @@ The interval endpoints are chosen to be halfway between neighbors
     I_i = \left[\frac{\epsilon_{i-1} + \epsilon_i}{2}, \frac{\epsilon_i + \epsilon_{i+1}}{2}\right].
 \end{equation}
 The lower bound for the first point is set to $-\infty$
-while the upper bound for the last point is set to $+\infty$.
+while the upper bound for the last point is $+\infty$.
 This asserts that
 the sum of all discrete weights equals the zeroth moment of the continuous function\footnote{
     The zeroth moment is conserved exactly while higher moments are not.
@@ -206,7 +206,68 @@ which scales as $N$ and $N^2$ respectively.
 In summary, we can say that our computational complexity scales approximately as $\bigO{14^L M N^p}$
 while memory complexity scales as $\bigO{14^L N^p}$.
 
-\section{Convergence}
+\section{Correlators}
+
+For the following calculations we first define $N=301$ equidistant poles
+$\{\epsilon_i\}$ in the interval $[-4D, 4D]$
+and discretize the non-interacting hybridization function $\Delta_{0,\omega}$ on them.
+Poles outside $[-D, D]$ are discarded as they have zero weight.
+Thus, our non-interacting hybridization is made out of 75 poles.
+We then repeat our DMFT loop until self-consistency is reached.
+In \zcref{fig:correlators-metal} we list the real and imaginary parts
+of our block correlator $C_\omega$ for a metallic solution $U=2D$.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/correlators_metal.tex}
+    \caption{
+        Components of the $2\times2$ block correlator $C(\omega)$ for
+        a Coulomb interaction of $U=2D$ (metallic solution).
+        Peaks are broadened with a Gaussian kernel $\sigma=0.04D$.
+        At half-filling, the spectral part (imaginary part) of
+        \subref{subfig:correaltor-I-metal} and \subref{subfig:correaltor-G-metal}
+        are symmetric.
+        Due to the shift of \zcref{eq:shift}, the spectra of
+        \subref{subfig:correaltor-FL-metal} and \subref{subfig:correaltor-FR-metal}
+        are antisymmetric.
+    }%
+    \label{fig:correlators-metal}
+\end{figure}
+Each discrete pole was broadened with a Gaussian kernel $\sigma=0.04D$.
+We see that the spectra of the diagonal entries
+\zcref{subfig:correaltor-I-metal, subfig:correaltor-G-metal} are symmetric
+due to particle-hole symmetry.
+The spectra of the offdiagonal entries
+\zcref{subfig:correaltor-FL-metal, subfig:correaltor-FR-metal}
+are antisymmetric due the shift in \zcref{eq:shift}.
+As we use real-valued amplitudes,
+the condition $F^\mR_\omega = (F^\mL_\omega)^\dag$ simplifies to
+$F^\mR_\omega = F^\mL_\omega$.
+Using these symmetries,
+it is possible to only calculate $C^+_\omega$ and mirror the entries for $C^-_\omega$
+with an appropriate sign flip.
+This was deliberately not done in this work to show that symmetry is conserved even numerically.
+
+In \zcref{fig:correlators-insulator} we show the same quantities
+for an insulating solution $U=4.0D$.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/correlators_insulator.tex}
+    \caption{
+        Components of the $2\times2$ block correlator $C(\omega)$ for
+        a Coulomb interaction of $U=4D$ (insulating solution).
+        Peaks are broadened with a Gaussian kernel $\sigma=0.04D$.
+        At half-filling, the spectral part (imaginary part) of
+        \subref{subfig:correaltor-I-metal} and \subref{subfig:correaltor-G-metal}
+        are symmetric.
+        Due to the shift of \zcref{eq:shift}, the spectra of
+        \subref{subfig:correaltor-FL-metal} and \subref{subfig:correaltor-FR-metal}
+        are antisymmetric.
+    }%
+    \label{fig:correlators-insulator}
+\end{figure}
+The symmetry arguments are the same.
+In contrast to the metallic solution however,
+none of the spectra show any weight at the Fermi-energy.
 
 \section{Mott transition}
 
