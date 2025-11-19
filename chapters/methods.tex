@@ -421,7 +421,7 @@ Diagonalizing the matrix $T$ allows us to represent (block) correlators as a sum
 \end{subequations}
 where $M$ is the Krylov size and $p$ the size of each block.
 As we calculate diagonal elements,
-all weights $w_i$ are positive or $W_i$ positive semidefinite.
+all weights $w_i$ (scalar) are positive or $W_i$ (matrix) positive semidefinite.
 To simplify the sum,
 we merge degenerate locations and list them in increasing order such that
 $\epsilon_{i} < \epsilon_{i+1}$.
@@ -431,10 +431,10 @@ Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Ander
     \begin{align}
         C_\omega
          & =
-        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j=2}^M \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}, \\
+        \frac{b_0^2}{\omega + \mi0^+ - a_1 - \sum_{j} \frac{w_j}{\omega + \mi0^+ - \epsilon_j}}, \\
         C_\omega
          & =
-        B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j=p+1}^{Mp} \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0,
+        B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j} \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0,
     \end{align}%
     \label{eq:correlator-anderson}
 \end{subequations}
@@ -503,7 +503,7 @@ might be violated numerically.
 We do not have this problem as all matrices $A_i$ and $B_i$ are hermitian,
 and thus $C_\omega$ is also hermitian\footnote{
     Due to floating-point arithmetic it can happen that hermiticity is violated for the least
-    significant digits. This is avoided by setting our matrix to $K \to 1/2 (K + K^\dag)$.
+    significant digits. This is avoided by setting matrices to $K \to 1/2 (K + K^\dag)$.
 }.
 
 \subsection{Broadening}
