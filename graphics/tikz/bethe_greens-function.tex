@@ -2,8 +2,8 @@
 
 \begin{tikzpicture}
     \begin{axis}[
-            xlabel=$\omega$,
-            ylabel=$G(\omega)$,
+            xlabel=$\omega/D$,
+            ylabel=$DG(\omega)$,
             xmin=-2,
             xmax=2,
             every axis plot/.append style={
@@ -16,6 +16,9 @@
                     $\Im$,
                 },
             legend pos=north west,
+            legend style={
+                    draw=none,
+                },
         ]
 
         \addplot+ [dashed] {

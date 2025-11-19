@@ -7,13 +7,16 @@
             xmin=0,
             xmax=80,
             xlabel={number of restarts},
-            ylabel={$\expval{H^2}$},
+            ylabel={$\expval{H^2}/D^2$},
             ytickten={-13,-10,...,-4},
             extra y ticks={2^(-52)},
             extra y tick labels={$\epsilon_\mathrm{MP}$},
             cycle multiindex* list={
                     Set1\nextlist%
                     mark list*\nextlist
+                },
+            legend style={
+                    draw=none,
                 },
             legend entries=
                 {
