@@ -85,16 +85,15 @@ In general, the bigger the explored Hilbert space
 and increasing the allowed excitations $p$),
 the more steps are necessary to reach a desired variance.
 For the parameters $L=1$, $p=1$, machine precision is reached after \num{16} restarts
-which equals a Krylov space\footnote{
+which equals a Krylov size\footnote{
     Each restart explores a further space of $\mathcal{K}^5$.
 }
-of $\mathcal{K}^{80}(H, \ket{\psi_s})$,
-while for $L=2$, $p=2$ convergence was reached with a space of $\mathcal{K}^{370}(H, \ket{\psi_s})$.
+of $M=80$,
+while for higher parameters $L$, $p$ more steps are necessary for a desired variance.
 To fully propagate an electron (hole) excitation through the conduction (valence) band,
-one should at least explore a space of $\mathcal{K}^{N/2}(H, \ket{\psi_s})$ where $N/2$ is the
+one should at least explore a space of $M=N/2$ where $N/2$ is the
 approximate length of a chain.
-For our choice of $N=101$ this corresponds to $\mathcal{K}^{50}$ which
-is reached after 10 restarts.
+For our choice of $N=101$ this corresponds to $M=50$ which is fulfilled for all cases.
 In \zcref{tab:ground-state-energy} we list the ground state energy $E_0$ obtained in the
 calculation of \zcref{fig:ground-state-convergence}.
 \begin{table}[ht]
@@ -192,7 +191,7 @@ where the factor 2 accounts for two spin states at each site,
 and the reduction of sites results from only looking at part of the chains.
 For $N \gg L$ and $N \gg p$ (we are using $L, p\in\{1,2\}$),
 the scaling of the binomial coefficient can be written as $N^p$.
-Thus, for $p=1$ we see a linear scaling with increased bath sites while for $p=2$ it is squared.
+Thus, for $p=1$ we see a linear scaling with increased bath sites while for $p=2$ it is quadratic.
 We also see that raising the parameter $L$ (the number of chain sites treated exactly)
 by one increases the complexity by a factor of more than ten.
 A calculation of all possible states\footnote{
@@ -236,6 +235,8 @@ Each discrete pole was broadened with a Gaussian kernel $\sigma=0.04D$.
 We see that the spectra of the diagonal entries
 \zcref{subfig:correaltor-I-metal, subfig:correaltor-G-metal} are symmetric
 due to particle-hole symmetry.
+The imaginary part is negative (the spectrum positive semidefinite)
+as the weight $w_i$ of each pole is positive.
 The spectra of the offdiagonal entries
 \zcref{subfig:correaltor-FL-metal, subfig:correaltor-FR-metal}
 are antisymmetric due the shift in \zcref{eq:shift}.

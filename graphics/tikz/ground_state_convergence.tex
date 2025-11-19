@@ -5,8 +5,8 @@
         [
             ymode=log,
             xmin=0,
-            xmax=80,
-            xlabel={number of restarts},
+            xmax=400,
+            xlabel={Krylov size $M$},
             ylabel={$\expval{H^2}/D^2$},
             ytickten={-13,-10,...,-4},
             extra y ticks={2^(-52)},
@@ -34,7 +34,7 @@
         \addplot [
             black,
             dashed,
-            domain=0:100,
+            domain=0:400,
             samples=2,
         ] {2^(-52)};
 
