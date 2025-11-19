@@ -22,5 +22,6 @@ hermitian
 hermiticity
 jl
 mille
+quasiparticles
 signum
 tridiagonal
