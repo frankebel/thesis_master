@@ -48,6 +48,9 @@ the sum of all discrete weights equals the zeroth moment of the continuous funct
     the more it differs between the discrete and continuous one.
     Odd moments stay zero as the discrete function is still symmetric.
 }.
+The following DMFT self-consistency calcualtions were done on $N=301$ bath sites
+and a Krylov space $M=200$ to be comparable to~\cite{Lu2019}.
+(Each block Lanczos step produces two poles which is equivalent to $M=400$ for scalar Lanczos.)
 
 \section{Ground state convergence}
 
@@ -101,7 +104,7 @@ calculation of \zcref{fig:ground-state-convergence}.
         Ground state energy $E_0$ of the half-filled Anderson impurity model
         on 101 bath sites for parameters $L$, $p$.
         The energy difference is less than one per mille of the half-bandwidth $D$.
-    }
+    }%
     \label{tab:ground-state-energy}
     \centering
     \pgfplotstabletypeset[
@@ -213,6 +216,7 @@ and discretize the non-interacting hybridization function $\Delta_{0,\omega}$ on
 Poles outside $[-D, D]$ are discarded as they have zero weight.
 Thus, our non-interacting hybridization is made out of 75 poles.
 We then repeat our DMFT loop until self-consistency is reached.
+The explored Hilbert space is restricted to $L=2$, $p=2$.
 In \zcref{fig:correlators-metal} we list the real and imaginary parts
 of our block correlator $C_\omega$ for a metallic solution $U=2D$.
 \begin{figure}[ht]
@@ -269,6 +273,75 @@ for an insulating solution $U=4.0D$.
 The symmetry arguments are the same.
 In contrast to the metallic solution however,
 none of the spectra show any weight at the Fermi-energy.
+
+\section{Spectral function and moments}
+
+We again emphasize that the self-consistency calculation uses no-broadening,
+which is only introduced as a post-processing step to plot smooth spectra instead of discrete peaks.
+For a $p=1$ projection (not shown) we observe spurious oscillations on the Hubbard bands,
+consistent with~\cite{Lu2019}.
+These are supressed if we increase the Hilbert space to $p=2$,
+as shown in \zcref{fig:spectral-function} for $L=2$.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/spectra.tex}
+    \caption{
+        DMFT impurity spectral function for the half-filled Bethe lattice.
+        \subref{subfig:spectrum-U1.0},
+        \subref{subfig:spectrum-U2.0},
+        \subref{subfig:spectrum-U2.4}
+        show the evolution of the Hubbard bands and Kondo peak.
+        \subref{subfig:spectrum-U4.0} shows an insulating solution where the bands are
+        fully disconnected.
+        For each value of the Coulomb interaction $U$,
+        we plot the same data using a
+        Lorentzian ($\delta/D=0.04$),
+        Gaussian ($\sigma/D=0.04$),
+        and logarithmic Gaussian ($b/D=0.6$)
+        broadening.
+    }%
+    \label{fig:spectral-function}
+\end{figure}
+For each fixed value of the Coulomb interaction $U$,
+we plot the same data using a
+Lorentzian ($\delta/D=0.04$),
+Gaussian ($\sigma/D=0.04$),
+and logarithmic Gaussian ($b/D=0.6$)
+broadening.
+As we do not get our poles on a logarithmic grid,
+the latter had to be truncated at a rather large value to generate smooth spectra.
+At small interaction \zcref{subfig:spectrum-U1.0}
+we see the beginning of the Hubbard band formation.
+We see a small dip at the Fermi-energy,
+as there are no poles very close to it.
+This is in contrast to NRG~\cite{Bulla2008} which is tailored to impurity problems by utilizing
+a logarithmic grid.
+If we increase the interaction \zcref{subfig:spectrum-U2.0},
+we can see fully formed Hubbard bands and the central Kondo peak.
+At $U/D=2.4$ in \zcref{subfig:spectrum-U2.4}, we see small peaks in the
+inner edge of the Hubbard band,
+consistent with previous results~\cite{Karski2005,Karski2008,Zitko2009,Gull2010,Granath2012,Granath2014,Ganahl2014,Lu2014,Lu2019,Lee2017}.
+In \zcref{subfig:spectrum-U4.0} we show an insulating soltuion;
+The bands are fully separated and peaked at approximately $\pm U/2$.
+The shape is approximately the non-interacting semicircular density.
+As the Lorentzian broadening decays slowly,
+there is still some weight left at the Fermi-energy.
+
+As the imaginary part of the self-energy vanishes at the Fermi-energy
+for zero temperature~\cite{Hewson1993},
+any metallic spectral function must have the same value as the non-interacting one.
+This forces the pinning the Kondo peak to a height of $\muppi D A(\omega=0) = 2.0$.
+We see that this is well fulfilled for the top two panels,
+while in \zcref{subfig:spectrum-U2.4} this is slowly lost.
+In general, for the chosen parameters the Gaussian broadening shows all features
+well while the logarithmic broadening smears out too much at higher energies.
+This may be mitigated by using more advanced broadening schemes~\cite{Lee2016}.
+
+The DMFT calculation was also tried using a logarithmic grid
+with pole locations fixed to have equal ratio $\Lambda=1.075$~\cite{Bulla2008} and
+the outermost pole located at $4D$.
+The Kondo peak and pinning condition were marginally improved while
+the Hubbard bands showed discretization artifacts if the same broadening parameters were used.
 
 \section{Mott transition}
 

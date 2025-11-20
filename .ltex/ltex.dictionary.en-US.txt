@@ -4,6 +4,7 @@ Correlators
 DMFT
 EPYC
 Hartree
+Kondo
 Kramers-Kronig
 Krylov
 Lanczos

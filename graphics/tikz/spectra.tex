@@ -1,0 +1,139 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        node distance=0pt,
+    ]
+    \begin{groupplot}
+        [
+            group style=
+                {
+                    group name=plots,
+                    group size=2 by 2,
+                    horizontal sep=6mm,
+                    vertical sep=6mm,
+                    x descriptions at=edge bottom,
+                    y descriptions at=edge left,
+                    ylabels at=edge left,
+                },
+            xmin=-4.0,
+            xmax=4.0,
+            ymin=0,
+            ymax=2.0,
+            xlabel=$\omega/D$,
+            ylabel=$\muppi DA(\omega)$,
+            no marks,
+            every axis plot/.append style={
+                    thick,
+                },
+            width=0.45\textwidth,
+            cycle multiindex* list={
+                    Set1\nextlist%
+                },
+        ]
+
+        \nextgroupplot
+        [
+            legend style={
+                    at={($(0,0)+(1cm,1cm)$)},
+                    legend columns=3,
+                    anchor=center,
+                    align=center,
+                    /tikz/every even column/.append style={column sep=5mm},
+                },
+            legend entries=
+                {
+                    Lorentzian,
+                    Gaussian,
+                    log Gaussian,
+                },
+            legend to name=named1,
+        ]
+        \addplot+ table [x=omega_lin, y=U1.0_lor] {data/spectra.csv};
+        \addplot+ table [x=omega_lin, y=U1.0_gau] {data/spectra.csv};
+        \addplot+ [
+            % skip omega=0
+            x filter/.expression={abs(x) == 0 ? nan : x},
+        ]
+        table [x=omega_log, y=U1.0_log] {data/spectra.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+        ]
+        at (rel axis cs:0,1) {\subcaption{}\label{subfig:spectrum-U1.0}};
+        \node [
+            anchor=north east,
+        ]
+        at (rel axis cs:1,0.95)  {$U/D=1$};
+        \coordinate (c1) at (rel axis cs:0,1);
+
+        \nextgroupplot
+        [
+        ]
+        \addplot+ table [x=omega_lin, y=U2.0_lor] {data/spectra.csv};
+        \addplot+ table [x=omega_lin, y=U2.0_gau] {data/spectra.csv};
+        \addplot+ [
+            % skip omega=0
+            x filter/.expression={abs(x) == 0 ? nan : x},
+        ]
+        table [x=omega_log, y=U2.0_log] {data/spectra.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+        ]
+        at (rel axis cs:0,1) {\subcaption{}\label{subfig:spectrum-U2.0}};
+        \node [
+            anchor=north east,
+        ]
+        at (rel axis cs:1,0.95)  {$U/D=2$};
+        \coordinate (c2) at (rel axis cs:1,1);
+
+        \nextgroupplot
+        [
+        ]
+        \addplot+ table [x=omega_lin, y=U2.4_lor] {data/spectra.csv};
+        \addplot+ table [x=omega_lin, y=U2.4_gau] {data/spectra.csv};
+        \addplot+ [
+            % skip omega=0
+            x filter/.expression={abs(x) == 0 ? nan : x},
+        ]
+        table [x=omega_log, y=U2.4_log] {data/spectra.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+        ]
+        at (rel axis cs:0,1) {\subcaption{}\label{subfig:spectrum-U2.4}};
+        \node [
+            anchor=north east,
+        ]
+        at (rel axis cs:1,0.95)  {$U/D=2.4$};
+
+        \nextgroupplot
+        [
+        ]
+        \addplot+ table [x=omega_lin, y=U4.0_lor] {data/spectra.csv};
+        \addplot+ table [x=omega_lin, y=U4.0_gau] {data/spectra.csv};
+        \addplot+ [
+            % skip omega=0
+            x filter/.expression={abs(x) == 0 ? nan : x},
+        ]
+        table [x=omega_log, y=U4.0_log] {data/spectra.csv};
+        \node
+        [
+            text width=1em,
+            anchor=north west,
+        ]
+        at (rel axis cs:0,1) {\subcaption{}\label{subfig:spectrum-U4.0}};
+        \node [
+            anchor=north east,
+        ]
+        at (rel axis cs:1,0.95)  {$U/D=4$};
+
+    \end{groupplot}
+
+    \coordinate (c3) at ($(c1)!.5!(c2)$); % halfway between c1, c2
+    \node [below] at (c3 |- current bounding box.south) {\pgfplotslegendfromname{named1}};
+\end{tikzpicture}
