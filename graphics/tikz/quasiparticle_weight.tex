@@ -1,0 +1,115 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        node distance=0pt,
+    ]
+    \begin{groupplot}
+        [
+            group style=
+                {
+                    group name=plots,
+                    group size=2 by 1,
+                    horizontal sep=10mm,
+                    ylabels at=edge left,
+                },
+            width=0.5\textwidth,
+            cycle multiindex* list={
+                    Set1\nextlist%
+                    mark list*\nextlist
+                },
+            xlabel=$U/D$,
+            ylabel=$Z$,
+            legend style={
+                    draw=none,
+                },
+        ]
+
+        \nextgroupplot
+        [
+            xmin=0,
+            xmax=3.5,
+            ymin=0,
+            ymax=1,
+            only marks,
+            legend entries=
+                {
+                    NRG,
+                    linear,
+                },
+        ]
+        \addplot+ table [x=U, y=NRG] {data/quasiparticle_weight.csv};
+        \addplot+ table [x=U, y=L2_p2_lin] {data/quasiparticle_weight.csv};
+        \node
+        [
+            text width=1em,
+            anchor=south west,
+        ]
+        at (rel axis cs:0,0) {\subcaption{}\label{subfig:quasiparticle-weight}};
+
+        \nextgroupplot
+        [
+            xmin=2.5,
+            xmax=3.5,
+            ymin=0,
+            ymax=0.1,
+            legend cell align=left,
+            legend entries=
+                {
+                    NRG,
+                    linear,
+                    logarithmic,
+                    equal weight,
+                },
+            every axis plot/.append style={
+                    thick,
+                    samples=51,
+                },
+            y tick label style={
+                    /pgf/number format/fixed,
+                },
+        ]
+        \addplot+ [only marks] table [x=U, y=NRG] {data/quasiparticle_weight.csv};
+        \addplot+ [only marks] table [x=U, y=L2_p2_lin] {data/quasiparticle_weight.csv};
+        \addplot+ [only marks] table [x=U, y=L1_p2_log] {data/quasiparticle_weight.csv};
+        \addplot+ [only marks] table [x=U, y=L1_p2_eq_wgt] {data/quasiparticle_weight.csv};
+        % plot fits
+        % Z(U) = a_1 * (U - U_c2) + a_2 * (U - U_c2)^2
+        \pgfplotsset{cycle list shift=-4}
+        \addplot+ [
+            domain=2.5:2.9329719052533068,
+            mark=none,
+        ]
+        {
+            -0.1739550733072736*(x-2.9329719052533068) + 0.11571428575703042*(x-2.9329719052533068)^2
+        };
+        \addplot+ [
+            domain=2.5:3.0291171556533967,
+            mark=none,
+        ]
+        {
+            -0.16732763158341707*(x-3.0291171556533967) + 0.11384733349076326*(x-3.0291171556533967)^2
+        };
+        \addplot+ [
+            domain=2.5:3.001538650658332,
+            mark=none,
+        ]
+        {
+            -0.1953817546350597*(x-3.001538650658332) + 0.10578227385856394*(x-3.001538650658332)^2
+        };
+        \addplot+ [
+            domain=2.5:3.1089254035608724,
+            mark=none,
+        ]
+        {
+            -0.13289226818989172*(x-3.1089254035608724) + 0.12973788116447912*(x-3.1089254035608724)^2
+        };
+        \node
+        [
+            text width=1em,
+            anchor=south west,
+        ]
+        at (rel axis cs:0,0) {\subcaption{}\label{subfig:quasiparticle-weight-zoom}};
+
+    \end{groupplot}
+\end{tikzpicture}
