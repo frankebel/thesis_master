@@ -343,6 +343,53 @@ the outermost pole located at $4D$.
 The Kondo peak and pinning condition were marginally improved while
 the Hubbard bands showed discretization artifacts if the same broadening parameters were used.
 
+In \zcref{tab:spectrum-moments} we compare the moments of our Green's function
+against the exact ones from \zcref{eq:spectrum-moments}.
+\begin{table}[ht]
+    \caption{
+        Difference of the moment of the impurity Green's function $G$ against
+        the exact value.
+        The zeroth moment matches up to numerical precision $\bigO{\epsilon_\mathrm{MP}}$
+        while higher moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
+    }%
+    \label{tab:spectrum-moments}
+    \centering
+    \pgfplotstabletypeset[
+        columns/U/.style={
+                column name=$U/D$,
+                fixed zerofill,
+                precision=1,
+            },
+        columns/G0/.style={
+                column name=$\Delta G^{(0)}$,
+                sci zerofill,
+                dec sep align,
+            },
+        columns/G1/.style={
+                column name=$\Delta G^{(1)}$,
+                sci zerofill,
+                dec sep align,
+            },
+        columns/G2/.style={
+                column name=$\Delta G^{(2)}$,
+                sci zerofill,
+                dec sep align,
+            },
+        columns/G3/.style={
+                column name=$\Delta G^{(3)}$,
+                sci zerofill,
+                dec sep align,
+            },
+    ]
+    {data/spectra_moments.csv}
+\end{table}
+The zeroth moment matches up to numerical precision $\bigO{\epsilon_\mathrm{MP}}$
+while higher moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
+This is in contrast to NRG~\cite{Bulla2008,Kugler2022} which only conserves the lowest order
+while higher ones are less accurate.
+As we both over- and underestimate the exact values,
+we assume that our error is of stochastic nature.
+
 \section{Mott transition}
 
 \section{Comparison against \quanty}

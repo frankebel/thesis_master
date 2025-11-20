@@ -401,12 +401,15 @@ e.g., $G^{(0)} = \expval{\acomm{d^{\pdag}_{i\sigma}}{d^\dag_{i\sigma}}} = 1$
 by definition of anticommutative rules for fermionic operators.
 For the particle-hole symmetric system on the Bethe lattice
 the first four moments of the Green's function are~\cite{Potthoff1997}
-\begin{align}
-    G^{(0)} & = 1,                             \\
-    G^{(1)} & = 0,                             \\
-    G^{(2)} & = \frac{U^2}{2} + \frac{D^2}{4}, \\
-    G^{(3)} & = 0.
-\end{align}
+\begin{subequations}
+    \begin{align}
+        G^{(0)} & = 1,                             \\
+        G^{(1)} & = 0,                             \\
+        G^{(2)} & = \frac{U^2}{4} + \frac{D^2}{4}, \\
+        G^{(3)} & = 0.
+    \end{align}%
+    \label{eq:spectrum-moments}
+\end{subequations}
 Due to symmetry $A_{-\omega} = A_\omega$ for the half-filled spectrum,
 all odd moments vanish.
 
@@ -434,11 +437,13 @@ In contrast to \zcref{eq:expansion-correlator},
 the self-energy contains a constant (frequency intependent) term
 which is called the Hartree term $\Sigma^\mH$.
 The analytic moments for half-filling are~\cite{Potthoff1997}
-\begin{align}
-    \Sigma^\mH   & = \frac{U}{2},   \\
-    \Sigma^{(0)} & = \frac{U^4}{4}, \\
-    \Sigma^{(1)} & = 0,             \\
-\end{align}
+\begin{subequations}
+    \begin{align}
+        \Sigma^\mH   & = \frac{U}{2},   \\
+        \Sigma^{(0)} & = \frac{U^4}{4}, \\
+        \Sigma^{(1)} & = 0,
+    \end{align}
+\end{subequations}
 with every odd moment vanishing.
 
 Although the Dyson equation is exact,
