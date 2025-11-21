@@ -507,8 +507,79 @@ the zeroth moment is exact up to machine precision $\bigO{\epsilon_\mathrm{MP}}$
 while other moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
 Also, there seems to be no bias in over- or underestimating of values.
 
-\section{Mott transition}
+\section{Mott transition}%
+\label{sec:Mott-transistion}
 
+As shown in the previous sections,
+depending on the interaction strength $U$ we can get a metallic or insulating solution.
+Here, we want to quantify this transition.
+If one starts with from a metallic solution,
+the transition to an insulator is of second order~\cite{Georges1996}.
+The ground state energy (which is lower for  a metal) smoothly approaches that of an insulator
+and coincides at the critical value $U_{c2}$.
+In contrast, the transition of an insulator to metal is of first order~\cite{Georges1996}
+with a metastable solution which abruptly jumps at a critical value $U_{c1}$.
+In the coexistence region $U_{c1} \le U \le U_{c2}$ it is possible to find both solutions.
+
+One way of quantifying this region is to use the double occupation $\expval{n_\uparrow n_\downarrow}$,
+which is the ground state probability of finding both a spin-up and spin-down electron in the impurity,
+shown in \zcref{fig:double-occupation}.
+For a non-interacting system ($U=0$) it is 0.25 and gets lower with increasing interaction strength.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/double_occupation.tex}
+    \caption{
+        \subref{subfig:double-occupation} Comparison against NRG data~\cite{Gauvin-Ndiaye2025}.
+        \subref{subfig:double-occupation-zoom}
+    }%
+    \label{fig:double-occupation}
+\end{figure}
+In \zcref{subfig:double-occupation} we see that our solver has very good agreement with
+NRG data~\cite{Gauvin-Ndiaye2025} ufor weak to intermediate interaction strengths.
+In \zcref{subfig:double-occupation-zoom} we look at the transition using different discretization
+schemes.
+In the linear and logarithmic discretization, the poles $\{\epsilon_i\}$ of the hybridization function
+are at fixed locations.
+For the former they are equidistant,
+while in the latter they are apart at a constant ratio $\epsilon_{i+1}/\epsilon_i = \Lambda$.
+In the equal weight discretization,
+the weights $\{V_i\}$ are set to be equal~\cite{Lu2019}
+while pole locations vary between each DMFT step.
+We see that up until $U/D\approx2.5$ the double occupation is independent of the discretization.
+However, the value where it equals the insulating solution of NRG differs.
+The logarithmic discretization becomes insulating at a value $U_{c2}/D\approx3.2$,
+while for the linear and equal weight discretization it is around $U_{c2}/D\approx3.3$.
+All of these values overshoot the NRG value of $U_{c2}/D=2.94$~\cite{Bulla1999}.
+
+Using our method,
+it was not possible to find a metastable insulating solution.
+As soon as $U<U_{c2}$, the solution immediately jumped to a metallic one.
+Thus, we cannot make any statement about $U_{c1}$.
+
+Another way to find the value of $U_{c2}$ is to look at the quasiparticle weight and see
+where it vanishes $Z\to0$ corresponding to a diverging quasiparticle mass $m^*\to\infty$.
+To obtain it,
+we use equation~\zcref{eq:quasiparticle-weight} which diverges for a pole located at zero.
+The problem is that our Green's functions are numerically always insulating,
+and the self-energy always contains this problematic pole.
+E.g., for $U=1$, we have a pole
+\begin{equation}
+    \frac{\num{9.39e-10}}{\omega + \mi0^+ + \num{5.94e-9}}
+\end{equation}
+which is not visible in the spectrum.
+However,
+if one tries to calculate the quasiparticle weight it results in
+\begin{equation}
+    Z
+    =
+    \left(1 + \frac{\num{9.39e-10}}{(\num{5.94e-9})^2}\right)^{-1}
+    =
+    (\num{2.67e7})^{-1}
+    \approx
+    0.
+\end{equation}
+Hence, we have to ignore small weights to get reasonable values.
+For this work use the condition $w_i>\num{3e-5}$ and show them in \zcref{fig:quasiparticle-weight}.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/quasiparticle_weight.tex}
@@ -522,38 +593,26 @@ Also, there seems to be no bias in over- or underestimating of values.
     }%
     \label{fig:quasiparticle-weight}
 \end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/double_occupation.tex}
-    \caption{
-        \subref{subfig:double-occupation} Comparison against NRG data~\cite{Gauvin-Ndiaye2025}.
-        \subref{subfig:double-occupation-zoom}
-    }%
-    \label{fig:double-occupation}
-\end{figure}
-
-As our Green's functions are numerically always insulating,
-our self-energy always gets a pole with zero.
-E.g., for $U=1$, the closest pole located at $\omega=0$ is
+In \zcref{subfig:quasiparticle-weight} our quasiparticle weight is higher than the NRG data,
+similar to~\cite{Karski2005, Karski2008} where a D-DMRG solver was used.
+In \zcref{subfig:quasiparticle-weight-zoom} we look at the transition
+using the same discretization scheme as in the double occupation.
+We see the same behavior as there with the logarithmic discretization becoming
+insulating first followed by the linear and equal weight discretization.
+There, calculations were done only up to $U/D=2.8$
+In~\cite{Karski2005, Karski2008},
+measurement data in the interval $U/D\in[2.0,2.8]$
+was used to a quadratic function
 \begin{equation}
-    \frac{\num{9.39e-10}}{\omega + \mi0^+ + \num{5.94e-9}}
+    f_Z(U) = a_1(U - U_{c2}) + a_2(U - U_{c2})^2.
 \end{equation}
-which is not visible in the spectrum.
-However,
-if one tries to calcualte the quasiparticle weight using~\zcref{eq:quasiparticle-weight},
-it results in
-\begin{equation}
-    Z
-    =
-    \left(1 + \frac{\num{9.39e-10}}{(\num{5.94e-9})^2}\right)^{-1}
-    =
-    (\num{2.67e7})^{-1}
-    \approx
-    0.
-\end{equation}
-Hence, we have to ignore small weights to get a reasonable value.
-For this work use the condition $w_i>\num{3e-5}$.
+If we fit our data to the same function,
+we get the lines shown in \zcref{subfig:quasiparticle-weight-zoom}.
+Our logarithmic discretization now becomes metallic at $U_{c2}/D=3$
+closely followed by the linear discretization.
+The equal weight one becomes insulating at $U_{c2}/D=3.1$.
+We attribute this difference of the fit agains the data points as discretization artifacts
+as we do not have enough poles close to the Fermi-level in contrast to NRG\@.
 
 \section{Comparison against \quanty}
 
