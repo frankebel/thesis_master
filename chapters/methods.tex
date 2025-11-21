@@ -639,15 +639,16 @@ we can calculate the quasipaicle weight in Fermi-liquid theory\footnote{
     where $m$ is the electron mass.
     For a non-interacting system $Z=1$ by construction.
 }~\cite{Hewson1993} analytically
-\begin{align}
+\begin{flalign}
     Z
      & =
-    \left(1 - \left.\frac{\partial\Re \Sigma_\omega}{\partial\omega}\right|_{\omega=0}\right)^{-1}, \\
+    \left(1 - \left.\frac{\partial\Re \Sigma_\omega}{\partial\omega}\right|_{\omega=0}\right)^{-1}, \nonumber \\
      & =
-    \left(1 + \sum_i \frac{w_i}{\epsilon_i^2}\right)^{-1},                                          \\
+    \left(1 + \sum_i \frac{w_i}{\epsilon_i^2}\right)^{-1}, \nonumber                                          \\
      & =
     \left(1 + \Sigma^{(-2)}\right)^{-1}
-\end{align}
+    \label{eq:quasiparticle-weight}
+\end{flalign}
 with $\Sigma^{(-2)}$ equaling the negative second moment.
 We see that the expression inside the brackets diverges if there is a pole at $\epsilon_i=0$,
 which is the case for an insulator~\cite{Georges1996}.

@@ -278,6 +278,8 @@ none of the spectra show any weight at the Fermi-energy.
 
 We again emphasize that the self-consistency calculation uses no-broadening,
 which is only introduced as a post-processing step to plot smooth spectra instead of discrete peaks.
+In fact, numerically we never get a pole at exactly zero which is why strictly speaking,
+we always obtain an insulating solution.
 For a $p=1$ projection (not shown) we observe spurious oscillations on the Hubbard bands,
 consistent with~\cite{Lu2019}.
 These are supressed if we increase the Hilbert space to $p=2$,
@@ -391,40 +393,23 @@ while higher ones are less accurate.
 As we both over- and underestimate the exact values,
 we assume that our error is of stochastic nature.
 
-\section{Self-energy and quasiparticle weight}
+\section{Self-energy}
 
-\begin{figure}[ht]
-    \centering
-    \input{graphics/tikz/quasiparticle_weight.tex}
-    \caption{
-        Evolution of the quasiparticle weight $Z$ with increasing interaction strength $U$.
-        \subref{subfig:quasiparticle-weight} Comparison against NRG data~\cite{Gauvin-Ndiaye2025}.
-        \subref{subfig:quasiparticle-weight-zoom} Quasiparticle weight close to the metal-insulator
-        transition using various discretization schemes.
-        Lines are fitted functions using values $U/D\in [2, 2.8]$.
-    }%
-    \label{fig:quasiparticle-weight}
-\end{figure}
-
-metallic self-energy has a pole
-\begin{equation}
-    \frac{\num{1.33e-7}}{\omega + \mi0^+ - \num{7.02e-7}}
-\end{equation}
-
-
-insulating self-energy has a pole
-\begin{equation}
-    \frac{\num{3.20}}{\omega + \mi0^+ + \num{8.83e-8}}
-\end{equation}
-
+Given our correlators,
+we calculate the self-energy using the symmetric improved estimator~\cite{Kugler2022}.
+In \zcref{fig:self-energy}, we show the negative imaginary part for varying values of
+the Coulomb interaction $U$.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/self-energies.tex}
     \caption{
+        DMFT impurity self-energies for the half-filled Bethe lattice.
         \subref{subfig:self-energy-U1.0},
         \subref{subfig:self-energy-U2.0},
         \subref{subfig:self-energy-U2.4}
+        show the two-peak structure with a vanishing self-energy at $\omega=0$.
         \subref{subfig:self-energy-U4.0}
+        shows an insulating solution which diverges at $\omega=0$.
         For each value of $U$,
         we plot the same data using a
         Lorentzian ($\delta/D=0.04$),
@@ -434,18 +419,55 @@ insulating self-energy has a pole
     }%
     \label{fig:self-energy}
 \end{figure}
+We use the same broadening parameters for a
+Lorentzian ($\delta/D=0.04$),
+Gaussian ($\sigma/D=0.04$),
+and logarithmic Gaussian ($b/D=0.6$) broadening
+as the spectra in the previous section.
+For a metallic solution
+\zcref{subfig:self-energy-U1.0, subfig:self-energy-U2.0, subfig:self-energy-U2.4}
+we see a two-peak structure.
+At $\omega=0$, the imaginary part must vanish which can be seen in the Gaussian
+and logarithmic Gaussian broadening.
+Due to the slow decay of the Lorentzian, it still has some residual spectral weight.
+With increasing interaction, the magnitude of the two peaks rise and the location of the
+maxima move closer together.
 
+For an insualting solution (\zcref{subfig:self-energy-U4.0}),
+the two peaks merge to a diverging pole at $\omega=0$.
+This pole should be infinitely thin, which is approximated well with the logarithmic broadening.
+For the Lorentzian and Gaussian broadening however, it gains a finite width.
+To better illustrate this,
+we plot the discrete locations and weights in \zcref{fig:self-energy-poles}.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/self-energy_poles.tex}
     \caption{
-        Poles of the insulating self-energy at $U=4$.
+        Discrete poles of the insulating self-energy at $U=4$.
         The spectral density vanishes within a gap $\omega\in[-\Delta_g/2, \Delta_g/2]$
         with a singular pole located at $\omega=0$~\cite{Georges1996}.
     }%
     \label{fig:self-energy-poles}
 \end{figure}
+Here, we directly see that the spectral density vanishes
+within a gap $\omega\in[-\Delta_g/2, \Delta_g/2]$
+with a singular pole located at $\omega=0$~\cite{Georges1996}.
+The central pole has the parameters
+\begin{equation}
+    \frac{w_0}{\omega + \mi0^+ - \epsilon_0}
+    =
+    \frac{\num{3.20}}{\omega + \mi0^+ + \num{8.83e-8}}.
+\end{equation}
+We see that the location is approximated very well at zero.
+For the weight, we can compare it against the relation~\cite{Georges1996}
+\begin{equation}
+    w_0^{-1} = \int_{-\infty}^{\infty} \md \omega\> \frac{A_\omega}{\omega^2} = G^{(-2)},
+\end{equation}
+which matches up to seven digits.
 
+Finally in \zcref{tab:self-energy-moments},
+we compare the moments of the self-energy against the exact ones
+from \zcref{eq:self-energy-moments}.
 \begin{table}[ht]
     \caption{
         Difference $\Delta \Sigma^{(n)}$ of the $n$-th moment of the self-energy $\Sigma$
@@ -480,8 +502,48 @@ insulating self-energy has a pole
     ]
     {data/self-energies_moments.csv}
 \end{table}
+Similarly to the spectra,
+the zeroth moment is exact up to machine precision $\bigO{\epsilon_\mathrm{MP}}$
+while other moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
+Also, there seems to be no bias in over- or underestimating of values.
 
 \section{Mott transition}
+
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/quasiparticle_weight.tex}
+    \caption{
+        Evolution of the quasiparticle weight $Z$ with increasing interaction strength $U$.
+        The discretization of the hybridization function was varied between methods.
+        \subref{subfig:quasiparticle-weight} Comparison against NRG data~\cite{Gauvin-Ndiaye2025}.
+        \subref{subfig:quasiparticle-weight-zoom}
+        Quasiparticle weight close to the metal-insulator transition.
+        Lines are fits using data points $U/D\in [2, 2.8]$~\cite{Karski2008}.
+    }%
+    \label{fig:quasiparticle-weight}
+\end{figure}
+
+As our Green's functions are numerically always insulating,
+our self-energy always gets a pole with zero.
+E.g., for $U=1$, the closest pole located at $\omega=0$ is
+\begin{equation}
+    \frac{\num{9.39e-10}}{\omega + \mi0^+ + \num{5.94e-9}}
+\end{equation}
+which is not visible in the spectrum.
+However,
+if one tries to calcualte the quasiparticle weight using~\zcref{eq:quasiparticle-weight},
+it results in
+\begin{equation}
+    Z
+    =
+    \left(1 + \frac{\num{9.39e-10}}{(\num{5.94e-9})^2}\right)^{-1}
+    =
+    (\num{2.67e7})^{-1}
+    \approx
+    0.
+\end{equation}
+Hence, we have to ignore small weights to get a reasonable value.
+For this work use the condition $w_i>\num{3e-5}$.
 
 \section{Comparison against \quanty}
 
