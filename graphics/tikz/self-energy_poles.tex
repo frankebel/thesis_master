@@ -1,0 +1,17 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    \begin{axis}
+        [
+            width=0.8\textwidth,
+            xlabel=$\omega/D$,
+            ylabel=weight,
+            xmin=-4.0,
+            xmax=4.0,
+            ymin=10^(-2.5),
+            ymode=log,
+        ]
+
+        \addplot+ [only marks] table [x=locations, y=weights] {data/self-energy_poles.csv};
+    \end{axis}
+\end{tikzpicture}
