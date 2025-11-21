@@ -446,6 +446,41 @@ insulating self-energy has a pole
     \label{fig:self-energy-poles}
 \end{figure}
 
+\begin{table}[ht]
+    \caption{
+        Difference $\Delta \Sigma^{(n)}$ of the $n$-th moment of the self-energy $\Sigma$
+        to the exact value.
+        $\Sigma^\mH$ is the Hartree term.
+        The zeroth moment matches up to numerical precision $\bigO{\epsilon_\mathrm{MP}}$
+        while other moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
+    }%
+    \label{tab:self-energy-moments}
+    \centering
+    \pgfplotstabletypeset[
+        columns/U/.style={
+                column name=$U/D$,
+                fixed zerofill,
+                precision=1,
+            },
+        columns/SigmaH/.style={
+                column name=$\Delta \Sigma^\mH$,
+                sci zerofill,
+                dec sep align,
+            },
+        columns/Sigma0/.style={
+                column name=$\Delta \Sigma^{(0)}$,
+                sci zerofill,
+                dec sep align,
+            },
+        columns/Sigma1/.style={
+                column name=$\Delta \Sigma^{(1)}$,
+                sci zerofill,
+                dec sep align,
+            },
+    ]
+    {data/self-energies_moments.csv}
+\end{table}
+
 \section{Mott transition}
 
 \section{Comparison against \quanty}
