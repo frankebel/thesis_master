@@ -27,11 +27,11 @@ The locations of these poles $\{\epsilon_i\}$ are fixed at the beginning
 and kept between each DMFT cycle.
 This is in contrast to~\cite{Lu2014, Lu2019} where the locations could shift in each iteration.
 If, in the DMFT update (\zcref{eq:hybridization-update}), we get a pole $\epsilon$ which is not on the given grid,
-we shift its weight to nearest neighbors,
-locally conserving the zeroth and first moment.
+we shift its weight such that the zeroth and first moment are locally conserved.
 This scheme is explained in \zcref{app:shifting-of-poles}.
-In the first step, the continuous function is discretized on the aforementioned locations
-with hybridization weights
+Before the first DMFT step,
+the continuous hybridization function is discretized on the aforementioned locations
+with weights
 \begin{equation}
     V_i^2 = -\frac{1}{\muppi} \int_{I_i} \md\omega\> \Im \Delta_{0,\omega}.
 \end{equation}
@@ -56,12 +56,8 @@ and a Krylov space $M=200$ to be comparable to~\cite{Lu2019}.
 
 Before we can calculate any correlators or expectation values,
 we first need to find the ground state of our system.
-To get a discrete hybridization function,
-we create $N=101$ equidistant bath sites in the interval $[-D, D]$ and
-discretize our semicircular DOS\footnote{
-    We need to multiply it by $D^2/4$ as dictated by \zcref{eq:hybridization-function-bethe}.
-}
-(\zcref{eq:dos-semicircle}) onto these points.
+The hybridization function,
+is discretized on $N=101$ equidistant bath sites in the interval $[-D, D]$.
 Given the parameters $\{\epsilon_i, V_i\}$,
 we can create $H_\mathrm{bath}$ and $H_\mathrm{imp-bath}$ of \zcref{eq:H-Anderson}.
 For the impurity $H_\mathrm{imp}$ we then add a Coulomb interaction of $U=2D$ which fixes our
@@ -84,8 +80,8 @@ below double precision machine precision $\epsilon_\mathrm{MP} = 2^{-52}$.
 Although not shown,
 this is also the case for other values of $U$.
 In general, the bigger the explored Hilbert space
-(increasing the exact system size by the parameter $L$
-and increasing the allowed excitations $p$),
+(increasing the exact system size $L$
+and allowed excitations $p$ in the remaining chains),
 the more steps are necessary to reach a desired variance.
 For the parameters $L=1$, $p=1$, machine precision is reached after \num{16} restarts
 which equals a Krylov size\footnote{
@@ -94,8 +90,7 @@ which equals a Krylov size\footnote{
 of $M=80$,
 while for higher parameters $L$, $p$ more steps are necessary for a desired variance.
 To fully propagate an electron (hole) excitation through the conduction (valence) band,
-one should at least explore a space of $M=N/2$ where $N/2$ is the
-approximate length of a chain.
+one should at least explore a space of $M=N/2$ where $N/2$ is the length of a chain.
 For our choice of $N=101$ this corresponds to $M=50$ which is fulfilled for all cases.
 In \zcref{tab:ground-state-energy} we list the ground state energy $E_0$ obtained in the
 calculation of \zcref{fig:ground-state-convergence}.
@@ -128,7 +123,7 @@ As expected, the energy is lower if the explored Hilbert space is larger.
 \section{Performance analysis}
 
 To obtain our correlators listed in \zcref{eq:correlators},
-we have to calculate the block tridiagonal matrix $T$
+we have to calculate a block tridiagonal matrix $T$
 using the block Lanczos algorithm explained in \zcref{sec:block-lanczos}.
 As this is the most time-consuming part within the DMFT step,
 we benchmarked its time and memory requirements in \zcref{fig:performance}.
@@ -158,7 +153,7 @@ The operations were done on an AMD EPYC\texttrademark~9654 processor
 with 96 cores and \qty{1}{\tera\byte} of memory,
 but can also be run on consumer hardware.
 Although the code is multithreaded,
-the benchmarks were run on one thread for easier reproducibility.
+the benchmarks were run on a single thread for easier reproducibility.
 Given the ground state, we create the excited states
 $\tilde q^\dag_\sigma\ket{\psi_0}$
 and
@@ -203,7 +198,7 @@ A calculation of all possible states\footnote{
 }
 reveals a ratio of around 14 which is relatively close to the measured one.
 \zcref{subfig:perf-allocations-sites} shows the required memory for those calculations
-which scales as $N$ and $N^2$ respectively.
+which scales as $N$ and $N^2$ too.
 
 In summary, we can say that our computational complexity scales approximately as $\bigO{14^L M N^p}$
 while memory complexity scales as $\bigO{14^L N^p}$.
@@ -216,16 +211,18 @@ and discretize the non-interacting hybridization function $\Delta_{0,\omega}$ on
 Poles outside $[-D, D]$ are discarded as they have zero weight.
 Thus, our non-interacting hybridization is made out of 75 poles.
 We then repeat our DMFT loop until self-consistency is reached.
+As the self-energy pushes spectral weight to higher frequencies,
+poles which initially had zero weight obtain a finite value.
 The explored Hilbert space is restricted to $L=2$, $p=2$.
 In \zcref{fig:correlators-metal} we list the real and imaginary parts
-of our block correlator $C_\omega$ for a metallic solution $U=2D$.
+of our block correlator $C_\omega$ for a metallic solution $U/D=2$.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/correlators_metal.tex}
     \caption{
         Components of the $2\times2$ block correlator $C(\omega)$ for
         a Coulomb interaction of $U=2D$ (metallic solution).
-        Peaks are broadened with a Gaussian kernel $\sigma=0.04D$.
+        Peaks are broadened with a Gaussian kernel $\sigma/D=0.04$.
         At half-filling, the spectral part (imaginary part) of
         \subref{subfig:correaltor-I-metal} and \subref{subfig:correaltor-G-metal}
         are symmetric.
@@ -235,8 +232,8 @@ of our block correlator $C_\omega$ for a metallic solution $U=2D$.
     }%
     \label{fig:correlators-metal}
 \end{figure}
-Each discrete pole was broadened with a Gaussian kernel $\sigma=0.04D$.
-We see that the spectra of the diagonal entries
+Each discrete pole was broadened with a Gaussian kernel $\sigma/D=0.04$.
+We see that the spectra (imaginary part) of the diagonal entries
 \zcref{subfig:correaltor-I-metal, subfig:correaltor-G-metal} are symmetric
 due to particle-hole symmetry.
 The imaginary part is negative (the spectrum positive semidefinite)
@@ -253,7 +250,7 @@ with an appropriate sign flip.
 This was deliberately not done in this work to show that symmetry is conserved even numerically.
 
 In \zcref{fig:correlators-insulator} we show the same quantities
-for an insulating solution $U=4.0D$.
+for an insulating solution $U/D=4.0$.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/correlators_insulator.tex}
@@ -274,12 +271,12 @@ The symmetry arguments are the same.
 In contrast to the metallic solution however,
 none of the spectra show any weight at the Fermi-energy.
 
-\section{Spectral function and moments}
+\section{Spectral function}
 
 We again emphasize that the self-consistency calculation uses no-broadening,
 which is only introduced as a post-processing step to plot smooth spectra instead of discrete peaks.
-In fact, numerically we never get a pole at exactly zero which is why strictly speaking,
-we always obtain an insulating solution.
+Numerically we never get a pole at exactly zero which is why strictly speaking,
+all of our solutions are insulating.
 For a $p=1$ projection (not shown) we observe spurious oscillations on the Hubbard bands,
 consistent with~\cite{Lu2019}.
 These are supressed if we increase the Hilbert space to $p=2$,
@@ -324,7 +321,7 @@ we can see fully formed Hubbard bands and the central Kondo peak.
 At $U/D=2.4$ in \zcref{subfig:spectrum-U2.4}, we see small peaks in the
 inner edge of the Hubbard band,
 consistent with previous results~\cite{Karski2005,Karski2008,Zitko2009,Gull2010,Granath2012,Granath2014,Ganahl2014,Lu2014,Lu2019,Lee2017}.
-In \zcref{subfig:spectrum-U4.0} we show an insulating soltuion;
+In \zcref{subfig:spectrum-U4.0} we show an insulating solution;
 The bands are fully separated and peaked at approximately $\pm U/2$.
 The shape is approximately the non-interacting semicircular density.
 As the Lorentzian broadening decays slowly,
@@ -333,8 +330,8 @@ there is still some weight left at the Fermi-energy.
 As the imaginary part of the self-energy vanishes at the Fermi-energy
 for zero temperature~\cite{Hewson1993},
 any metallic spectral function must have the same value as the non-interacting one.
-This forces the pinning the Kondo peak to a height of $\muppi D A(\omega=0) = 2.0$.
-We see that this is well fulfilled for the top two panels,
+This forces the pinning of the Kondo peak to a height of $\muppi D A(\omega=0) = 2.0$.
+We see that this is well fulfilled for the top two panels using Gaussian broa,
 while in \zcref{subfig:spectrum-U2.4} this is slowly lost.
 In general, for the chosen parameters the Gaussian broadening shows all features
 well while the logarithmic broadening smears out too much at higher energies.
@@ -344,7 +341,7 @@ The DMFT calculation was also tried using a logarithmic grid
 with pole locations fixed to have equal ratio $\Lambda=1.075$~\cite{Bulla2008} and
 the outermost pole located at $4D$.
 The Kondo peak and pinning condition were marginally improved while
-the Hubbard bands showed discretization artifacts if the same broadening parameters were used.
+the Hubbard bands showed discretization artifacts under the same broadening parameters.
 
 In \zcref{tab:spectrum-moments} we compare the moments of our Green's function
 against the exact ones from \zcref{eq:spectrum-moments}.
@@ -458,7 +455,7 @@ The central pole has the parameters
     =
     \frac{\num{3.20}}{\omega + \mi0^+ + \num{8.83e-8}}.
 \end{equation}
-We see that the location is approximated very well at zero.
+We see that the location is approximated very well with zero.
 For the weight, we can compare it against the relation~\cite{Georges1996}
 \begin{equation}
     w_0^{-1} = \int_{-\infty}^{\infty} \md \omega\> \frac{A_\omega}{\omega^2} = G^{(-2)},
@@ -522,20 +519,25 @@ with a metastable solution which abruptly jumps at a critical value $U_{c1}$.
 In the coexistence region $U_{c1} \le U \le U_{c2}$ it is possible to find both solutions.
 
 One way of quantifying this region is to use the double occupation $\expval{n_\uparrow n_\downarrow}$,
-which is the ground state probability of finding both a spin-up and spin-down electron in the impurity,
-shown in \zcref{fig:double-occupation}.
+which is the ground state probability of finding both a spin-up and spin-down electron
+in the impurity.
+The results are shown in \zcref{fig:double-occupation}.
 For a non-interacting system ($U=0$) it is 0.25 and gets lower with increasing interaction strength.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/double_occupation.tex}
     \caption{
+        Expectation of impurity double occupation $\expval{n_\uparrow n_\downarrow}$
+        on the ground state.
+        The discretization of the hybridization function was varied between methods.
         \subref{subfig:double-occupation} Comparison against NRG data~\cite{Gauvin-Ndiaye2025}.
         \subref{subfig:double-occupation-zoom}
+        Double occupation close to the metal-insulator transition.
     }%
     \label{fig:double-occupation}
 \end{figure}
 In \zcref{subfig:double-occupation} we see that our solver has very good agreement with
-NRG data~\cite{Gauvin-Ndiaye2025} ufor weak to intermediate interaction strengths.
+NRG data~\cite{Gauvin-Ndiaye2025} for weak to intermediate interaction strengths.
 In \zcref{subfig:double-occupation-zoom} we look at the transition using different discretization
 schemes.
 In the linear and logarithmic discretization, the poles $\{\epsilon_i\}$ of the hybridization function
@@ -553,11 +555,11 @@ All of these values overshoot the NRG value of $U_{c2}/D=2.94$~\cite{Bulla1999}.
 
 Using our method,
 it was not possible to find a metastable insulating solution.
-As soon as $U<U_{c2}$, the solution immediately jumped to a metallic one.
+For any value $U<U_{c2}$, the solution immediately jumped to a metallic one.
 Thus, we cannot make any statement about $U_{c1}$.
 
-Another way to find the value of $U_{c2}$ is to look at the quasiparticle weight and see
-where it vanishes $Z\to0$ corresponding to a diverging quasiparticle mass $m^*\to\infty$.
+Another way to find the value of $U_{c2}$ is to look at the quasiparticle weight $Z$ and see
+where it vanishes, corresponding to a diverging quasiparticle mass $m^*\to\infty$.
 To obtain it,
 we use equation~\zcref{eq:quasiparticle-weight} which diverges for a pole located at zero.
 The problem is that our Green's functions are numerically always insulating,
@@ -599,20 +601,20 @@ In \zcref{subfig:quasiparticle-weight-zoom} we look at the transition
 using the same discretization scheme as in the double occupation.
 We see the same behavior as there with the logarithmic discretization becoming
 insulating first followed by the linear and equal weight discretization.
-There, calculations were done only up to $U/D=2.8$
 In~\cite{Karski2005, Karski2008},
 measurement data in the interval $U/D\in[2.0,2.8]$
-was used to a quadratic function
+was used to fit a quadratic function
 \begin{equation}
     f_Z(U) = a_1(U - U_{c2}) + a_2(U - U_{c2})^2.
 \end{equation}
-If we fit our data to the same function,
+If we fit our data to this,
 we get the lines shown in \zcref{subfig:quasiparticle-weight-zoom}.
 Our logarithmic discretization now becomes metallic at $U_{c2}/D=3$
 closely followed by the linear discretization.
 The equal weight one becomes insulating at $U_{c2}/D=3.1$.
-We attribute this difference of the fit agains the data points as discretization artifacts
-as we do not have enough poles close to the Fermi-level in contrast to NRG\@.
+We attribute this difference of the fit against the measured data points as discretization artifacts
+stemming from the fact that we do not have enough poles close to the Fermi-level
+in contrast to NRG\@.
 
 \section{Comparison against \quanty}
 
