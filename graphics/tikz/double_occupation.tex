@@ -1,0 +1,84 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        node distance=0pt,
+    ]
+    \begin{groupplot}
+        [
+            group style=
+                {
+                    group name=plots,
+                    group size=2 by 1,
+                    horizontal sep=10mm,
+                    ylabels at=edge left,
+                },
+            width=0.5\textwidth,
+            cycle multiindex* list={
+                    Set1\nextlist%
+                    mark list*\nextlist
+                },
+            xlabel=$U/D$,
+            ylabel=$\expval{n_\uparrow n_\downarrow}$,
+            every axis plot/.append style={
+                    thick,
+                },
+            legend cell align=left,
+            legend style={
+                    draw=none,
+                },
+        ]
+
+        \nextgroupplot
+        [
+            xmin=0,
+            xmax=3.5,
+            ymin=0,
+            ymax=0.25,
+            legend entries=
+                {
+                    NRG,
+                    linear,
+                },
+        ]
+        \addplot+ [mark size=3] table [x=U, y=NRG_metal] {data/double_occupation.csv};
+        \pgfplotsset{cycle list shift=-1}
+        \addplot+ [mark size=3, forget plot] table [x=U, y=NRG_insulator] {data/double_occupation.csv};
+        \pgfplotsset{cycle list shift=0}
+        \addplot+ [dashed] table [x=U, y=L2_p2_lin] {data/double_occupation.csv};
+        \node
+        [
+            text width=1em,
+            anchor=south west,
+        ]
+        at (rel axis cs:0,0) {\subcaption{}\label{subfig:double-occupation}};
+
+        \nextgroupplot
+        [
+            xmin=2.5,
+            xmax=3.5,
+            ymin=0,
+            legend entries=
+                {
+                    NRG,
+                    linear,
+                    logarithmic,
+                    equal weight,
+                },
+        ]
+        \addplot+ table [x=U, y=NRG_metal] {data/double_occupation.csv};
+        \pgfplotsset{cycle list shift=-1}
+        \addplot+ table [x=U, y=NRG_insulator, forget plot] {data/double_occupation.csv};
+        \pgfplotsset{cycle list shift=0}
+        \addplot+ table [x=U, y=L2_p2_lin] {data/double_occupation.csv};
+        \addplot+ table [x=U, y=L1_p2_log] {data/double_occupation.csv};
+        \addplot+ table [x=U, y=L1_p2_eq_wgt] {data/double_occupation.csv};
+        \node
+        [
+            text width=1em,
+            anchor=south west,
+        ]
+        at (rel axis cs:0,0) {\subcaption{}\label{subfig:double-occupation-zoom}};
+
+    \end{groupplot}
+\end{tikzpicture}
