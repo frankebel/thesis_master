@@ -397,13 +397,43 @@ we assume that our error is of stochastic nature.
     \centering
     \input{graphics/tikz/quasiparticle_weight.tex}
     \caption{
-        Foo bar.
-        \subref{subfig:quasiparticle-weight}
-        \subref{subfig:quasiparticle-weight-zoom}
+        Evolution of the quasiparticle weight $Z$ with increasing interaction strength $U$.
+        \subref{subfig:quasiparticle-weight} Comparison against NRG data~\cite{Gauvin-Ndiaye2025}.
+        \subref{subfig:quasiparticle-weight-zoom} Quasiparticle weight close to the metal-insulator
+        transition using various discretization schemes.
+        Lines are fitted functions using values $U/D\in [2, 2.8]$.
     }%
     \label{fig:quasiparticle-weight}
 \end{figure}
 
+metallic self-energy has a pole
+\begin{equation}
+    \frac{\num{1.33e-7}}{\omega + \mi0^+ - \num{7.02e-7}}
+\end{equation}
+
+
+insulating self-energy has a pole
+\begin{equation}
+    \frac{\num{3.20}}{\omega + \mi0^+ + \num{8.83e-8}}
+\end{equation}
+
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/self-energies.tex}
+    \caption{
+        \subref{subfig:self-energy-U1.0},
+        \subref{subfig:self-energy-U2.0},
+        \subref{subfig:self-energy-U2.4}
+        \subref{subfig:self-energy-U4.0}
+        For each value of $U$,
+        we plot the same data using a
+        Lorentzian ($\delta/D=0.04$),
+        Gaussian ($\sigma/D=0.04$),
+        and logarithmic Gaussian ($b/D=0.6$)
+        broadening.
+    }%
+    \label{fig:self-energy}
+\end{figure}
 
 \section{Mott transition}
 
