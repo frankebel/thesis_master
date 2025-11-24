@@ -242,7 +242,7 @@ We define
     Q_1 = (\vec{q}_1^{(1)}, \vec{q}_1^{(2)}, \ldots, \vec{q}_1^{(p)})
 \end{equation}
 to be an $n\times p$ orthonormal block of starting vectors
-and $Q_0 = \mathbb{0}_{n\times q}$.
+and $Q_0 = \mathbb{0}_{n\times p}$.
 Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \begin{equation}
     Q_{j+1} B_j = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
@@ -307,7 +307,7 @@ non-vanishing singular values
         0             & 0
     \end{pmatrix},
 \end{equation}
-still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb{0}_{q\times q}$
+still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb{0}_{p\times p}$
 for $i \in \{1,\ldots,j-1\}$~\cite{Golub2013}.
 
 \section{Ground state}%
@@ -381,7 +381,7 @@ the first component of the inverse of our tridiagonal matrix $T$~\cite{Lu2014},
 \end{equation}
 This can be expanded to calculate block correlators where we apply multiple
 operators onto $\ket{\psi_0}$ simultaneously.
-Here, the subscript $K_{11}$ is meant as the first $q\times q$ block of the matrix $K$
+Here, the subscript $K_{11}$ is meant as the first $p\times p$ block of the matrix $K$
 \begin{equation}
     C^\pm_\omega
     =
@@ -503,7 +503,7 @@ might be violated numerically.
 We do not have this problem as all matrices $A_i$ and $B_i$ are hermitian,
 and thus $C_\omega$ is also hermitian\footnote{
     Due to floating-point arithmetic it can happen that hermiticity is violated for the least
-    significant digits. This is avoided by setting matrices to $K \to 1/2 (K + K^\dag)$.
+    significant digit. This is avoided by setting matrices to $K \to 1/2 (K + K^\dag)$.
 }.
 
 \subsection{Broadening}
