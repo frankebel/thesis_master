@@ -2,8 +2,11 @@
 
 \chapter{Results}
 
-In this chapter we show results for our DMFT solver.
-The calculations were done using Julia~\cite{Bezanson2017} version 1.11 and 1.12.
+In this chapter we show results for our DMFT solver
+on the Bethe lattice in infinite dimensions and at half-filling.
+We study the Mott metal-to-insulator transition
+by continuously varying the Coulomb interaction $U$.
+Calculations were done using Julia~\cite{Bezanson2017} version 1.11 and 1.12.
 The codebase is contained in two packages:
 \texttt{Fermions.jl}~\cite{Wallerberger2022} implements
 Hamiltonians, wave functions and their interplay.
@@ -59,7 +62,8 @@ we first need to find the ground state of our system.
 The hybridization function,
 is discretized on $N=101$ equidistant bath sites in the interval $[-D, D]$.
 Given the parameters $\{\epsilon_i, V_i\}$,
-we can create $H_\mathrm{bath}$ and $H_\mathrm{imp-bath}$ of \zcref{eq:H-Anderson}.
+we can create $H_\mathrm{bath}$ and $H_\mathrm{imp-bath}$ of
+\zcref{eq:H-Anderson-bath, eq:H-Anderson-impurity-bath}.
 For the impurity $H_\mathrm{imp}$ we then add a Coulomb interaction of $U=2D$ which fixes our
 on-site energy to $\epsilon-\mu=-D$ for half-filling.
 We can then iteratively find our ground state using the algorithm described in \zcref{sec:ground-state}.
@@ -208,8 +212,8 @@ while memory complexity scales as $\bigO{14^L N^p}$.
 For the following calculations we first define $N=301$ equidistant poles
 $\{\epsilon_i\}$ in the interval $[-4D, 4D]$
 and discretize the non-interacting hybridization function $\Delta_{0,\omega}$ on them.
-Poles outside $[-D, D]$ are discarded as they have zero weight.
-Thus, our non-interacting hybridization is made out of 75 poles.
+Poles outside $[-D, D]$ have zero weight.
+Thus, our non-interacting hybridization has 75 non-vanishing poles.
 We then repeat our DMFT loop until self-consistency is reached.
 As the self-energy pushes spectral weight to higher frequencies,
 poles which initially had zero weight obtain a finite value.
@@ -220,7 +224,7 @@ of our block correlator $C_\omega$ for a metallic solution $U/D=2$.
     \centering
     \input{graphics/tikz/correlators_metal.tex}
     \caption{
-        Components of the $2\times2$ block correlator $C(\omega)$ for
+        Components of the $2\times2$ block correlator $C_\omega$ for
         a Coulomb interaction of $U=2D$ (metallic solution).
         Peaks are broadened with a Gaussian kernel $\sigma/D=0.04$.
         At half-filling, the spectral part (imaginary part) of
@@ -255,7 +259,7 @@ for an insulating solution $U/D=4.0$.
     \centering
     \input{graphics/tikz/correlators_insulator.tex}
     \caption{
-        Components of the $2\times2$ block correlator $C(\omega)$ for
+        Components of the $2\times2$ block correlator $C_\omega$ for
         a Coulomb interaction of $U=4D$ (insulating solution).
         Peaks are broadened with a Gaussian kernel $\sigma=0.04D$.
         At half-filling, the spectral part (imaginary part) of
@@ -285,7 +289,7 @@ as shown in \zcref{fig:spectral-function} for $L=2$.
     \centering
     \input{graphics/tikz/spectra.tex}
     \caption{
-        DMFT impurity spectral function for the half-filled Bethe lattice.
+        DMFT impurity spectral function $A_\omega$ for the half-filled Bethe lattice.
         \subref{subfig:spectrum-U1.0},
         \subref{subfig:spectrum-U2.0},
         \subref{subfig:spectrum-U2.4}
@@ -309,7 +313,11 @@ Gaussian ($\sigma/D=0.04$),
 and logarithmic Gaussian ($b/D=0.6$)
 broadening.
 As we do not get our poles on a logarithmic grid,
-the latter had to be truncated at a rather large value to generate smooth spectra.
+the latter had to be truncated at a rather large value of $\omega/D=\num{5e-2}$
+to generate smooth spectra\footnote{
+    Therefore,
+    in the interval $\omega/D\in[-\num{5e-2}, \num{5e-2}]$ the spectrum is set to a constant value.
+}.
 At small interaction \zcref{subfig:spectrum-U1.0}
 we see the beginning of the Hubbard band formation.
 We see a small dip at the Fermi-energy,
@@ -331,7 +339,7 @@ As the imaginary part of the self-energy vanishes at the Fermi-energy
 for zero temperature~\cite{Hewson1993},
 any metallic spectral function must have the same value as the non-interacting one.
 This forces the pinning of the Kondo peak to a height of $\muppi D A(\omega=0) = 2.0$.
-We see that this is well fulfilled for the top two panels using Gaussian broa,
+We see that this is well fulfilled for the top two panels using Gaussian broadening,
 while in \zcref{subfig:spectrum-U2.4} this is slowly lost.
 In general, for the chosen parameters the Gaussian broadening shows all features
 well while the logarithmic broadening smears out too much at higher energies.
@@ -349,8 +357,6 @@ against the exact ones from \zcref{eq:spectrum-moments}.
     \caption{
         Difference $\Delta G^{(n)}$ of the $n$-th moment of the impurity Green's function $G$
         to the exact value.
-        The zeroth moment matches up to numerical precision $\bigO{\epsilon_\mathrm{MP}}$
-        while higher moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
     }%
     \label{tab:spectrum-moments}
     \centering
@@ -387,8 +393,7 @@ The zeroth moment matches up to numerical precision $\bigO{\epsilon_\mathrm{MP}}
 while higher moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
 This is in contrast to NRG~\cite{Bulla2008,Kugler2022} which only conserves the lowest order
 while higher ones are less accurate.
-As we both over- and underestimate the exact values,
-we assume that our error is of stochastic nature.
+We also see no inherent bias in the data as we both over- and underestimate the exact values.
 
 \section{Self-energy}
 
@@ -440,7 +445,7 @@ we plot the discrete locations and weights in \zcref{fig:self-energy-poles}.
     \centering
     \input{graphics/tikz/self-energy_poles.tex}
     \caption{
-        Discrete poles of the insulating self-energy at $U=4$.
+        Discrete poles of the insulating self-energy at $U/D=4$.
         The spectral density vanishes within a gap $\omega\in[-\Delta_g/2, \Delta_g/2]$
         with a singular pole located at $\omega=0$~\cite{Georges1996}.
     }%
@@ -470,8 +475,6 @@ from \zcref{eq:self-energy-moments}.
         Difference $\Delta \Sigma^{(n)}$ of the $n$-th moment of the self-energy $\Sigma$
         to the exact value.
         $\Sigma^\mH$ is the Hartree term.
-        The zeroth moment matches up to numerical precision $\bigO{\epsilon_\mathrm{MP}}$
-        while other moments differ around $\bigO{\sqrt{\epsilon_\mathrm{MP}}}$.
     }%
     \label{tab:self-energy-moments}
     \centering
@@ -510,7 +513,7 @@ Also, there seems to be no bias in over- or underestimating of values.
 As shown in the previous sections,
 depending on the interaction strength $U$ we can get a metallic or insulating solution.
 Here, we want to quantify this transition.
-If one starts with from a metallic solution,
+If one starts from a metallic solution,
 the transition to an insulator is of second order~\cite{Georges1996}.
 The ground state energy (which is lower for  a metal) smoothly approaches that of an insulator
 and coincides at the critical value $U_{c2}$.
@@ -527,7 +530,7 @@ For a non-interacting system ($U=0$) it is 0.25 and gets lower with increasing i
     \centering
     \input{graphics/tikz/double_occupation.tex}
     \caption{
-        Expectation of impurity double occupation $\expval{n_\uparrow n_\downarrow}$
+        Probability of impurity double occupation $\expval{n_\uparrow n_\downarrow}$
         on the ground state.
         The discretization of the hybridization function was varied between methods.
         \subref{subfig:double-occupation} Comparison against NRG data~\cite{Gauvin-Ndiaye2025}.
@@ -548,7 +551,7 @@ In the equal weight discretization,
 the weights $\{V_i\}$ are set to be equal~\cite{Lu2019}
 while pole locations vary between each DMFT step.
 We see that up until $U/D\approx2.5$ the double occupation is independent of the discretization.
-However, the value where it equals the insulating solution of NRG differs.
+However, the value $U$ where it equals the insulating solution of NRG differs.
 The logarithmic discretization becomes insulating at a value $U_{c2}/D\approx3.2$,
 while for the linear and equal weight discretization it is around $U_{c2}/D\approx3.3$.
 All of these values overshoot the NRG value of $U_{c2}/D=2.94$~\cite{Bulla1999}.
@@ -580,8 +583,10 @@ if one tries to calculate the quasiparticle weight it results in
     \approx
     0.
 \end{equation}
-Hence, we have to ignore small weights to get reasonable values.
-For this work use the condition $w_i>\num{3e-5}$ and show them in \zcref{fig:quasiparticle-weight}.
+Hence, we have to neglect poles with weights $<\num{3e-5}$
+in the calculation of \zcref{eq:quasiparticle-weight}.
+In \zcref{subfig:quasiparticle-weight} our quasiparticle weight is higher than the NRG data,
+similar to~\cite{Karski2005, Karski2008} where a D-DMRG solver was used.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/quasiparticle_weight.tex}
@@ -595,24 +600,24 @@ For this work use the condition $w_i>\num{3e-5}$ and show them in \zcref{fig:qua
     }%
     \label{fig:quasiparticle-weight}
 \end{figure}
-In \zcref{subfig:quasiparticle-weight} our quasiparticle weight is higher than the NRG data,
-similar to~\cite{Karski2005, Karski2008} where a D-DMRG solver was used.
 In \zcref{subfig:quasiparticle-weight-zoom} we look at the transition
-using the same discretization scheme as in the double occupation.
+using the same discretization schemes as in the double occupation.
 We see the same behavior as there with the logarithmic discretization becoming
 insulating first followed by the linear and equal weight discretization.
+
 In~\cite{Karski2005, Karski2008},
 measurement data in the interval $U/D\in[2.0,2.8]$
 was used to fit a quadratic function
 \begin{equation}
     f_Z(U) = a_1(U - U_{c2}) + a_2(U - U_{c2})^2.
 \end{equation}
-If we fit our data to this,
+If we fit our data using the same interval,
 we get the lines shown in \zcref{subfig:quasiparticle-weight-zoom}.
 Our logarithmic discretization now becomes metallic at $U_{c2}/D=3$
 closely followed by the linear discretization.
 The equal weight one becomes insulating at $U_{c2}/D=3.1$.
-We attribute this difference of the fit against the measured data points as discretization artifacts
+We attribute this difference of the fit against the measured data points in $U/D\in[2.8,3.4]$
+as discretization artifacts
 stemming from the fact that we do not have enough poles close to the Fermi-level
 in contrast to NRG\@.
 
