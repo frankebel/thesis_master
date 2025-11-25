@@ -1,0 +1,18 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    \begin{axis}[
+            width=0.6\textwidth,
+            xmin=-5.0,
+            xmax=5.0,
+            ymin=0,
+            xlabel=$\omega~(\unit{\eV})$,
+            ylabel={spectrum (\unit{\eV^{-1}})},
+            no marks,
+            every axis plot/.append style={
+                    thick,
+                },
+        ]
+        \addplot+ table [x=omega, y=spectrum] {data/spectrum_CeRu4Sn6.csv};
+    \end{axis}
+\end{tikzpicture}

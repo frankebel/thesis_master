@@ -622,6 +622,32 @@ as discretization artifacts
 stemming from the fact that we do not have enough poles close to the Fermi-level
 in contrast to NRG\@.
 
-\section{Comparison against \quanty}
-
 \section{\texorpdfstring{CeRu$_4$Sn$_6$}{CeRu4Sn6}}
+
+Here, we briefly test our code on the material
+CeRu$_4$Sn$_6$~\cite{Sundermann2015, Wissgott2016, Dobilas2025}.
+The Ce-$f$ orbital is in a partially filled state giving rise to strong electronic correlations.
+We crated a one-orbital Hubbard model with
+interaction strength $U=\qty{5.5}{\eV}$~\cite{Wissgott2016}.
+During the DMFT steps we used a Lorentzian broadening of $\delta=\qty{0.04}{\eV}$
+as the method of calcualting the self-energy using
+the Schur complement (\zcref{eq:self-energy-schur}) without broadening was not known yet.
+
+In \zcref{fig:spectral-function-CeRu4Sn6} we plot the resulting spectral function
+which has the classical three-peak structure with lower and upper Hubbard bands
+and a central Kondo peak.
+\begin{figure}[ht]
+    \centering
+    \input{graphics/tikz/spectrum_CeRu4Sn6.tex}
+    \caption{
+        DMFT impurity spectral function for the one-orbital model of CeRu$_4$Sn$_6$.
+    }%
+    \label{fig:spectral-function-CeRu4Sn6}
+\end{figure}
+As the system is not half-filled,
+the locations and structure of the Hubbard bands are not mirrors of each other.
+At zero temperature, the Kondo peak must be at the Fermi-level,
+which is the case for our calculation.
+However,
+due to the finite value of $\delta$, its height is much smaller than anticipated.
+This may be improved by using the method with zero broadening instead.
