@@ -167,7 +167,7 @@ In \zcref{subfig:perf-time-krylov},
 we fixed the number of bath sites to $N=161$.
 We see that the runtime is linear with the number of Krylov steps $M$.
 This is expected as our wave function representation stores determinants
-in the restricted part $\ket{\psi_\mathrm{II}}$ in a dense format.
+in the restricted part $\ket{\psi_\mII}$ in a dense format.
 As all possible states are already present in the first step,
 each subsequent Lanczos iteration takes the same amount of time
 resulting in a linear scaling.
@@ -199,6 +199,7 @@ by one increases the complexity by a factor of more than ten.
 A calculation of all possible states\footnote{
     The exact number depends on the values of $N$ and $p$ too.
     For the relevant regime the complexity by increasing $L$ by one unit varies between 12 and 14.
+    Full details are available in \zcref{app:number-slater-determinants}.
 }
 reveals a ratio of around 14 which is relatively close to the measured one.
 \zcref{subfig:perf-allocations-sites} shows the required memory for those calculations

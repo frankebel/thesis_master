@@ -107,7 +107,7 @@ Hopping between sites is again shown by lines.
     \caption{
         Anderson impurity model in the natural orbital basis and
         subsequent separation of the wave function into two components
-        $\ket{\psi_\mathrm{I}}$ and $\ket{\psi_\mathrm{II}}$ denoted by two boxes.
+        $\ket{\psi_\mI}$ and $\ket{\psi_\mII}$ denoted by two boxes.
     }%
     \label{fig:AIM-natural-impurity-orbitals}
 \end{figure}
@@ -116,23 +116,23 @@ This however, does not change the dimensionality of the Hilbert space.
 To alleviate the scaling problem we employ the restricted active space (RAS) method,
 which decomposes the wave function into two components
 \begin{equation}
-    \ket{\psi} = \ket{\psi_\mathrm{I}} \otimes \ket{\psi_\mathrm{II}}
+    \ket{\psi} = \ket{\psi_\mI} \otimes \ket{\psi_\mII}
 \end{equation}
 sketched in \zcref{fig:AIM-natural-impurity-orbitals}.
-For $\ket{\psi_\mathrm{I}}$ we take all possible states into account.
+For $\ket{\psi_\mI}$ we take all possible states into account.
 This is feasible because we fix the parameter $L$
 (the number of conduction and valence bath sites to be treated exactly)
 to be very small compared to the number of bath sites $L \ll n$.
 
-In $\ket{\psi_\mathrm{II}}$ which contains the remaining chain sites we neglect almost all
+In $\ket{\psi_\mII}$ which contains the remaining chain sites we neglect almost all
 possible electron configurations.
 In the simplest approximation (labeled $p=0$)
-we enforce that all valence sites in $\ket{\psi_\mathrm{II}}$
+we enforce that all valence sites in $\ket{\psi_\mII}$
 are fully filled (denoted by $\ket{\mathbb{1}_v}$) while
 conduction sites are completely empty (denoted by $\ket{\mathbb{0}_c}$).
 The wave function can thus be written as
 \begin{equation}
-    \ket{\psi_\mathrm{II}} = \ket{\mathbb{1}_v} \otimes \ket{\mathbb{0}_c}.
+    \ket{\psi_\mII} = \ket{\mathbb{1}_v} \otimes \ket{\mathbb{0}_c}.
 \end{equation}
 
 For $p=1$ we (additionally to $p=0$) allow one electron or one hole excitation.

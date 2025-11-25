@@ -163,3 +163,218 @@ while violating the first one.
 In practice,
 our interval is large enough such that poles where this occurs
 have weight of the order $\bigO{\epsilon_\mathrm{MP}}$ posing no practical issue.
+
+\section{Number of Slater determinants}%
+\label{app:number-slater-determinants}
+
+We derive an analytic expression which allows us to calculate the number of Slater determinants
+which constitute to our wave function for a set of given parameters.
+In the following we will use capital letters for the number of sites
+and lower case for their filling, e.g.,
+$n=10$ electrons distributed equally ($n_\uparrow = n_\downarrow = 5$)
+on $N=9$ bath sites would generate
+\begin{equation}
+    \binom{1+N}{n_\uparrow}\binom{1+N}{n_\downarrow}
+    =
+    \binom{10}{5}\binom{10}{5}
+    =
+    \num{63 504}
+\end{equation}
+states (we add one site for the impurity).
+As our Hamiltonian is SU(2) symmetric, % chktex 36
+we can look at the spin-up and spin-down blocks separately.
+
+For a choice $L$ we have $N_\mI = 2+2L$ sites to be treated exactly
+in $\ket{\psi_\mI}$
+(one impurity, one mirror site, and $L$ valence and conduction sites respectively).
+This sets the number of Slater determinants to
+\begin{equation}
+    \binom{N_\mI}{n_{\mI\uparrow}}
+    \binom{N_\mI}{n_{\mI\downarrow}}.
+    \label{eq:dets-I-p0}
+\end{equation}
+This leaves $N_\mII = N-1-2L$ sites inside the remaining chains $\ket{\psi_\mII}$.
+For $p=0$ these partial chains are fully filled and fully empty respectively,
+limiting our partial wave function to
+\begin{equation*}
+    \ket{\psi_\mII} = \ket{\mathbb{1}_v} \otimes \ket{\mathbb{0}_c}.
+\end{equation*}
+This constitutes one Slater determinant written as
+\begin{equation}
+    \binom{N_\mII}{n_{\mII v\uparrow}}
+    \binom{N_\mII}{n_{\mII c\uparrow}}
+    \binom{N_\mII}{n_{\mII v\downarrow}}
+    \binom{N_\mII}{n_{\mII c\downarrow}}
+    =
+    \binom{N_\mII}{N_\mII}
+    \binom{N_\mII}{0}
+    \binom{N_\mII}{N_\mII}
+    \binom{N_\mII}{0}
+    =
+    1.
+    \label{eq:dets-II-p0}
+\end{equation}
+For the total number of states we then multiply \zcref{eq:dets-I-p0, eq:dets-II-p0} together,
+\begin{equation}
+    N_{p=0}
+    =
+    \binom{N_\mI}{n_{\mI\uparrow}}
+    \binom{N_\mI}{n_{\mI\downarrow}}.
+\end{equation}
+
+By setting $p=1$, we generate additional states
+\begin{alignat}{7}
+    N_{p=1}
+                                       & =
+    \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{1}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0} \label{eq:p1-e-1}      \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{1} \label{eq:p1-e-2}      \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0} \label{eq:p1-h-1}      \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{0}. \label{eq:p1-h-2}
+\end{alignat}
+for one electron (\zcref{eq:p1-e-1, eq:p1-e-2})
+or  hole (\zcref{eq:p1-h-1, eq:p1-h-2}) excitation.
+Here, the first three binomial coefficients in each term count the number of spin-up electrons
+in the sectors $N_{\mI\uparrow}$, $N_{\mII v \uparrow}$, $N_{\mII, c \uparrow}$
+and the last three the number of spin-down electrons in
+$N_{\mI\downarrow}$, $N_{\mII v \downarrow}$, $N_{\mII, c \downarrow}$.
+
+For $p=2$ we generate
+\begin{alignat}{7}
+    N_{p=2}
+                                       & =
+    \binom{N_\mI}{n_{\mI\uparrow}-2}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{2}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0} \label{eq:p2-ee-1}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}-2} &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{2} \label{eq:p2-ee-2}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{1}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{1} \label{eq:p2-ee-3}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{1}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0} \label{eq:p2-eh-1}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{1} \label{eq:p2-eh-2}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{1} \label{eq:p2-eh-3}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{1}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{0} \label{eq:p2-eh-4}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}+2}   &   &
+    \binom{N_\mII}{N_\mII-2}           &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0} \label{eq:p2-hh-1}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+    \binom{N_\mII}{N_\mII}             &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}+2} &   &
+    \binom{N_\mII}{N_\mII-2}           &   &
+    \binom{N_\mII}{0} \label{eq:p2-hh-2}     \\
+                                       & +
+    \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{0}                  &   &
+    \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
+    \binom{N_\mII}{N_\mII-1}           &   &
+    \binom{N_\mII}{0}. \label{eq:p2-hh-3}
+\end{alignat}
+accounting for
+electron-electron (\zcref{eq:p2-ee-1, eq:p2-ee-2, eq:p2-ee-3}),
+electron-hole (\zcref{eq:p2-eh-1, eq:p2-eh-2, eq:p2-eh-3, eq:p2-eh-4,}),
+and hole-hole (\zcref{eq:p2-hh-1, eq:p2-hh-2, eq:p2-hh-3})
+excitations.
+This scheme can be continued to higher order $p\ge3$ (not done here).
+
+For our calculations which use $N=301$ bath sites,
+we list the number of Slater determinants in \zcref{tab:number-slater-determinants}.
+\begin{table}[ht]
+    \caption{
+        Number of Slater determinants for $N=301$ bath sites and choice $L$, $p$.
+        The half-filled block is used to calculate the ground state;
+        The space with one particle more/less is used to obtain correlators.
+    }%
+    \label{tab:number-slater-determinants}
+    \centering
+    \pgfplotstabletypeset[
+        columns/L/.style={
+                column name=$L$,
+            },
+        columns/p/.style={
+                column name=$p$,
+            },
+        columns/HF/.style={
+                column name=half-filled,
+                fixed,
+                1000 sep={\,},
+                dec sep align,
+            },
+        columns/HFp1/.style={
+                column name=half-filled $\pm1$ particle,
+                fixed,
+                1000 sep={\,},
+                dec sep align,
+            },
+    ]
+    {data/number_determinants.csv}
+\end{table}
+Due to symmetry, the Hilbert space with one particle more has the same dimension
+as the one with one particle less.
+We observe that an increase of $L$ by one unit increases the number of determinants by a
+factor of $\numrange{12}{14}$ as mentioned in the main work.
