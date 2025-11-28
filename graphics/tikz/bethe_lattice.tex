@@ -6,7 +6,7 @@
         site/.style={
                 circle,
                 inner sep=0pt,
-                minimum size=4pt,
+                minimum size=8pt,
                 draw=black,
                 fill=#1,
             },
@@ -17,10 +17,10 @@
     \node [site=black] (s0) {} % root
     child [grow=0] % right
         {
-            node [site=blue] (s1) {}
+            node [site=red] (s1) {}
             child [grow=45]
                 {
-                    node [site=red] {}
+                    node [site=blue] {}
                     child [grow=15]
                         {
                             node [site=teal] {}
@@ -32,7 +32,7 @@
                 }
             child [grow=-45]
                 {
-                    node [site=red] {}
+                    node [site=blue] {}
                     child [grow=-15]
                         {
                             node [site=teal] {}
@@ -45,10 +45,10 @@
         }
     child [grow=120] % top left
         {
-            node [site=blue] {}
+            node [site=red] {}
             child [grow=75]
                 {
-                    node [site=red] {}
+                    node [site=blue] {}
                     child [grow=45]
                         {
                             node [site=teal] {}
@@ -60,7 +60,7 @@
                 }
             child [grow=165]
                 {
-                    node [site=red] {}
+                    node [site=blue] {}
                     child [grow=135]
                         {
                             node [site=teal] {}
@@ -73,10 +73,10 @@
         }
     child [grow=240] % bottom right
         {
-            node [site=blue] {}
+            node [site=red] {}
             child [grow=195]
                 {
-                    node [site=red] {}
+                    node [site=blue] {}
                     child [grow=165]
                         {
                             node [site=teal] {}
@@ -88,7 +88,7 @@
                 }
             child [grow=285]
                 {
-                    node [site=red] {}
+                    node [site=blue] {}
                     child [grow=255]
                         {
                             node [site=teal] {}

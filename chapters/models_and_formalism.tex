@@ -25,8 +25,30 @@ It is an infinite graph where each vertex is connected to $z$ neighbors\footnote
 }.
 A sketch for $z=3$ is given in \zcref{subfig:bethe-lattice}:
 We choose the black vertex in the center as the root node.
-It is connected to three nodes (marked in blue) which in turn are also connected
-to three nodes (each blue node is connected to the original black node and two red nodes).
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \input{graphics/tikz/bethe_lattice.tex}
+        \caption{}%
+        \label{subfig:bethe-lattice}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \input{graphics/tikz/bethe_density.tex}
+        \caption{}%
+        \label{subfig:bethe-density}
+    \end{subfigure}
+    \caption{
+        \subref{subfig:bethe-lattice}
+        Bethe lattice with coordination number $z=3$ and hopping amplitude $t^*$.
+        \subref{subfig:bethe-density}
+        Density of states for different connectivities $z$ with hopping set to unity $t=1$.
+        (adapted from~\cite{Wallerberger2016})
+    }
+\end{figure}
+It is connected to three nodes (marked in red) which in turn are also connected
+to three nodes (each red node is connected to the original black node and two blue nodes).
 This scheme is then infinitely repeated for each site.
 
 We can then model electron movement as hopping from a given site to
@@ -57,31 +79,9 @@ We can define the bandwidth $W=4t$ as the difference between the highest and low
 where this expression vanishes.
 This relation can be rewritten by using the half-bandwidth $D = W/2 = 2t$ instead:
 \begin{equation}
-    \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{D^2 - \omega^2}
+    \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{D^2 - \omega^2}.
     \label{eq:dos-semicircle}
 \end{equation}
-\begin{figure}[ht]
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \input{graphics/tikz/bethe_lattice.tex}
-        \caption{}%
-        \label{subfig:bethe-lattice}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \input{graphics/tikz/bethe_density.tex}
-        \caption{}%
-        \label{subfig:bethe-density}
-    \end{subfigure}
-    \caption{
-        \subref{subfig:bethe-lattice}
-        Bethe lattice with coordination number $z=3$ and hopping amplitude $t^*$.
-        \subref{subfig:bethe-density}
-        DOS for different connectivities $z$ with hopping set to unity $t=1$.
-        (adapted from~\cite{Wallerberger2016})
-    }
-\end{figure}
 
 \section{Hubbard model}%
 \label{sec:hubbard-model}
@@ -167,7 +167,7 @@ Finally, the interaction between impurity and bath is given by the hybridization
     H_\mathrm{imp - bath}
     =
     \sum_{k\sigma} V^{\ps}_k d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
-    + V_k^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma}
+    + V_k^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma}.
     \label{eq:H-Anderson-impurity-bath}
 \end{equation}
 A graphical representation of the Hamiltonian in \zcref{eq:H-Anderson} is given
@@ -424,7 +424,6 @@ The quantity that connects these between an interacting and non-interacting syst
 is the so-called \emph{self-energy} defined by the Dyson equation\footnote{
     This relation can be motivated by Feynman diagrams.
 }~\cite{Economou2006}
-\fe{footnote or citation first?}
 \begin{equation}
     \Sigma_\omega = (G_{0, \omega})^{-1} - (G_\omega)^{-1}.
     \label{eq:Dyson}
