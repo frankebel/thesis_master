@@ -83,8 +83,11 @@ Taking the limit gives
 \section{DMFT simplification}%
 \label{app:dmft-simplification}
 
+We show how the calculation of the (local) lattice Green's function
+can be skipped in infinite dimensions.
+Instead, the hybridization function is directly obtained from a given self-energy.
 To emphasize function arguments,
-in this section we will forego the compact notation with parameters as subscripts
+we will forego the compact notation with parameters as subscripts
 and write them in brackets instead,
 e.g., $G_\omega \to G(\omega)$.
 
@@ -138,13 +141,16 @@ Comparing the last two lines, we can immediately deduce
 \section{Shifting of poles}%
 \label{app:shifting-of-poles}
 
-Given a pole
+We want to set arbitrary poles onto an initially defined grid while
+conserving the zeroth and first moment locally.
+A single pole can be written as
 \begin{equation}
     \frac{w}{\omega + \mi0^+ - \epsilon},
 \end{equation}
-we want to put it onto our grid $\{\epsilon_i\}$.
-For this, we find the closet pole location such that $\epsilon_i < \epsilon < \epsilon_{i+1}$.
-We then want to merge our single pole conserving the zeroth and first moment locally
+with location $\epsilon\notin\{\epsilon_i\}$ not being part of our sorted list of grid points.
+To merge the point,
+we find the closest pole location such that $\epsilon_i < \epsilon < \epsilon_{i+1}$.
+Conserving the moments enforces
 \begin{align}
     w         & = w_i + w_{i+1},                         \\
     w\epsilon & = w_i\epsilon_i + w_{i+1}\epsilon_{i+1}.

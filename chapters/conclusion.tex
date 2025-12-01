@@ -7,9 +7,9 @@ In this thesis we developed a DMFT impurity solver which works on the real axis 
 By utilizing a smart choice of basis (natural impurity orbitals)
 and restricted active space (RAS) approach,
 we successfully transform our problem from an exponentially scaling one $\bigO{4^N}$
-to a polynomial one $\bigO{N^p}$ with $p$ a tradeoff between speed and accuracy.
-This allows us to couple the impurity to hundreds of bath sites,
-which was previously the limiting factor in exact diagonalization (ED).
+to a polynomial one $\bigO{N^p}$ where $p$ varies depending on the desired accuracy.
+While previously a few number of bath sites was the limiting factor for ED,
+this approach allows us to couple the impurity to hundreds of bath sites.
 To calculate the self-energy, we use the \emph{symmetric improved estimator}~\cite{Kugler2022}
 without any broadening using the Schur complement.
 
@@ -30,21 +30,23 @@ show excellent agreement against analytical results.
 
 The solver was then briefly tested on a one-orbital model of CeRu$_4$Sn$_6$.
 As a finite broadening was used, the height of the Kondo peak was smaller than anticipated.
-It may be possible to improve this calculation by using no broadening instead.
+It may be possible to improve this calculation by using the approach based on the Schur complement.
 
 There are multiple directions to improve and enhance the current code base:
 First,
-it was not possible to find a metastable insulting solution.
+it was not possible to find a metastable insulating solution.
 A variety of approaches were unsuccessfully tested: mixing of the self-energy between steps
 with a parameter $\alpha$ as low as \num{0.01};
 using a Hubbard-III approximation for the initial hybridization function;
 starting with an insulating self-energy with all weight concentrated at a single pole
 at the Fermi-level.
+
 Second, multithreading performance can be improved.
 Currently, using lots of cores improves the speed-up by a factor of less than two.
-If one applies the Hamiltonian onto a wave function, hopping elements
-will mix Slater determinants such that two different ones end up in the same state,
+Applying the Hamiltonian onto a wave function will linearly combine Slater determinants
 leading to memory conflict.
+Here, one must find a performant algorithm without race conditions.
+
 Last, for realistic material calculations one needs to expand the code to multi-orbital systems.
 As this will further increase computational complexity,
 optimizations mentioned in the previous step should be done first.

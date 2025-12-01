@@ -10,7 +10,9 @@ the Mott metal-to-insulator transition~\cite{Belitz1994, Imada1998},
 and many more~\cite{Martin2016}.
 A popular method to study these materials is dynamical mean-field theory
 (DMFT)~\cite{Metzner1989, Georges1996, Held2007}
-which maps the system to that of an impurity coupled to a non-interacting bath.
+which maps a system of interacting electrons on a lattice
+to a system where electronic interactions are only present at an impurity
+that is coupled to a non-interacting bath.
 Many approaches exist to solve this model,
 including quantum Monte Carlo (QMC)~\cite{Hirsch1986, Gull2011, Wallerberger2016, Wallerberger2019},
 Wilson's numerical renormalization group (NRG)~\cite{Wilson1975, Bulla1998, Bulla1999, Bulla2008},
@@ -19,8 +21,8 @@ with advantages and disadvantages between all of them.
 A strong argument for QMC is the fact that it can easily be extended to
 impurities containing multiple orbitals which is often necessary to describe realistic materials.
 However, the problem is that sampling is done on the imaginary axis which requires
-an ill-conditioned inversion~\cite{Jarrell1996, Beach2000, Kaufmann2023}
-to obtain real frequency data.
+analytic continuation to obtain real frequency data,
+which is an ill-conditioned inversion~\cite{Jarrell1996, Beach2000, Kaufmann2023}.
 In contrast, NRG --- which is designed for impurity problems ---
 gives quantities on the real axis,
 has excellent agreement for small frequencies
@@ -47,12 +49,11 @@ We start by introducing the Bethe lattice and the limit of infinite dimensions.
 Afterward we create model Hamiltonians to describe interacting electrons,
 introduce the Green's function formalism and the self-energy.
 Finally, we explain DMFT and
-arrive at a set of equations which need be solved self-consistently.
+arrive at a set of equations which need to be solved self-consistently.
 In \zcref{ch:numerical-methods} we describe the numerical methods used to develop our code.
 We explain the natural impurity orbitals~\cite{Lu2014, Lu2019} and RAS allowing us to
 solve our system in polynomial instead of exponential time.
 This is followed by the introduction of the Lanczos algorithm and representation of complex
 functions as a sum of discrete poles.
 \zcref{ch:results} focuses on the results of our work.
-Only here we introduce some broadening to plot smooth spectra.
 Finally, we summarize and discuss possible enhancements in \zcref{ch:conclusion}.
