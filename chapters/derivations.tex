@@ -115,7 +115,7 @@ Brillouin zone
 We then map this lattice problem onto our impurity Green's function $G(\omega)$.
 Without a Coulomb interaction on the lattice this requires
 \begin{align}
-    [G_0(\omega)]^{-1}
+    [\mathcal{G}_0(\omega)]^{-1}
      & =
     [G_{\mloc,0}(\omega)]^{-1} \\
      & =
@@ -123,7 +123,7 @@ Without a Coulomb interaction on the lattice this requires
 \end{align}
 whereas in the interacting case it can be written as
 \begin{align}
-    [G_0(\omega)]^{-1}
+    [\mathcal{G}_0(\omega)]^{-1}
      & =
     [G_{\mloc}(\omega)]^{-1} + \Sigma(\omega)                                          \\
      & =
@@ -232,37 +232,39 @@ For the total number of states we then multiply \zcref{eq:dets-I-p0, eq:dets-II-
 \end{equation}
 
 By setting $p=1$, we generate additional states
-\begin{alignat}{7}
-    N_{p=1}
-                                       & =
-    \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{1}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0} \label{eq:p1-e-1}  \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{1} \label{eq:p1-e-2}  \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{0}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0} \label{eq:p1-h-1}  \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{0}. \label{eq:p1-h-2}
-\end{alignat}
+\begin{subequations}
+    \begin{alignat}{7}
+        N_{p=1}
+                                           & =
+        \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{1}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0} \label{eq:p1-e-1}  \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{1} \label{eq:p1-e-2}  \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{0}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0} \label{eq:p1-h-1}  \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{0} \label{eq:p1-h-2}
+    \end{alignat}%
+\end{subequations}
 for one electron (\zcref{eq:p1-e-1, eq:p1-e-2})
 or  hole (\zcref{eq:p1-h-1, eq:p1-h-2}) excitation.
 Here, the first three binomial coefficients in each term count the number of spin-up electrons
@@ -271,79 +273,81 @@ and the last three the number of spin-down electrons in
 $N_{\mI\downarrow}$, $N_{\mII v \downarrow}$, $N_{\mII c \downarrow}$.
 
 For $p=2$ we generate
-\begin{alignat}{7}
-    N_{p=2}
-                                       & =
-    \binom{N_\mI}{n_{\mI\uparrow}-2}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{2}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0} \label{eq:p2-ee-1} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}-2} &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{2} \label{eq:p2-ee-2} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{1}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{1} \label{eq:p2-ee-3} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{1}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0} \label{eq:p2-eh-1} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
-    \binom{N_{{\mII c} v}}{N_{\mII v}} &   &
-    \binom{N_\mII}{0}                  &   &
-    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{1} \label{eq:p2-eh-2} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{0}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{1} \label{eq:p2-eh-3} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{1}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{0} \label{eq:p2-eh-4} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}+2}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}-2}   &   &
-    \binom{N_{{\mII c} v}}{0}          &   &
-    \binom{N_\mI}{n_{\mI\downarrow}}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0} \label{eq:p2-hh-1} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}}     &   &
-    \binom{N_{\mII v}}{N_{\mII v}}     &   &
-    \binom{N_{\mII c}}{0}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}+2} &   &
-    \binom{N_{\mII v}}{N_{\mII v}-2}   &   &
-    \binom{N_{\mII c}}{0} \label{eq:p2-hh-2} \\
-                                       & +
-    \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{0}              &   &
-    \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
-    \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
-    \binom{N_{\mII c}}{0}. \label{eq:p2-hh-3}
-\end{alignat}
+\begin{subequations}
+    \begin{alignat}{7}
+        N_{p=2}
+                                           & =
+        \binom{N_\mI}{n_{\mI\uparrow}-2}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{2}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0} \label{eq:p2-ee-1} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}-2} &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{2} \label{eq:p2-ee-2} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{1}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{1} \label{eq:p2-ee-3} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{1}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0} \label{eq:p2-eh-1} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+        \binom{N_{{\mII c} v}}{N_{\mII v}} &   &
+        \binom{N_\mII}{0}                  &   &
+        \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{1} \label{eq:p2-eh-2} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{0}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}-1} &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{1} \label{eq:p2-eh-3} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}-1}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{1}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{0} \label{eq:p2-eh-4} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}+2}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}-2}   &   &
+        \binom{N_{{\mII c} v}}{0}          &   &
+        \binom{N_\mI}{n_{\mI\downarrow}}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0} \label{eq:p2-hh-1} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}}     &   &
+        \binom{N_{\mII v}}{N_{\mII v}}     &   &
+        \binom{N_{\mII c}}{0}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}+2} &   &
+        \binom{N_{\mII v}}{N_{\mII v}-2}   &   &
+        \binom{N_{\mII c}}{0} \label{eq:p2-hh-2} \\
+                                           & +
+        \binom{N_\mI}{n_{\mI\uparrow}+1}   &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{0}              &   &
+        \binom{N_\mI}{n_{\mI\downarrow}+1} &   &
+        \binom{N_{\mII v}}{N_{\mII v}-1}   &   &
+        \binom{N_{\mII c}}{0}. \label{eq:p2-hh-3}
+    \end{alignat}%
+\end{subequations}
 accounting for
 electron-electron (\zcref{eq:p2-ee-1, eq:p2-ee-2, eq:p2-ee-3}),
 electron-hole (\zcref{eq:p2-eh-1, eq:p2-eh-2, eq:p2-eh-3, eq:p2-eh-4,}),

@@ -41,10 +41,10 @@ We choose the black vertex in the center as the root node.
     \end{subfigure}
     \caption{
         \subref{subfig:bethe-lattice}
-        Bethe lattice with coordination number $z=3$ and hopping amplitude $t^*$.
+        Bethe lattice with coordination number $z=3$ and hopping amplitude $t$.
         \subref{subfig:bethe-density}
-        Density of states for different connectivities $z$ with hopping set to unity $t=1$.
-        (adapted from~\cite{Wallerberger2016})
+        Density of states for different connectivities $z$ with hopping set to unity $t^*=1$
+        (adapted from~\cite{Wallerberger2016}).
     }
 \end{figure}
 It is connected to three nodes (marked in red) which in turn are also connected
@@ -54,13 +54,13 @@ This scheme is then infinitely repeated for each site.
 We can then model electron movement as hopping from a given site to
 one of the $z$ neighbors.
 If we assume that hopping to each nearest neighbor is equally likely and assign it the probability $p^*$,
-the total probability of movement is $p = zp^*$.
+the total probability of movement is $zp^*$.
 In the limit of infinite connectivity $z\to\infty$ (infinite dimensions) this will diverge,
 necessitating a renormalization.
-Thus, the probability is rescaled as $p^* \to p^*/z$ such that
-the total probability $p$ stays finite.
+Thus, the rescaled probability is set to $p = p^*/z$ such that
+the total probability $zp$ stays finite.
 Instead of working with a hopping probability,
-we instead introduce the hopping amplitude $t^* = t/\sqrt{z}$~\cite{Held2007}.
+we instead introduce the hopping amplitude $t = t^*/\sqrt{z}$~\cite{Held2007}.
 Such a hopping process between neighboring sites is sketched in \zcref{subfig:bethe-lattice}.
 
 For the Bethe lattice, the density of states\footnote{
@@ -72,12 +72,12 @@ For the Bethe lattice, the density of states\footnote{
 }
 (DOS) for $z\to\infty$ reads~\cite{Eckstein2005}
 \begin{equation}
-    \rho(\omega) = \frac{1}{2\muppi t^2} \sqrt{4t^2 - \omega^2}
+    \rho(\omega) = \frac{1}{2\muppi {t^*}^2} \sqrt{4{t^*}^2 - \omega^2}
 \end{equation}
 which is shown in \zcref{subfig:bethe-density}.
-We can define the bandwidth $W=4t$ as the difference between the highest and lowest frequency
+We can define the bandwidth $W=4t^*$ as the difference between the highest and lowest frequency
 where this expression vanishes.
-This relation can be rewritten by using the half-bandwidth $D = W/2 = 2t$ instead:
+This relation can be rewritten by using the half-bandwidth $D = W/2$ instead:
 \begin{equation}
     \rho(\omega) = \frac{2}{\muppi D^2} \sqrt{D^2 - \omega^2}.
     \label{eq:dos-semicircle}
@@ -87,7 +87,9 @@ This relation can be rewritten by using the half-bandwidth $D = W/2 = 2t$ instea
 \label{sec:hubbard-model}
 
 Although we do not explicitly calculate properties of the system through the
-Hubbard model~\cite{Hubbard1997},
+Hubbard model directly\footnote{
+    We only obtain quantities in the DMFT approximation which is exact for infinite dimensions.
+}~\cite{Hubbard1997},
 we nevertheless want to mention it briefly due to its importance in DMFT\@.
 Denoting the electron creation operator of site $i$ and spin $\sigma\in\{\uparrow,\downarrow\}$
 as $d^\dag_{i\sigma}$ and respective annihilator as $d_{i\sigma}$ its Hamiltonian\footnote{
@@ -113,7 +115,7 @@ with a sketch given in \zcref{fig:hubbard-model}.
     \input{graphics/tikz/hubbard_2d.tex}
     \caption{
         Hubbard model for a 2D square lattice.
-        $t$ denotes hopping between neighboring sites
+        The hopping amplitude between neighboring sites is given by $t$
         and $U$ describes the Coulomb repulsion on a doubly occupied site.
     }%
     \label{fig:hubbard-model}
@@ -155,7 +157,7 @@ using the occupation operator $n_\sigma = d^\dag_\sigma d^{\pdag}_\sigma$
     H_\mathrm{int}     & = U n_\uparrow n_\downarrow,
     \label{eq:H-Anderson-interaction}
 \end{align}
-which has overlapping terms with \zcref{eq:H-Hubbard}.
+which has the same structure as \zcref{eq:H-Hubbard} but only for a single site.
 For the bath we define the annihilator $b_{k\sigma}$ and energy $\epsilon_k$,
 allowing us to write
 \begin{equation}
@@ -181,9 +183,9 @@ and electrons from each bath site can hop in and out of the impurity.
         Sketch of an Anderson impurity model.
         Impurity (square) interacting with bath sites (circles).
         Site occupation is indicated by fill level,
-        where a full site corresponds to double occupation.
-        Furthermore, hopping between the impurity and bath sites is shown by lines.
-        (adapted from~\cite{Lu2019})
+        where a full site corresponds to one double occupation.
+        Furthermore, hopping between the impurity and bath sites is shown by lines
+        (adapted from~\cite{Lu2019}).
     }%
     \label{fig:AIM-geometry-star}
 \end{figure}
@@ -217,14 +219,15 @@ the time evolution of the annihilation operator is given as
 $d_{i\sigma}(t) = \me^{\mi H t} d_{i\sigma} \me^{-\mi H t}$.
 At zero temperature $T=0$, the expectation value is evaluated with respect to the ground state
 $\expval{\,\cdot\,} = \sandwich{\psi_0}{\,\cdot\,}{\psi_0}$ only.
-This function consists of two terms which can be interpreted as
+Because of the anticommutator,
+this function consists of two terms which can be interpreted as
 the propagation of a particle or hole respectively,
 e.g., at time $0$ a particle is added at site $i$ with spin $\sigma$ to the ground state.
 The system then evolves as dictated by the Hamiltonian.
 At a later time $t$ the particle is removed from the same site and
 the resulting state is then projected onto the initial state.
-The Green's function can therefore be interpreted as the probability amplitude
-of a particle returning to its origin at time $t$~\cite{Economou2006}.
+The local Green's function (for equal sites $i$) can therefore be interpreted as
+the probability amplitude of a particle returning to its origin at time $t$~\cite{Economou2006}.
 
 This method can be generalized for two arbitrary fermionic operators $A, B$ defining
 a \emph{correlation function} or just \emph{correlator}
@@ -245,7 +248,7 @@ we will denote the Fourier transform\footnote{
     Using different approaches for $\omega\gtrless0$ gives rise to the so-called
     causal and anti-causal correlator.
 }
-as
+of \zcref{eq:correlator-time} as
 \begin{equation}
     C_\omega
     \coloneq
@@ -260,7 +263,8 @@ $C(\omega) \to C_\omega$ to keep notation compact.
 As \zcref{eq:correlator-time} contains two terms (from the anticommutator)
 and the Fourier transform is linear,
 $C_\omega = C^+_\omega + C^-_\omega$ can be combined from
-partial correlators with poles on the positive and negative real axis respectively.
+partial correlators with poles on the positive and negative real axis,
+respectively.
 Given the ground state energy $E_0$,
 they are written as
 \begin{subequations}
@@ -271,8 +275,8 @@ they are written as
         C^-_\omega
          & =
         \expval*{B \frac{1}{\omega + \mi0^+ + (H - E_0)} A}.
-    \end{align}
-    \label{eq:correlator-frequency} % chktex 24
+    \end{align}%
+    \label{eq:correlator-frequency}% chktex 24
 \end{subequations}
 A detailed derivation is available in \zcref{app:fourier-transform}.
 As we are only interested in energies relative to the ground state,
@@ -294,11 +298,11 @@ in the so-called \emph{Lehmann representation}
          & =
         \sum_n
         \frac{\sandwich{\psi_0}{B}{n}\sandwich{n}{A}{\psi_0}}{\omega + \mi0^+ - E_n}.
-    \end{align}
-    \label{eq:lehmann} % chktex 24
+    \end{align}%
+    \label{eq:lehmann}% chktex 24
 \end{subequations}
 We define \emph{diagonal correlators} as those where $A=B^\dag$, e.g.,
-our Green's function.
+our local Green's function.
 For these,
 the numerators of \zcref{eq:lehmann} simplify to positive real values
 \begin{subequations}
@@ -309,9 +313,8 @@ the numerators of \zcref{eq:lehmann} simplify to positive real values
         \sandwich{\psi_0}{B}{n}\sandwich{n}{A}{\psi_0}
          & =
         |\sandwich{n}{A}{\psi_0}|^2.
-    \end{align}
+    \end{align}%
 \end{subequations}
-
 
 \subsection{Spectral function}
 
@@ -330,7 +333,7 @@ Taking the latter and rescaling it allows us to define the spectral function
 \begin{equation}
     A_\omega \coloneq -\frac{1}{\muppi}\Im G_\omega,
 \end{equation}
-which is generalized to the \emph{spectral part} of $C$
+which can be generalized to the \emph{spectral part} of $C$
 \begin{equation}
     A_\omega \coloneq -\frac{1}{\muppi}\Im C_\omega.
     \label{eq:spectral-part}
@@ -350,7 +353,7 @@ but related by Kramers-Kronig transformations (Hilbert transform)~\cite{Economou
         \phantom{-} \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
         \frac{\Re C_{\omega'}}{\omega - \omega'},
         \label{eq:kramers-kronig-imag}
-    \end{align}
+    \end{align}%
 \end{subequations}
 with $\mathcal{P}$ denoting the Cauchy principal value integral.
 Thus, using our non-interacting density of the Bethe lattice (\zcref{eq:dos-semicircle})
@@ -363,12 +366,12 @@ This allows us to create a non-interacting Green's function~\cite{Economou2006}
     =
     \frac{2}{D^2} \left(\omega - \sgn(\omega) \sqrt{\omega^2 - D^2}\right),
 \end{equation}
-shown in \zcref{fig:bethe-greens-function}.
+which is shown in \zcref{fig:bethe-greens-function}.
 The signum function at zero is defined as $\sgn(0^\pm) = \pm 1$.
 As the complex square root has a branch cut,
 the imaginary part is taken to be positive.
 
-Due to the self-similarity of the Bethe lattice,
+For the Bethe lattice,
 its hybridization function is just a rescaled Green's function~\cite{Georges1996}
 \begin{equation}
     \Delta_\omega = \frac{D^2}{4} G_\omega.
@@ -387,7 +390,7 @@ The moments of a correlator~\cite{Lu2014,Kugler2022,Potthoff1997} are defined as
     \int_{-\infty}^\infty\! \md\omega\> \omega^n A_\omega,
     \label{eq:moments}
 \end{equation}
-allowing us to write a high-frequency expansion~\cite{Potthoff1997}
+allowing us to write $C_\omega$ in a high-frequency expansion~\cite{Potthoff1997}
 \begin{equation}
     C_\omega = \sum_{n=0}^\infty \frac{C^{(n)}}{\omega^{n+1}}.
     \label{eq:expansion-correlator}
@@ -410,7 +413,7 @@ the first four moments of the Green's function are~\cite{Potthoff1997}
         G^{(2)} & = \frac{U^2}{4} + \frac{D^2}{4}, \\
         G^{(3)} & = 0.
     \end{align}%
-    \label{eq:spectrum-moments}
+    \label{eq:spectrum-moments}%
 \end{subequations}
 Due to symmetry $A_{-\omega} = A_\omega$ for the half-filled spectrum,
 all odd moments vanish.
@@ -430,7 +433,7 @@ is the so-called \emph{self-energy} defined by the Dyson equation\footnote{
 \end{equation}
 
 We can define the moments of the self-energy in the same way as correlators in \zcref{sec:moments},
-allowing us to write down a high-energy expansion~\cite{Potthoff1997}
+to write down a high-energy expansion~\cite{Potthoff1997}
 \begin{equation}
     \Sigma_\omega = \sum_{n=-1}^\infty \frac{\Sigma^{(n)}}{\omega^{n+1}}.
 \end{equation}
@@ -444,7 +447,7 @@ The analytic moments for half-filling are~\cite{Potthoff1997}
         \Sigma^{(0)} & = \frac{U^4}{4}, \\
         \Sigma^{(1)} & = 0,
     \end{align}%
-    \label{eq:self-energy-moments}
+    \label{eq:self-energy-moments}%
 \end{subequations}
 with every odd moment vanishing.
 
@@ -458,8 +461,8 @@ catastrophic cancellation if the difference becomes very small\footnote{
 }.
 To mitigate this,
 \citeauthor{Bulla1998}~\cite{Bulla1998} calculated the self-energy using a quotient of two correlators.
-In this work we go a step further by using the symmetric improved estimator
-$\Sigma^\mIFG_\omega$ by \citeauthor{Kugler2022}~\cite{Kugler2022}
+In this work we go a step further by using the symmetric improved estimator~\cite{Kaufmann2019}
+introduced by \citeauthor{Kugler2022}~\cite{Kugler2022}
 which will be summarized in the following.
 We introduce the auxiliary operator
 \begin{equation}
@@ -502,7 +505,7 @@ and obtain four correlation functions
          & =
         \dangle{d^{\pdag}_\sigma}{d_{\sigma}^\dag}{\omega},
     \end{alignat}%
-    \label{eq:correlators}
+    \label{eq:correlators}%
 \end{subequations}
 The self-energy is computed as
 \begin{equation}
@@ -529,6 +532,8 @@ A given Hubbard Hamiltonian is solved\footnote{
 by a self-consistency loop,
 which repeatedly maps between the Hubbard model and Anderson impurity model until
 their Green's function coincide.
+Let us briefly recapitulate this DMFT self-consistency loop,
+for further details see~\cite{Georges1996, Held2007}:
 Given a Hubbard Hamiltonian, we can define its local Green's function
 \begin{equation}
     G_{\mloc,\omega}
@@ -546,13 +551,12 @@ In DMFT, this is approximated by assuming that the self-energy is purely local
     \label{eq:greens-function-local-approx}
 \end{equation}
 We then enforce that this Green's function coincides with the impurity Green's function
-of the corresponding Anderson impurity model: $G_{\mloc,\omega} \equiv G_\omega$.
+of the corresponding Anderson impurity model: $G_{\mloc,\omega} \equiv \mathcal{G}_\omega$.
 
 Rearranging the Dyson equation (\zcref{eq:Dyson}) for the impurity
-then gives us a non-interacting impurity
-Green's function
+then gives us the non-interacting impurity Green's function of this Anderson impurity model
 \begin{align}
-    (G_{0,\omega})^{-1}
+    (\mathcal{G}_{0,\omega})^{-1}
      & =
     (G_{\mloc,\omega})^{-1} + \Sigma_\omega \\
      & =
@@ -560,18 +564,18 @@ Green's function
 \end{align}
 which is rewritten into terms,
 containing the impurity energy $\epsilon - \mu$ and hybridization function $\Delta_\omega$.
-Given these terms, we can write down the non-interacting Hamiltonian
-of \zcref{eq:H-Anderson} which leads to the given Green's function $G_{0,\omega}$.
+Given these terms, we can write down a non-interacting Hamiltonian
+of \zcref{eq:H-Anderson} which leads to the given Green's function $\mathcal{G}_{0,\omega}$.
 After adding the interacting term of \zcref{eq:H-Anderson-interaction},
 we can solve the impurity Hamiltonian
-yielding us a new impurity Green's function $G_\omega$
+yielding us a new impurity Green's function $\mathcal{G}_\omega$
 and self-energy $\Sigma_\omega$.
 Subsequently,
 we use this impurity self-energy to
 calculate a new lattice Green's function using \zcref{eq:greens-function-local-approx},
 closing our self-consistency loop.
 These steps are repeated until the calculated impurity Green's function equals the local
-lattice Green's function $G_\omega \equiv G_{\mloc,\omega}$.
+lattice Green's function $\mathcal{G}_\omega \equiv G_{\mloc,\omega}$.
 
 For the special case of a lattice in infinite dimensions,
 one can skip the calculation of the lattice Green's function

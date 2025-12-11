@@ -25,7 +25,7 @@ analytic continuation to obtain real frequency data,
 which is an ill-conditioned inversion~\cite{Jarrell1996, Beach2000, Kaufmann2023}.
 In contrast, NRG --- which is designed for impurity problems ---
 gives quantities on the real axis,
-has excellent agreement for small frequencies
+has excellent resolution for small frequencies
 but suffers at larger ones due to logarithmic discretization~\cite{Bulla2008}.
 ED methods can be applied very broadly, obtain quantities on the real axis as well
 but suffer from discretization artifacts.
@@ -35,7 +35,8 @@ In~\cite{Lu2014, Lu2019} it was shown how to counter this exponential increase i
 by finding an optimized one-particle basis in combination with a restricted active space (RAS).
 However, due to discretization, the self-energy contained non-physical values.
 In this work we combine their approach together with the
-symmetric improved estimator for the self-energy~\cite{Kugler2022} introduced for NRG\@.
+symmetric improved estimator for the self-energy introduced for NRG~\cite{Kugler2022}
+and also used for QMC~\cite{Kaufmann2019}.
 This allows us to obtain physical self-energies even for a discrete bath.
 In contrast to NRG, we introduce no broadening and calculate it directly on the real axis.
 With this approach we study the Mott metal-to-insulator transition
@@ -51,8 +52,8 @@ introduce the Green's function formalism and the self-energy.
 Finally, we explain DMFT and
 arrive at a set of equations which need to be solved self-consistently.
 In \zcref{ch:numerical-methods} we describe the numerical methods used to develop our code.
-We explain the natural impurity orbitals~\cite{Lu2014, Lu2019} and RAS allowing us to
-solve our system in polynomial instead of exponential time.
+We explain the natural impurity orbitals~\cite{Lu2014, Lu2019} and the RAS approach,
+allowing us to solve our system in polynomial instead of exponential time.
 This is followed by the introduction of the Lanczos algorithm and representation of complex
 functions as a sum of discrete poles.
 \zcref{ch:results} focuses on the results of our work.

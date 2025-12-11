@@ -56,7 +56,7 @@ which allow us to decompose the Hilbert space into subspaces that are invariant 
 operations and characterized by conserved quantum numbers~\cite{Wallerberger2022}.
 The Hamiltonian thus becomes block-diagonal with respect to these subspaces.
 One example is the number operator $N = \sum_{i\sigma} c^\dag_{i\sigma} c^{\pdag}_{i\sigma}$:
-If our Hamiltonian conserves it $[H, N] = 0$,
+If our Hamiltonian conserves it, $[H, N] = 0$,
 we know that $H$ and $N$ share a common basis.
 Thus, we can decompose our Hamiltonian into blocks of $p\in\{0, \ldots, 2n\}$ particles
 where the dimensionality of each block is given by
@@ -64,8 +64,8 @@ where the dimensionality of each block is given by
     \binom{2n}{p}.
 \end{equation}
 As our Hamiltonian is SU(2) symmetric, % chktex 36
-we can split it into blocks of fixed $N_\uparrow$ and $N_\downarrow$
-further reducing the dimensionality to
+we can split it further into blocks of fixed $N_\uparrow$ and $N_\downarrow$
+reducing the dimensionality to
 \begin{equation}
     \binom{n}{p_\uparrow} \binom{n}{p_\downarrow}.
 \end{equation}
@@ -77,13 +77,16 @@ For the half-filled block where $p_\sigma = n/2$ its asymptotic behavior is
 \end{equation}
 which for $n=140$ sites is approximately $\num{9e81}$
 exceeding the number of protons in the observable universe $\bigO{\num{e80}}$. % Eddington number
+The total spin $S^2$ is a further conserved quantity.
+However, it is cumbersome to utilize it;
+and therefore many exact diagonalization algorithms do not employ this symmetry.
 
 \section{Natural impurity orbitals and restricted active space}%
 \label{sec:natural-impurity-orbitals}
 
 To mitigate this issue,
 we take the same approach as~\cite{Lu2019}.
-Instead of exploring the full Hilbert space of $n$ particles in an Anderson impurity model,
+Instead of exploring the full Hilbert space of $n$ bath sites in an Anderson impurity model,
 we consider only a very small subset.
 
 In the first step,
@@ -112,7 +115,7 @@ Hopping between sites is again shown by lines.
     \label{fig:AIM-natural-impurity-orbitals}
 \end{figure}
 
-This however, does not change the dimensionality of the Hilbert space.
+This transformation does not change the dimensionality of the Hilbert space.
 To alleviate the scaling problem we employ the restricted active space (RAS) method,
 which decomposes the wave function into two components
 \begin{equation}
@@ -122,10 +125,10 @@ sketched in \zcref{fig:AIM-natural-impurity-orbitals}.
 For $\ket{\psi_\mI}$ we take all possible states into account.
 This is feasible because we fix the parameter $L$
 (the number of conduction and valence bath sites to be treated exactly)
-to be very small compared to the number of bath sites $L \ll n$.
+to be very small compared to the number of bath sites $n$: $L \ll n$.
 
 In $\ket{\psi_\mII}$ which contains the remaining chain sites we neglect almost all
-possible electron configurations.
+possible states.
 In the simplest approximation (labeled $p=0$)
 we enforce that all valence sites in $\ket{\psi_\mII}$
 are fully filled (denoted by $\ket{\mathbb{1}_v}$) while
@@ -136,12 +139,12 @@ The wave function can thus be written as
 \end{equation}
 
 For $p=1$ we (additionally to $p=0$) allow one electron or one hole excitation.
-This creates possible states
+This creates additional possible states
 \begin{subequations}
     \begin{align}
         \ket{\mathbb{1}_v}             & \otimes c^\dag_{k\sigma} \ket{\mathbb{0}_c}, \\
         v_{k\sigma} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
-    \end{align}
+    \end{align}%
 \end{subequations}
 
 This can be further extended to $p=2$ which
@@ -152,10 +155,10 @@ contains electron-electron, electron-hole, and hole-hole excitations
         \ket{\mathbb{1}_v}                           & \otimes c^\dag_{k\sigma} c^\dag_{k'\sigma'} \ket{\mathbb{0}_c}, \\
         v_{k\sigma} \ket{\mathbb{1}_v}               & \otimes c^\dag_{k'\sigma'} \ket{\mathbb{0}_c},                  \\
         v_{k\sigma} v_{k'\sigma'} \ket{\mathbb{1}_v} & \otimes \ket{\mathbb{0}_c}.
-    \end{align}
+    \end{align}%
 \end{subequations}
 
-Theoretically, one can continue this approach to higher and higher orders
+Theoretically, one can continue this approach to higher and higher excitations
 with the limit of all excitations recovering the full Hilbert space
 (including the exponential growth of the available configurations).
 In this work we only implemented excitations up to $p=2$,
@@ -166,11 +169,7 @@ as higher $p$ are not numerically feasible for hundreds of bath sites.
 
 Even with RAS,
 the Hilbert space is still too large to decompose the Hamiltonian
-which is represented as an $n\times n$ matrix\footnote{
-    The matrix dimension $n$ is not the same as
-    the discretization to $n$ one-particle wave functions in the previous section.
-    In fact, the former is much larger than the latter.
-}.
+which is represented as an $r\times r$ matrix.
 Therefore,
 we use the Lanczos algorithm~\cite{Lanczos1950}
 as it has some nice properties for our given problem.
@@ -178,8 +177,7 @@ First,
 it converges fastest to extremal eigenvalues which
 works very well for the ground state\footnote{
     Due to the variational principle it is the state with the lowest possible energy.
-}
-and as DMFT is a low-energy theory we are not interested in states very far from it.
+}.
 Secondly, it requires a hermitian matrix which our Hamiltonian is.
 Lastly it works very well if our matrix is sparse which is the case for our geometry\footnote{
     As most bath sites are inside two long chains,
@@ -190,7 +188,9 @@ The method is based on a Krylov basis
     \mathcal{K}^M(H, \vec{q}) = \spn\{\vec{q}, H\vec{q}, H^2\vec{q}, \ldots, H^{M-1}\vec{q}\}
 \end{equation}
 for a given vector $\vec{q}$.
-Typically, the value $M$ is very small compared to the matrix size $M \ll n$.
+Typically,
+the value $M$ required for a good approximation
+is very small compared to the matrix size $M \ll r$.
 Instead of a simple power iteration, the Lanczos algorithm is described by the
 following recurrence relation
 \begin{equation}
@@ -198,7 +198,8 @@ following recurrence relation
     \label{eq:Lanczos-recurrence}
 \end{equation}
 with a normalized starting vector $\vec{q}_1$ and $\vec{q}_0 = \vec{0}$.
-The coefficients are chosen such that each Lanczos vector $\vec{q}_j$ is orthonormal to each other
+The coefficients are chosen such that each Lanczos vector is orthonormal to each other
+$\vec{q}_i^\dag \vec{q}_j = \delta_{ij}$, i.e.,
 \begin{equation}
     a_j = \vec{q}_j^\dag H \vec{q}_j,
     \qquad
@@ -224,7 +225,7 @@ From this relation we can create the tridiagonal matrix
     \end{pmatrix},
     \label{eq:tridiagonal-scalar}
 \end{equation}
-and matrix collecting all Lanczos vectors
+and a matrix collecting all Lanczos vectors
 \begin{equation}
     Q = (\vec{q}_1, \vec{q}_2, \ldots, \vec{q}_M).
 \end{equation}
@@ -236,21 +237,21 @@ the subspace $\mathcal{K}^M(H, \vec{q}_1)$~\cite{Cullum1985}.
 \label{sec:block-lanczos}
 
 Instead of calculating only one vector $\vec{q}_j$ in each step,
-one can calculate $p$ vectors simultaneously.
+one can calculate $s$ vectors simultaneously.
 We define
 \begin{equation}
-    Q_1 = (\vec{q}_1^{(1)}, \vec{q}_1^{(2)}, \ldots, \vec{q}_1^{(p)})
+    Q_1 = (\vec{q}_1^{(1)}, \vec{q}_1^{(2)}, \ldots, \vec{q}_1^{(s)})
 \end{equation}
-to be an $n\times p$ orthonormal block of starting vectors
-and $Q_0 = \mathbb{0}_{n\times p}$.
+to be an $r\times s$ orthonormal block of starting vectors $Q_1^\dag Q_1 = \mathbb{1}_{s\times s}$
+and $Q_0 = \mathbb{0}_{r\times s}$.
 Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \begin{equation}
     Q_{j+1} B_j = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
     \label{eq:block-Lanczos-recurrence}
 \end{equation}
-with $A_j$, $B_j$ matrices of size $p\times p$ chosen such that each block $Q_j$ is orthonormal
-to each other.
-The block tridiagonal matrix of size $Mp\times Mp$ is written as
+with $A_j$, $B_j$ matrices of size $s\times s$ set such that each block is orthonormal
+to each other $Q_i^\dag Q_j = \mathbb{1}_{s\times s}\delta_{ij}$.
+The block tridiagonal matrix of size $Ms\times Ms$ is written as
 \begin{equation}
     T
     =
@@ -307,7 +308,7 @@ non-vanishing singular values
         0             & 0
     \end{pmatrix},
 \end{equation}
-still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb{0}_{p\times p}$
+still guaranteeing orthogonality against previous states $Q_i^\dag Q_j = \mathbb{0}_{s\times s}$
 for $i \in \{1,\ldots,j-1\}$~\cite{Golub2013}.
 
 \section{Ground state}%
@@ -320,7 +321,7 @@ As an initial guess we take the state with all valence bath sites $v_k$ filled i
 a singlet state\footnote{
     We do not want any magnetic moment in SU(2) symmetry. % chktex 36
 }
-in the impurity $i$ and mirror site $m$
+in the impurity $d$ and mirror site $m$
 \begin{equation}
     \ket*{\psi_s}
     =
@@ -357,7 +358,6 @@ in RAS,
 this state is not a true eigenstate of the unrestricted Hamiltonian.
 Applying $H$ on $\ket{\tilde\psi_0}$ without any restriction
 will generate new states~\cite{Lu2014} that were not accounted for.
-It is just that these state have such small weight allowing us to ignore them.
 
 \section{Correlator representation}
 
@@ -381,14 +381,14 @@ the first component of the inverse of our tridiagonal matrix $T$~\cite{Lu2014},
 \end{equation}
 This can be expanded to calculate block correlators where we apply multiple
 operators onto $\ket{\psi_0}$ simultaneously.
-Here, the subscript $K_{11}$ is meant as the first $p\times p$ block of the matrix $K$
+Here, the subscript $K_{11}$ is meant as the first $s\times s$ block of the matrix $K$
 \begin{equation}
     C^\pm_\omega
     =
     B_0 \left[\frac{1}{\omega + \mi0^+ \mp T}\right]_{11} B_0.
 \end{equation}
 Thus, the scalar case returns one correlator
-while the block version returns $p^2$ correlators simultaneously.
+while the block version returns $s^2$ correlators simultaneously.
 
 Using the Schur complement~\cite{Schur1917},
 we can directly take our coefficients given in \zcref{eq:tridiagonal-scalar, eq:tridiagonal-block}
@@ -402,7 +402,7 @@ and represent correlators as a continued fraction
          & =
         B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0.
     \end{align}%
-    \label{eq:Greens-function-continued-fraction}
+    \label{eq:Greens-function-continued-fraction}%
 \end{subequations}
 In contrast to \quanty~\cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
@@ -415,11 +415,11 @@ Diagonalizing the matrix $T$ allows us to represent (block) correlators as a sum
         \sum_{i=1}^M \frac{w_i}{\omega + \mi0^+ - \epsilon_i}, \\
         C_\omega
          & =
-        \sum_{i=1}^{Mp} \frac{W_i}{\omega + \mi0^+ - \epsilon_i},
+        \sum_{i=1}^{Ms} \frac{W_i}{\omega + \mi0^+ - \epsilon_i},
     \end{align}%
-    \label{eq:correlator-sum}
+    \label{eq:correlator-sum}%
 \end{subequations}
-where $M$ is the Krylov size and $p$ the size of each block.
+where $M$ is the Krylov size and $s$ the size of each block.
 As we calculate diagonal elements,
 all weights $w_i$ (scalar) are positive or $W_i$ (matrix) positive semidefinite.
 To simplify the sum,
@@ -436,7 +436,7 @@ Only diagonalizing from the second entry of $T$ onwards gives us the \emph{Ander
          & =
         B_0\frac{1}{\omega + \mi0^+ - A_1 - \sum_{j} \frac{W_j}{\omega + \mi0^+ - \epsilon_j}}B_0,
     \end{align}%
-    \label{eq:correlator-anderson}
+    \label{eq:correlator-anderson}%
 \end{subequations}
 which is helpful to calculate inverses of (block) correlators.
 
@@ -485,7 +485,7 @@ We calculate the correlators listed in \zcref{eq:correlators} as
             I^-_\omega      & F^{\mR-}_\omega \\
             F^{\mL-}_\omega & G^-_\omega
         \end{pmatrix}
-    \end{align}
+    \end{align}%
 \end{subequations}
 and add them together
 \begin{equation}
@@ -498,6 +498,7 @@ and add them together
         F^{\mR}_\omega & G_\omega
     \end{pmatrix}.
 \end{equation}
+Thus, our block size is $s=2$.
 In~\cite{Kugler2022} it was noted that $F^{\mR}_\omega = (F^{\mL}_\omega)^\dag$
 might be violated numerically.
 We do not have this problem as all matrices $A_i$ and $B_i$ are hermitian,
@@ -556,12 +557,14 @@ In this work we will use the following three methods
     \label{fig:broadening}
 \end{figure}
 
-A comparison of these broadenings is given in \zcref{fig:broadening}.
+A comparison of these broadenings for a correlator
+$C_\omega = \frac{1}{\omega + \mi0^+ - 0.25} + \frac{0.5}{\omega + \mi0^+ - 1}$
+is given in \zcref{fig:broadening}.
 The Lorentzian and Gaussian spectra consist of symmetric peaks
 with the former decaying slower compared to the latter.
 The peaks generated by the logarithmic Gaussian are asymmetric
 and sharper if the pole is closer to $\omega=0$.
-As all poles are at located at $\omega>0$,
+As all poles are located at $\omega>0$,
 the spectrum of the log Gaussian vanishes for $\omega\le0$.
 
 Given our spectrum as discrete peaks (\zcref{eq:spectrum-discrete}),
@@ -587,8 +590,9 @@ and a sum of poles
 As the self-energy is also analytical in the upper complex plane,
 all weights must be positive.
 On a system with finite bath sites and floating-point arithmetic however,
-this was violated and poles with negative weight had to be merged into neighbors
-such that only positive weight remained.
+this is numerically violated,
+and poles with negative weight must be merged into neighbors
+such that only positive weight remains.
 
 To avoid this issue,
 we use the symmetric improved estimator~\cite{Kugler2022}.
@@ -632,7 +636,7 @@ Contrasting against \zcref{eq:Dyson},
 all pole weights are positive by construction
 and no merging of negative weight into neighbors is necessary.
 
-Given our representation in \zcref{eq:self-energy-discrete},
+Given our pole representation in \zcref{eq:self-energy-discrete},
 we can calculate the quasipaicle weight in Fermi-liquid theory\footnote{
     Instead of interacting particles,
     non-interacting quasiparticles are used to describe a system.
@@ -650,7 +654,7 @@ we can calculate the quasipaicle weight in Fermi-liquid theory\footnote{
     \left(1 + \Sigma^{(-2)}\right)^{-1}
     \label{eq:quasiparticle-weight}
 \end{flalign}
-with $\Sigma^{(-2)}$ equaling the negative second moment.
+with the negative second moment $\Sigma^{(-2)}$.
 We see that the expression inside the brackets diverges if there is a pole at $\epsilon_i=0$,
 which is the case for an insulator~\cite{Georges1996}.
 In a metal,

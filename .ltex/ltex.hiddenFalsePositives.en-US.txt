@@ -1,2 +1,4 @@
 {"rule":"MORFOLOGIK_RULE_EN_US","sentence": "(?:app|eq|fig|item|sec|tab):"}
 {"rule":"EN_REPEATEDWORDS","sentence":"impurity problems"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"This returns a PoleSum instance"}
+{"rule":"WORD_CONTAINS_UNDERSCORE","sentence":"app:tutorial_ground-state"}

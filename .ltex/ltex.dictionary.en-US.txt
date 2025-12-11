@@ -11,6 +11,7 @@ Lanczos
 Lanczos-recurrence
 Löwdin
 QUANTY
+RASDMFT
 Schur
 anticommutator
 broadenings

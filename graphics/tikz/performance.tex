@@ -116,7 +116,7 @@
             ymin=1e6,
             ymax=8e10,
             xlabel={Krylov steps $M$},
-            ylabel={total allocations (\unit{\byte})},
+            ylabel={memory allocations (\unit{\byte})},
         ]
         \addplot+ table [x=krylov, y=allocations_L1_p1] {data/benchmark_krylov.csv};
         \addplot+ table [x=krylov, y=allocations_L2_p1] {data/benchmark_krylov.csv};

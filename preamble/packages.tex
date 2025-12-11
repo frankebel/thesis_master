@@ -9,10 +9,9 @@
 \usepackage[main=english,ngerman]{babel}
 \babeltags{en = english}
 \usepackage{microtype}
-% \setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
-% \setmathfont{NewCMMath-Book}
+\setmonofont{NotoSansMono}[Scale=MatchLowercase] % mainly for code snippets
 
-% math and science typesetting
+% math and science
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
@@ -64,8 +63,7 @@
 \newsavebox{\imagebox} % store image size for alignment
 
 % code, programming
-% \usepackage{listings}
-% \usepackage[langlinenos=true]{minted} % requires "pygments" with shell escape
+\usepackage[langlinenos=true]{minted} % requires "pygments" with shell escape
 
 % references, bibliography, and links
 \usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
@@ -105,3 +103,8 @@
 \usepackage{enumerate}
 \usepackage[language=english]{lipsum} % placeholder text
 \usepackage{shellesc}
+
+% silence warnings, errors
+\usepackage{silence}
+\WarningFilter{latexfont}{Font shape `TU/NotoSansMono(0)/m/it' undefined}
+\WarningFilter{latexfont}{Some font shapes were not available, defaults substituted.}
