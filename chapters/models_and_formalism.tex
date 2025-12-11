@@ -3,8 +3,7 @@
 \chapter{Models and formalism}%
 \label{ch:models-and-formalism}
 
-\section{Bethe lattice}%
-\label{sec:bethe-lattice}
+\section{Bethe lattice}
 
 In solid-states physics we study crystals in which
 atoms are periodically arranged on a Bravais lattice.
@@ -137,8 +136,7 @@ no analytical solution exists for the general case.
 The problem is that the kinetic part is diagonal in momentum space,
 while the Coulomb interaction is diagonal in real space.
 
-\section{Anderson impurity model}%
-\label{sec:anderson-impurity-model}
+\section{Anderson impurity model}
 
 Instead of having a repulsion $U$ on each site,
 we can create a model in which only one site is correlated
@@ -199,8 +197,7 @@ how electrons of a given energy can hop in and out of the impurity.
 It is introduced here,
 as it will be important in DMFT (\zcref{sec:dmft}).
 
-\section{Green's function and correlators}%
-\label{sec:greens-function-correlators}
+\section{Green's function and correlators}
 
 The retarded Green's function is defined as~\cite{Economou2006}
 \begin{equation}
@@ -352,7 +349,6 @@ but related by Kramers-Kronig transformations (Hilbert transform)~\cite{Economou
          & =
         \phantom{-} \frac{1}{\muppi} \mathcal{P}\! \int_{-\infty}^\infty\! \md\omega'
         \frac{\Re C_{\omega'}}{\omega - \omega'},
-        \label{eq:kramers-kronig-imag}
     \end{align}%
 \end{subequations}
 with $\mathcal{P}$ denoting the Cauchy principal value integral.
@@ -375,7 +371,6 @@ For the Bethe lattice,
 its hybridization function is just a rescaled Green's function~\cite{Georges1996}
 \begin{equation}
     \Delta_\omega = \frac{D^2}{4} G_\omega.
-    \label{eq:hybridization-function-bethe}
 \end{equation}
 
 \subsection{Moments}%
@@ -418,8 +413,7 @@ the first four moments of the Green's function are~\cite{Potthoff1997}
 Due to symmetry $A_{-\omega} = A_\omega$ for the half-filled spectrum,
 all odd moments vanish.
 
-\section{Self-energy}%
-\label{sec:self-energy}
+\section{Self-energy}
 
 As mentioned in the previous section,
 the Green's function $G_\omega$ describes the propagation of an electron/hole in our system.
@@ -514,6 +508,7 @@ The self-energy is computed as
     \Sigma^\mH + I_\omega - F^\mL_\omega (G_\omega)^{-1} F^\mR_\omega.
 \end{equation}
 
+\pagebreak
 \section{DMFT}%
 \label{sec:dmft}
 
@@ -539,7 +534,6 @@ Given a Hubbard Hamiltonian, we can define its local Green's function
     G_{\mloc,\omega}
     =
     \frac{1}{V_\mBZ} \int_\mBZ \md\vec{k}\> G_{\vec{k}\omega}
-    \label{eq:greens-function-local}
 \end{equation}
 by averaging over the Brillouin zone $\mathrm{BZ}$.
 In DMFT, this is approximated by assuming that the self-energy is purely local

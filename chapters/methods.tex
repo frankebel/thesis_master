@@ -82,7 +82,6 @@ However, it is cumbersome to utilize it;
 and therefore many exact diagonalization algorithms do not employ this symmetry.
 
 \section{Natural impurity orbitals and restricted active space}%
-\label{sec:natural-impurity-orbitals}
 
 To mitigate this issue,
 we take the same approach as~\cite{Lu2019}.
@@ -98,12 +97,6 @@ optimize only the bath basis while keeping the impurity unchanged\footnote{
     the Coulomb interaction (\zcref{eq:H-Anderson-interaction})
     is distributed onto many new sites and is not local anymore.
 }.
-This new geometry is shown in \zcref{fig:AIM-natural-impurity-orbitals}.
-The untouched impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
-Following the convention of~\cite{Lu2014,Lu2019},
-we call sites in the almost fully filled chain valence bath sites (labeled $v$),
-and sites in the almost empty chain as conduction bath sites (labeled $c$).
-Hopping between sites is again shown by lines.
 \begin{figure}[ht]
     \centering
     \input{graphics/tikz/aim_separation.tex}
@@ -114,6 +107,12 @@ Hopping between sites is again shown by lines.
     }%
     \label{fig:AIM-natural-impurity-orbitals}
 \end{figure}
+This new geometry is shown in \zcref{fig:AIM-natural-impurity-orbitals}.
+The untouched impurity $i$ is connected to a mirror site (labeled $m$) and two chains.
+Following the convention of~\cite{Lu2014,Lu2019},
+we call sites in the almost fully filled chain valence bath sites (labeled $v$),
+and sites in the almost empty chain as conduction bath sites (labeled $c$).
+Hopping between sites is again shown by lines.
 
 This transformation does not change the dimensionality of the Hilbert space.
 To alleviate the scaling problem we employ the restricted active space (RAS) method,
@@ -247,7 +246,6 @@ and $Q_0 = \mathbb{0}_{r\times s}$.
 Then the recurrence relation (\zcref{eq:Lanczos-recurrence}) can be rewritten as
 \begin{equation}
     Q_{j+1} B_j = H Q_j - Q_j A_j - Q_{j-1} B_{j-1}^\dag,
-    \label{eq:block-Lanczos-recurrence}
 \end{equation}
 with $A_j$, $B_j$ matrices of size $s\times s$ set such that each block is orthonormal
 to each other $Q_i^\dag Q_j = \mathbb{1}_{s\times s}\delta_{ij}$.
@@ -402,7 +400,6 @@ and represent correlators as a continued fraction
          & =
         B_0\frac{1}{\omega + \mi0^+ - A_1 - B_1\frac{1}{\omega + \mi0^+ - A_2 - \ldots}B_1}B_0.
     \end{align}%
-    \label{eq:Greens-function-continued-fraction}%
 \end{subequations}
 In contrast to \quanty~\cite{Ackermann2024} we always keep our matrices $B_i$ hermitian,
 even if they are rank-deficient.
@@ -524,21 +521,18 @@ to contrast it against $C_\omega$ which has no broadening.
 In this work we will use the following three methods
 \begin{enumerate}[(i)]
     \item Lorentzian broadening characterized by $\delta$:%
-          \label{item:lorentzian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
               \frac{1}{\muppi}\frac{\delta}{(\omega - \omega_0)^2 + \delta^2},
           \end{equation}
     \item Gaussian broadening characterized by $\sigma$:%
-          \label{item:gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
               \frac{1}{\sqrt{2\muppi \sigma^2}}\exp\left(-\frac{(\omega - \omega_0)^2}{2\sigma^2}\right),
           \end{equation}
     \item logarithmic Gaussian characterized by $b$~\cite{Bulla2008}:%
-          \label{item:logarithmic-gaussian}
           \begin{equation}
               \delta(\omega - \omega_0)
               \longrightarrow
