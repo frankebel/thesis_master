@@ -1,0 +1,73 @@
+%! TeX root = ../main.tex
+
+% font typesetting
+\usepackage{fontspec}
+\usepackage[main=english,ngerman]{babel}
+\babeltags{en = english}
+\usepackage{microtype}
+
+% math and science
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[version=4]{mhchem}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math} % load after ams
+\unimathsetup{math-style=ISO}
+
+% graphics, colors, captions, tables
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepgfplotslibrary{colorbrewer}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{
+    compat=1.18,
+    cycle list/Set1,
+    colormap/Set1,
+}
+\usepackage{tikz}
+\usetikzlibrary{
+    arrows.meta,
+    external,
+    fit,
+    positioning,
+    shapes.symbols,
+}
+\tikzexternalize % chktex 1
+\usepackage{xcolor}
+
+% references, bibliography, and links
+\usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
+\usepackage{csquotes} % required by biblatex
+\usepackage{hyperref}
+\addbibresource{ref.bib}
+\AtEveryCitekey{\clearfield{title}} % don't print title
+% https://www.texdev.net/2010/03/08/biblatex-numbered-citations-as-footnotes/
+\DeclareCiteCommand{\notefullcite}[\mkbibbrackets]
+{\usebibmacro{cite:init}%
+    \usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+    \usebibmacro{notefullcite}%
+    \usebibmacro{cite:comp}}
+{}
+{\usebibmacro{cite:dump}%
+    \usebibmacro{postnote}}
+\newbibmacro*{notefullcite}{%
+    \ifciteseen
+    {}
+    {\footnotetext[\thefield{labelnumber}]{%
+            \usedriver{}{\thefield{entrytype}}.}}}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue,
+    citecolor=blue,
+    linkcolor=blue,
+    breaklinks=true,
+    pdftitle={\Title},
+    pdfauthor={Frank T.\ Ebel},
+    pdfsubject={dynamical mean-field theory},
+    pdfkeywords={dynamical mean-field theory, exact diagonalization, configuration interaction},
+}
+
+% misc
+\usepackage{shellesc}
