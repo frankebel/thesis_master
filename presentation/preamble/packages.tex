@@ -41,7 +41,12 @@
 \usepackage{csquotes} % required by biblatex
 \usepackage{hyperref}
 \addbibresource{ref.bib}
-\AtEveryCitekey{\clearfield{title}} % don't print title
+\AtEveryCitekey{%
+    % clear fields
+    \clearfield{doi}%
+    \clearfield{pages}%
+    \clearfield{title}%
+}
 % https://www.texdev.net/2010/03/08/biblatex-numbered-citations-as-footnotes/
 \DeclareCiteCommand{\notefullcite}[\mkbibbrackets]
 {\usebibmacro{cite:init}%
