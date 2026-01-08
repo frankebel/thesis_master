@@ -71,4 +71,22 @@
     \end{center}
 \end{frame}
 
+\begin{frame}{Anderson impurity model}
+    \begin{equation}
+        H
+        =
+        % impurity
+        U n_\uparrow n_\downarrow
+        + (\epsilon - \mu) \sum_\sigma n_\sigma
+        % bath
+        + \sum_{k\sigma} \epsilon_k b^\dag_{k\sigma} b^{\pdag}_{k\sigma}
+        % hybridization
+        + \sum_{k\sigma} V^{\ps}_k d^\dag_{\pk\sigma} b^{\pdag}_{k\sigma}
+        + V_k^* b^\dag_{k\sigma} d^{\pdag}_{\pk\sigma}
+    \end{equation}
+    \begin{center}
+        \input{graphics/tikz/geometry_star.tex}
+    \end{center}
+\end{frame}
+
 \end{document}

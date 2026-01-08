@@ -1,0 +1,49 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        node distance=2mm,
+        % bath site with given filling
+        bath/.style={
+                circle,
+                inner sep=0pt,
+                minimum size=5mm,
+                draw=black,
+                very thick,
+                path picture={
+                        \fill[Set1-B] (path picture bounding box.south east)
+                        rectangle ($(path picture bounding box.south west)!#1!
+                            (path picture bounding box.north west)$);
+                    }
+            },
+        % impurity with given filling
+        impurity/.style={
+                rectangle,
+                inner sep=0pt,
+                minimum size=5mm,
+                draw=black,
+                very thick,
+                path picture={
+                        \fill[Set1-B] (path picture bounding box.south east)
+                        rectangle ($(path picture bounding box.south west)!#1!
+                            (path picture bounding box.north west)$);
+                    }
+            },
+    ]
+    % draw sites
+    \foreach \i [remember=\i as \lasti, evaluate=\i as \filling using -0.1*\i+0.9] in {1,...,7}
+        {
+            \ifnum\i=1
+                \node [bath={\filling}, label=right:$b_\i$] (b\i) {};
+            \else
+                \node [bath={\filling}, label=right:$b_\i$] (b\i) [above=of b\lasti] {};
+            \fi
+        }
+    \node [impurity={0.5}, label=left:$i$] (impurity) [left=5mm of b4] {};
+
+    % connect sites
+    \foreach \i in {1,...,7}
+        {
+            \draw (impurity.east) to [out=0,in=180,looseness=0.3] (b\i.west);
+        }
+\end{tikzpicture}
