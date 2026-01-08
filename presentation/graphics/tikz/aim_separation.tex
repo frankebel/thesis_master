@@ -1,0 +1,97 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}[
+        beamer externalising,
+        inner sep=1mm,
+        node distance=4mm,
+        % bath site with given filling
+        bath/.style={
+                circle,
+                inner sep=0pt,
+                minimum size=5mm,
+                draw=black,
+                very thick,
+                path picture={
+                        \fill[Set1-B] (path picture bounding box.south east)
+                        rectangle ($(path picture bounding box.south west)!#1!
+                            (path picture bounding box.north west)$);
+                    }
+            },
+        % impurity with given filling
+        impurity/.style={
+                rectangle,
+                inner sep=0pt,
+                minimum size=5mm,
+                draw=black,
+                very thick,
+                path picture={
+                        \fill[Set1-B] (path picture bounding box.south east)
+                        rectangle ($(path picture bounding box.south west)!#1!
+                            (path picture bounding box.north west)$);
+                    }
+            },
+    ]
+    % sites
+    \node [
+        visible on=<2->,
+        impurity={0.5},
+    ] (impurity) {};
+    \node [
+        visible on=<2->,
+        bath={0.5}
+    ] (mirror) [right=of impurity] {};
+    \foreach \i [remember=\i as \lasti] in {1,...,6}
+        {
+            \ifnum\i=1
+                \node [
+                    visible on=<2->,
+                    bath={1.0},
+                ] (v\i) [below=of mirror] {};
+                \node [
+                    visible on=<2->,
+                    bath={0.0},
+                ] (c\i) [above=of mirror] {};
+            \else
+                \node [
+                    visible on=<2->,
+                    bath={1.0},
+                ] (v\i) [right=of v\lasti] {};
+                \node [
+                    visible on=<2->,
+                    bath={0.0},
+                ] (c\i) [right=of c\lasti] {};
+            \fi
+        }
+
+    % connect sites
+    \draw [visible on=<2->] (impurity.east) to (mirror.west);
+    \draw [visible on=<2->] (impurity.south) to [out=270,in=180] (v1.west);
+    \draw [visible on=<2->] (impurity.north) to [out=90,in=180] (c1.west);
+    \draw [visible on=<2->] (mirror.south) to (v1.north);
+    \draw [visible on=<2->] (mirror.north) to (c1.south);
+    \foreach \i [remember=\i as \lasti (initially 1)] in {2,...,6}
+        {
+            \draw [visible on=<2->] (v\lasti.east) -- (v\i.west);
+            \draw [visible on=<2->] (c\lasti.east) -- (c\i.west);
+        }
+
+    % bounding boxes
+    \node [
+        visible on=<3->,
+        draw,
+        rectangle,
+        rounded corners,
+        line width=0.2pt,
+        fit=(impurity) (v2) (c2),
+        label={[visible on=<3->]below:exact},
+    ] {};
+    \node [
+        visible on=<3->,
+        draw,
+        rectangle,
+        rounded corners,
+        line width=0.2pt,
+        fit=(v3) (v6) (c3) (c6),
+        label={[visible on=<3->]below:restricted},
+    ] {};
+\end{tikzpicture}

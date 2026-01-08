@@ -16,23 +16,24 @@
 
 \begin{frame}{Motivation}
     \begin{itemize}
-        \item<2-> Describe electronic structure of materials (metal, insulator)
+        \item<2-> Describe electronic structure of materials (i.e., metal/insulator, \ldots)
         \item<3-> DFT~\notefullcite{Hohenberg1964, Kohn1965} not sufficient
               $\to$
               DMFT~\notefullcite{Metzner1989, Georges1996} for strong electronic correlations
-        \item<4-> Analyze Mott metal-to-insulator transition
+        \item<4-> Implement new DMFT solver to explore new techniques besides Monte Carlo
+        \item<5-> Analyze Mott metal-to-insulator transition
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Exact diagonalization and restricted active space}
     \begin{center}
-        \input{graphics/tikz/discretization.tex}
+        \input{graphics/tikz/aim_separation.tex}
     \end{center}
     \begin{itemize}
-        \item<3-> Exact diagonalization: discretize continuous function \\
-              $\dim(\mathcal{H}) = \bigO{4^n}$
-        \item<4-> Restricted active space: only view a small subspace \\
-              $\dim\left(\mathcal{\tilde H}\right) = \bigO{n^p}$
+        \item<2-> Exact diagonalization: allow all possible configurations\\
+              $\dim(\mathcal{H_\mathrm{ED}}) = \bigO{4^n}$
+        \item<3-> Restricted active space: only view a small subspace\\
+              $\dim(\mathcal{H}_\mathrm{RAS}) = \bigO{n^p}$
     \end{itemize}
 \end{frame}
 
@@ -44,10 +45,9 @@
 
 \begin{frame}{Summary and outlook}
     \begin{itemize}
-        \item<2-> Use DMFT to describe strong correlations
-        \item<3-> Discretize continuous spectra using
-              exact diagonalization and restricted active space
-        \item<4-> Analyze spectra around the Mott metal-to-insulator transition
+        \item<2-> DMFT can describe strong electronic correlations
+        \item<3-> Solver uses exact diagonalization and restricted active space
+        \item<4-> Obtain spectra around the Mott metal-to-insulator transition
         \item<5-> Calculate realistic materials
     \end{itemize}
 \end{frame}
