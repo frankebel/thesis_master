@@ -33,7 +33,30 @@
     positioning,
     shapes.symbols,
 }
+% https://tex.stackexchange.com/questions/55806/mindmap-tikzpicture-in-beamer-reveal-step-by-step
+\tikzset{
+    invisible/.style={opacity=0,text opacity=0},
+    visible on/.style={alt={#1{}{invisible}}},
+    alt/.code args={<#1>#2#3}{%
+            \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}%
+        }
+}
+% https://tex.stackexchange.com/questions/78955/use-tikz-external-feature-with-beamer-only
 \tikzexternalize % chktex 1
+\makeatletter
+\tikzset{
+    beamer externalising/.style={%
+            execute at end picture={%
+                    \tikzifexternalizing{%
+                        \ifbeamer@anotherslide
+                            \pgfexternalstorecommand{\string\global\string\beamer@anotherslidetrue}%
+                        \fi
+                    }{}%
+                }%
+        },
+    external/optimize=false
+}
+\makeatother
 \usepackage{xcolor}
 
 % references, bibliography, and links

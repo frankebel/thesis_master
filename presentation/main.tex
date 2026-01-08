@@ -8,6 +8,7 @@
 \date{2026-01-09}
 
 \input{preamble/packages.tex}
+\input{preamble/commands.tex}
 
 \begin{document}
 
@@ -20,6 +21,18 @@
               $\to$
               DMFT~\notefullcite{Metzner1989, Georges1996} for strong electronic correlations
         \item<4-> Analyze Mott metal-to-insulator transition
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Exact diagonalization and restricted active space}
+    \begin{center}
+        \input{graphics/tikz/discretization.tex}
+    \end{center}
+    \begin{itemize}
+        \item<3-> Exact diagonalization: discretize continuous function \\
+              $\dim(\mathcal{H}) = \bigO{4^n}$
+        \item<4-> Restricted active space: only view a small subspace \\
+              $\dim\left(\mathcal{\tilde H}\right) = \bigO{n^p}$
     \end{itemize}
 \end{frame}
 
