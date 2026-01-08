@@ -1,0 +1,71 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}
+    [
+        beamer externalising,
+        node distance=0pt,
+    ]
+    \begin{groupplot}
+        [
+            group style=
+                {
+                    group name=plots,
+                    group size=3 by 1,
+                    horizontal sep=6mm,
+                    vertical sep=6mm,
+                    x descriptions at=edge bottom,
+                    y descriptions at=edge left,
+                    ylabels at=edge left,
+                },
+            xmin=-4.0,
+            xmax=4.0,
+            ymin=0,
+            ymax=2.1,
+            xlabel=energy,
+            ylabel=spectral function,
+            no marks,
+            every axis plot/.append style={
+                    thick,
+                },
+            width=0.37\textwidth,
+            cycle multiindex* list={
+                    Set1\nextlist%
+                },
+        ]
+
+        \nextgroupplot
+        [
+            visible on=<2->,
+            every axis plot/.append style={
+                    samples=301,
+                },
+        ]
+        \addplot+ {abs(x) < 1 ? 2 * sqrt(1 - x^2) : 0};
+        \node [
+            anchor=north east,
+        ]
+        at (rel axis cs:1,0.95)  {$U=0$};
+
+        \nextgroupplot
+        [
+            visible on=<3->,
+        ]
+        \addplot+ table [x=omega_lin, y=U2.0_gau] {../data/spectra.csv};
+        \node [
+            anchor=north east,
+        ]
+        at (rel axis cs:1,0.95)  {$U=2$};
+
+        \nextgroupplot
+        [
+            visible on=<4->,
+        ]
+        \addplot+ table [x=omega_lin, y=U4.0_gau] {../data/spectra.csv};
+        \node [
+            anchor=north east,
+        ]
+        at (rel axis cs:1,0.95)  {$U=4$};
+
+    \end{groupplot}
+
+\end{tikzpicture}
