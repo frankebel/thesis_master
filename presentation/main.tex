@@ -1,11 +1,20 @@
-\documentclass[aspectratio=169, trans]{beamer}
+\documentclass[aspectratio=169]{beamer}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[page number]
 
 \newcommand{\Title}{DMFT on the real frequency axis using exact diagonalization and restricted active space}
 \title{\Title}
 \author{Frank Takara Ebel}
-\date{2026-01-09} % chktex 8
+\institute{
+    \begin{columns}
+        \column{0.25\textwidth}
+        supervision:\\
+        Univ.-Prof.\ Dr.\ Karsten Held\\
+        Dr.\ Martin Braß\\
+        Dr.\ Markus Wallerberger
+    \end{columns}
+}
+\date{} % no date
 
 \input{preamble/packages.tex}
 \input{preamble/commands.tex}
@@ -14,6 +23,7 @@
 
 \frame{\titlepage}
 
+\section*{main}
 \begin{frame}{Motivation}
     \begin{itemize}
         \item<2-> Describe electronic structure of materials (i.e., metal/insulator, \ldots)
@@ -53,7 +63,6 @@
 \end{frame}
 
 \appendix
-\section*{Appendix}
 
 \begin{frame}{Hubbard model}
     \begin{equation}
