@@ -52,4 +52,23 @@
     \end{itemize}
 \end{frame}
 
+\appendix
+\section*{Appendix}
+
+\begin{frame}{Hubbard model}
+    \begin{equation}
+        H
+        =
+        -t\sum_{\langle i j\rangle\sigma}
+        (d^\dag_{i\sigma} d^{\pdag}_{j\sigma} + d^\dag_{j\sigma} d^{\pdag}_{i\sigma})
+        +
+        U\sum_i n_{i\uparrow} n_{i\downarrow}
+        +
+        (\epsilon - \mu)\sum_{i\sigma} n_{i\sigma}
+    \end{equation}
+    \begin{center}
+        \input{graphics/tikz/hubbard_2d.tex}
+    \end{center}
+\end{frame}
+
 \end{document}
