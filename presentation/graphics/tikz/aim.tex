@@ -1,0 +1,30 @@
+%! TeX root = ../../main.tex
+
+\begin{tikzpicture}[
+        beamer externalising,
+        scale=0.9,
+        inner sep=1mm,
+        node distance=10mm,
+        minimum size=5mm,
+        % site
+        site/.style={
+                rectangle,
+                draw=black,
+                very thick,
+                fill=gray!20,
+            },
+        % bath
+        bath/.style={
+                starburst,
+                draw=black,
+                very thick,
+                fill=blue!30,
+                inner xsep=1.8cm,
+                inner ysep=1cm,
+            },
+    ]
+    \node [bath] {};
+    \node [site] {$U$};
+    \draw [->, thick] (0.4, 0.1) to [bend left=30] node[midway, above] {$V(\omega)$} (1.5, 0.1);
+    \draw [<-, thick] (0.4, -0.1) to [bend right=30] node[midway, above] {} (1.5, -0.1);
+\end{tikzpicture}

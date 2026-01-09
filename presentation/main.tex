@@ -35,6 +35,31 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Dynamical mean-field theory (DMFT)}
+    \begin{columns}
+        \column{0.4\textwidth}
+        \begin{center}
+            \onslide<2->Hubbard model
+            \onslide<2->\input{graphics/tikz/hubbard_2d.tex}
+        \end{center}
+        \column{0.2\textwidth}
+        \begin{center}
+            \begin{tikzpicture}
+                \draw [
+                    visible on=<3->,
+                    <->,
+                    thick
+                ] (0.4, 0.0) to node[midway, above] {DMFT} (2, 0.0);
+            \end{tikzpicture}
+        \end{center}
+        \column{0.4\textwidth}
+        \begin{center}
+            \onslide<3->Anderson impurity model
+            \onslide<3->\input{graphics/tikz/aim.tex}
+        \end{center}
+    \end{columns}
+\end{frame}
+
 \begin{frame}{Exact diagonalization and restricted active space}
     \begin{center}
         \input{graphics/tikz/aim_separation.tex}
