@@ -28,9 +28,10 @@
 \begin{frame}{Motivation}
     \begin{itemize}
         \item<2-> Describe electronic structure of materials (i.e., metal/insulator, \ldots)
-        \item<3-> DFT~\notefullcite{Hohenberg1964, Kohn1965} not sufficient
+        \item<3-> Density functional theory~\notefullcite{Hohenberg1964, Kohn1965} not sufficient \\
               $\to$
-              DMFT~\notefullcite{Metzner1989, Georges1996} for strong electronic correlations
+              dynamical mean-field theory (DMFT)~\notefullcite{Metzner1989, Georges1996}
+              for strong electronic correlations
         \item<4-> Implement new DMFT solver to explore new techniques besides Monte Carlo
         \item<5-> Analyze Mott metal-to-insulator transition
     \end{itemize}
@@ -66,9 +67,9 @@
         \input{graphics/tikz/aim_separation.tex}
     \end{center}
     \begin{itemize}
-        \item<2-> Exact diagonalization: allow all possible configurations\\
+        \item<3-> Exact diagonalization: allow all possible configurations on a finite system\\
               $\dim(\mathcal{H_\mathrm{ED}}) = \bigO{4^n}$
-        \item<3-> Restricted active space: only view a small subspace\\
+        \item<4-> Restricted active space: only view a small subspace\\
               $\dim(\mathcal{H}_\mathrm{RAS}) = \bigO{n^p}$
     \end{itemize}
 \end{frame}
@@ -84,7 +85,10 @@
         \item<2-> DMFT can describe strong electronic correlations
         \item<3-> Solver uses exact diagonalization and restricted active space
         \item<4-> Obtain spectra around the Mott metal-to-insulator transition
-        \item<5-> Calculate realistic materials
+        \item<5-> Calculate realistic materials (e.g., \ce{CeRu4Sn6})
+              \begin{center}
+                  \input{graphics/tikz/spectrum_CeRu4Sn6.tex}
+              \end{center}
     \end{itemize}
 \end{frame}
 

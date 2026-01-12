@@ -75,23 +75,29 @@
             \draw [visible on=<2->] (c\lasti.east) -- (c\i.west);
         }
 
+    % semi-infinite chain
+    \node [visible on=<2-2>] (vdots) [right=of v6] {$\ldots$};
+    \node [visible on=<2-2>] (cdots) [right=of c6] {$\ldots$};
+    \draw [visible on=<2-2>] (v6.east) -- (vdots.west);
+    \draw [visible on=<2-2>] (c6.east) -- (cdots.west);
+
     % bounding boxes
     \node [
-        visible on=<3->,
+        visible on=<4->,
         draw,
         rectangle,
         rounded corners,
         line width=0.2pt,
         fit=(impurity) (v2) (c2),
-        label={[visible on=<3->]below:exact},
+        label={[visible on=<4->]below:exact},
     ] {};
     \node [
-        visible on=<3->,
+        visible on=<4->,
         draw,
         rectangle,
         rounded corners,
         line width=0.2pt,
         fit=(v3) (v6) (c3) (c6),
-        label={[visible on=<3->]below:restricted},
+        label={[visible on=<4->]below:restricted},
     ] {};
 \end{tikzpicture}
