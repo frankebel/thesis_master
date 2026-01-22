@@ -10,3 +10,5 @@ selecting the newest run,
 and downloading the artifact.
 
 The [`expose`](expose) directory contains my expose which explains the goal of this thesis.
+
+If you cite this thesis, please use the following [DOI](https://doi.org/10.34726/hss.2026.137880).
